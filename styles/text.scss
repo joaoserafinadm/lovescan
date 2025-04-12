@@ -1,0 +1,67 @@
+.text-c-primary {
+    color: var(--color-primary) !important;
+}
+
+.text-c-secondary {
+    color: var(--color-secondary) !important;
+}
+
+.text-c-tertiary {
+    color: var(--color-tertiary) !important;
+}
+
+.text-c-success {
+    color: var(--color-success) !important;
+}
+
+.text-c-danger {
+    color: var(--color-danger) !important;
+}
+
+.text-c-warning {
+    color: var(--color-warning) !important;
+}
+
+.text-c-info {
+    color: var(--color-info) !important;
+}
+
+.text-c-light {
+    color: var(--color-light) !important;
+}
+
+.text-c-dark {
+    color: var(--color-dark) !important;
+}
+
+
+
+.fw-responsive {
+    font-size: 1rem;
+    /* Tamanho padrão para telas maiores */
+
+    /* Para telas menores que 1200px */
+    // @media (max-width: 1200px) {
+    //     font-size: 1rem;
+    // }
+
+    /* Para telas menores que 992px */
+    // @media (max-width: 992px) {
+    //     font-size: .6rem;
+    // }
+
+    /* Para telas menores que 768px */
+    // @media (max-width: 768px) {
+    //     font-size: .4rem;
+    // }
+
+    // /* Para telas menores que 576px */
+    // @media (max-width: 576px) {
+    //     font-size: .2rem;
+    // }
+
+    /* Para telas menores que 400px */
+    @media (max-width: 768px) {
+        font-size: 0.8rem;
+    }
+}

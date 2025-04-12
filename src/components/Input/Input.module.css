@@ -1,0 +1,287 @@
+/* Input.module.css - Tailwind-inspired with CSS variables */
+
+.variables {
+    /* Cores neutras */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    
+    /* Cores principais */
+    --color-primary: #ff2056;
+    --color-primary-hover: #c60036;
+    --color-primary-active: #cb5e61;
+    --color-primary-light: rgba(255, 182, 182, 0.1);
+    
+    /* Cores secundárias */
+    --color-secondary: #6b7280;
+    --color-secondary-hover: #4b5563;
+    --color-secondary-active: #374151;
+    
+    /* Cores semânticas */
+    --color-success: #10b981;
+    --color-success-hover: #059669;
+    --color-success-active: #047857;
+    --color-success-light: rgba(16, 185, 129, 0.1);
+    
+    --color-danger: #ef4444;
+    --color-danger-hover: #dc2626;
+    --color-danger-active: #b91c1c;
+    --color-danger-light: rgba(239, 68, 68, 0.1);
+    
+    /* Cores de background */
+    --color-white: #fff;
+    
+    /* Transições */
+    --transition-duration: 150ms;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-focus: 0 0 0 3px;
+  }
+  
+  /* Container principal */
+  .container {
+    composes: variables;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: max-content;
+  }
+  
+  .fullWidth {
+    width: 100%;
+  }
+  
+  .disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Label */
+  .label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-50);
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Wrapper para input com prefixo e sufixo */
+  .inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Input base */
+  .input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--color-gray-200);
+    appearance: none;
+    background-color: var(--color-gray-800) !important;
+    /* background-color: var(--color-white); */
+    border: 1px solid var(--color-gray-300);
+    transition-property: border-color, background-color, box-shadow;
+    transition-duration: var(--transition-duration);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .input::placeholder {
+    color: var(--color-gray-400);
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: var(--color-gray-100);
+    box-shadow: var(--shadow-focus) var(--color-primary-light);
+  }
+  
+  .input:disabled {
+    background-color: var(--color-gray-100);
+    cursor: not-allowed;
+  }
+  
+  .input:read-only {
+    background-color: var(--color-gray-50);
+  }
+  
+  /* Input com erro */
+  .error {
+    border-color: var(--color-danger);
+  }
+  
+  .error:focus {
+    border-color: var(--color-danger);
+    box-shadow: var(--shadow-focus) var(--color-danger-light);
+  }
+  
+  /* Input com sucesso */
+  .success {
+    border-color: var(--color-success);
+  }
+  
+  .success:focus {
+    border-color: var(--color-success);
+    box-shadow: var(--shadow-focus) var(--color-success-light);
+  }
+  
+  /* Variantes */
+  .default {
+    background-color: var(--color-white);
+  }
+  
+  .filled {
+    background-color: var(--color-gray-100);
+    border-color: transparent;
+  }
+  
+  .filled:hover:not(:disabled):not(:read-only) {
+    background-color: var(--color-gray-200);
+  }
+  
+  .filled:focus:not(:disabled) {
+    background-color: var(--color-white);
+  }
+  
+  .outlined {
+    background-color: var(--color-white);
+    border-color: var(--color-gray-300);
+  }
+  
+  .flushed {
+    background-color: transparent;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-radius: 0 !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .flushed:focus {
+    box-shadow: none;
+    border-color: var(--color-primary);
+  }
+  
+  .unstyled {
+    background: none;
+    border: none;
+    padding: 0;
+    height: auto;
+    border-radius: 0 !important;
+  }
+  
+  .unstyled:focus {
+    box-shadow: none;
+  }
+  
+  /* Tamanhos */
+  .xs {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+  
+  .sm {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .md {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+  
+  .lg {
+    padding: 0.625rem 0.875rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  .xl {
+    padding: 0.75rem 1rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  /* Prefixo e sufixo */
+  .prefix,
+  .suffix {
+    display: flex;
+    align-items: center;
+    color: var(--color-gray-500);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+  }
+  
+  .prefix {
+    left: 0.75rem;
+  }
+  
+  .suffix {
+    right: 0.75rem;
+  }
+  
+  .hasPrefix {
+    padding-left: 2.5rem;
+  }
+  
+  .hasSuffix {
+    padding-right: 2.5rem;
+  }
+  
+  /* Helper text */
+  .helperText {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--color-gray-600);
+    margin-top: 0.25rem;
+  }
+  
+  .errorText {
+    color: var(--color-danger);
+  }
+  
+  .successText {
+    color: var(--color-success);
+  }
+  
+  /* Border radius */
+  .rounded-none {
+    border-radius: 0;
+  }
+  
+  .rounded-sm {
+    border-radius: 0.125rem;
+  }
+  
+  .rounded-md {
+    border-radius: 0.375rem;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .rounded-xl {
+    border-radius: 0.75rem;
+  }
+  
+  .rounded-full {
+    border-radius: 9999px;
+  }
