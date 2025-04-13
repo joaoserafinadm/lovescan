@@ -31,7 +31,7 @@ export default function PhotoSelectModal(props) {
 
     return (
         <div class="modal fade" id="photoSelectModal" tabindex="-1" aria-labelledby="photoSelectModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content bg-dark">
                     <div class="modal-header border-0">
                         <h5 class="modal-title" id="photoSelectModalLabel">Adicionar foto</h5>
