@@ -13,64 +13,67 @@ export default function Config_02(props) {
     return (
         <>
 
-        <PhotoSelectModal />
+            <PhotoSelectModal />
 
-        <main className="card border-secondary bg-dark m-2 ">
-            <div className="card-body">
+            <main className="card border-secondary bg-dark m-2 ">
+                <div className="card-body">
 
-                <div className="row d-flex justify-content-center">
+                    <div className="row d-flex justify-content-center">
 
-                    <div className="col-12 d-flex justify-content-start  my-3">
-                        <h2 className="text-c-primary">Adicione momentos inesquecíveis registrados em fotos</h2>
-                    </div>
-                    <div className="col-12">
-                        <div className="row d-flex">
-                            <div className="col-6 my-2 ">
-                                <span className="small">1ª</span>
-                                <Button size="xl" outline fullWidth className="p-5" data-bs-toggle="modal" data-bs-target="#photoSelectModal" >
-                                    <SquarePlus className="text-c-secondary" /> <br />
-                                    <span className="text-c-secondary small">Adicionar</span>
-                                </Button>
-                            </div>
-                            <div className="col-6 my-2 ">
-                                <span className="small">2ª</span>
+                        <div className="col-12 d-flex justify-content-start  my-3">
+                            <h2 className="text-c-primary">Adicione momentos inesquecíveis registrados em fotos</h2>
+                        </div>
+                        <div className="col-12 d-flex justify-content-start  my-3">
+                            <p className="">Selecione até 4 fotos que representem momentos marcantes na vida de vocês.</p>
+                        </div>
+                        <div className="col-12">
+                            <div className="row d-flex">
+                                <div className="col-6 my-2 ">
+                                    <span className="small">1ª</span>
+                                    <Button size="xl" outline fullWidth className="p-5" data-bs-toggle="modal" data-bs-target="#photoSelectModal" >
+                                        <SquarePlus className="text-c-secondary" /> <br />
+                                        <span className="text-c-secondary small">Adicionar</span>
+                                    </Button>
+                                </div>
+                                <div className="col-6 my-2 ">
+                                    <span className="small">2ª</span>
 
-                                <Button size="xl" outline fullWidth className="p-5" >
-                                    <SquarePlus className="text-c-secondary" /> <br />
-                                    <span className="text-c-secondary small">Adicionar</span>
-                                </Button>
-                            </div>
-                            <div className="col-6 my-2 ">
-                                <span className="small">3ª</span>
+                                    <Button size="xl" outline fullWidth className="p-5" >
+                                        <SquarePlus className="text-c-secondary" /> <br />
+                                        <span className="text-c-secondary small">Adicionar</span>
+                                    </Button>
+                                </div>
+                                <div className="col-6 my-2 ">
+                                    <span className="small">3ª</span>
 
-                                <Button size="xl" outline fullWidth className="p-5" >
-                                    <SquarePlus className="text-c-secondary" /> <br />
-                                    <span className="text-c-secondary small">Adicionar</span>
-                                </Button>
-                            </div>
-                            <div className="col-6 my-2 ">
-                                <span className="small">4ª</span>
+                                    <Button size="xl" outline fullWidth className="p-5" >
+                                        <SquarePlus className="text-c-secondary" /> <br />
+                                        <span className="text-c-secondary small">Adicionar</span>
+                                    </Button>
+                                </div>
+                                <div className="col-6 my-2 ">
+                                    <span className="small">4ª</span>
 
-                                <Button size="xl" outline fullWidth className="p-5" >
-                                    <SquarePlus className="text-c-secondary" /> <br />
-                                    <span className="text-c-secondary small">Adicionar</span>
-                                </Button>
+                                    <Button size="xl" outline fullWidth className="p-5" >
+                                        <SquarePlus className="text-c-secondary" /> <br />
+                                        <span className="text-c-secondary small">Adicionar</span>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
 
-                    <div className="col-12 d-flex justify-content-between mt-5">
-                        <Button outline variant="ghost" data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={1} >
-                            <ChevronLeft /> Voltar
-                        </Button>
-                        <Button outline data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={3} >
-                            Próximo <ChevronRight />
-                        </Button>
+                        <div className="col-12 d-flex justify-content-between mt-5">
+                            <Button outline variant="ghost" data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={1} >
+                                <ChevronLeft /> Voltar
+                            </Button>
+                            <Button outline data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={3} >
+                                Próximo <ChevronRight />
+                            </Button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
         </>
 
     )
