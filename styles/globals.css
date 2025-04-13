@@ -54,3 +54,8 @@ a {
     color-scheme: dark;
   }
 }
+
+
+.small {
+  font-size: 0.7rem;
+}

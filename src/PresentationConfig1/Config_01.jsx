@@ -2,30 +2,39 @@ import { useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Select from "../components/Select";
+import { ChevronRight } from "lucide-react";
+import { maskName } from "@/utils/maks";
 
 
 
 export default function Config_01(props) {
 
 
-    const [userName, setUserName] = useState('');
-    const [loveName, setLoveName] = useState('');
-  
-    const [day, setDay] = useState('');
-    const [month, setMonth] = useState('');
-    const [year, setYear] = useState('');
-  
+    const {
+        userName,
+        setUserName,
+        loveName,
+        setLoveName,
+        day,
+        setDay,
+        month,
+        setMonth,
+        year,
+        setYear
+    } = props
+
     const days = Array.from({ length: 31 }, (_, index) => index + 1);
-  
+
     const monthKeys = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-  
+
     const monthOptions = monthKeys.map((key, index) => ({
-      value: String(index + 1).padStart(2, '0'), // Ex: "01", "02", ..., "12"
-      label: key,
-    //   label: t(`months.${key}`),
+        value: String(index + 1).padStart(2, '0'), // Ex: "01", "02", ..., "12"
+        label: key,
+        //   label: t(`months.${key}`),
     }));
-  
+
     const years = Array.from({ length: 100 }, (_, index) => 2023 - index);
+
 
     return (
 
@@ -48,6 +57,8 @@ export default function Config_01(props) {
                             size="md"
                             fullWidth
                             label="Seu nome"
+                            value={userName}
+                            onChange={e => setUserName(maskName(e.target.value))}
                         />
                     </div>
                     <div className="col-12 col-md-6 my-2">
@@ -60,12 +71,14 @@ export default function Config_01(props) {
                             size="md"
                             fullWidth
                             label="Nome do seu amor"
+                            value={loveName}
+                            onChange={e => setLoveName(maskName(e.target.value))}
                         />
                     </div>
-                    <div className="col-12 my-2">
+                    <div className="col-12 mt-5">
                         <p className="">Quando vocês se conheceram?</p>
                     </div>
-                    <div className="col-12 d-flex justify-content-center     my-2">
+                    <div className="col-12 d-flex justify-content-center    mb-2">
                         <div className="col-3 px-1">
 
                             <Select
@@ -83,7 +96,7 @@ export default function Config_01(props) {
                             <Select
                                 label="Mês"
                                 name="namoMonth"
-                                placeholder="Dia"
+                                placeholder="Mês"
                                 options={monthOptions}
                                 value={month}
                                 fullWidth
@@ -95,20 +108,17 @@ export default function Config_01(props) {
                             <Select
                                 label="Ano"
                                 name="namoYear"
-                                placeholder="Dia"
-                                options={years}
+                                placeholder="Ano"
+                                options={years.map((day) => ({ value: day, label: day }))}
                                 value={year}
                                 fullWidth
                                 onChange={e => setYear(e.target.value)}
                             />
                         </div>
                     </div>
-                    <div className="col-12 my-2">
-                        <p className="text-c-secondary">Agora, podemos continuar!</p>
-                    </div>
-                    <div className="col-12 ">
-                        <Button size="xl" variant="primary" fullWidth data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={1}>
-                            Começar agora!
+                    <div className="col-12 d-flex justify-content-end mt-5">
+                        <Button outline data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={2} disabled={!userName || !loveName || !day || !month || !year}>
+                            Próximo <ChevronRight />
                         </Button>
                     </div>
                 </div>
