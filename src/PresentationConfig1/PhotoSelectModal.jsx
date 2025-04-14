@@ -16,9 +16,9 @@ export default function PhotoSelectModal(props) {
         if (file) {
             setSelectCompanyFile(URL.createObjectURL(file))
             setTimeout(() => {
-                var modal = document.getElementById('cropperLogoModal')
-                var cropperModal = new bootstrap.Modal(modal)
-                cropperModal.show()
+                // var modal = document.getElementById('cropperLogoModal')
+                // var cropperModal = new bootstrap.Modal(modal)
+                // cropperModal.show()
             }, 20)
         } else {
             return

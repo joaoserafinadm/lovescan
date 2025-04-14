@@ -5,15 +5,17 @@ import Select from "../components/Select";
 import { ChevronLeft, ChevronRight, SquarePlus } from "lucide-react";
 import { maskName } from "@/utils/maks";
 import PhotoSelectModal from "./PhotoSelectModal";
+import ImageSelect, { ImageUploadWithEffect } from "./SimpleInstagramEffect";
 
 
 
 export default function Config_02(props) {
 
+
+
     return (
         <>
-
-            <PhotoSelectModal />
+            {/* <PhotoSelectModal /> */}
 
             <main className="card border-secondary bg-dark m-2 ">
                 <div className="card-body">
@@ -30,35 +32,45 @@ export default function Config_02(props) {
                             <div className="row d-flex">
                                 <div className="col-6 my-2 ">
                                     <span className="small">1ª</span>
-                                    <Button size="xl" outline fullWidth className="p-5" data-bs-toggle="modal" data-bs-target="#photoSelectModal" >
-                                        <SquarePlus className="text-c-secondary" /> <br />
-                                        <span className="text-c-secondary small">Adicionar</span>
-                                    </Button>
+                                    {/* <ImageSelect/> */}
+                                    <ImageUploadWithEffect>
+                                        <Button size="xl" outline fullWidth className="p-5">
+                                            <SquarePlus className="text-c-secondary" /> <br />
+                                            <span className="text-c-secondary small">Adicionar</span>
+                                        </Button>
+                                    </ImageUploadWithEffect>
                                 </div>
                                 <div className="col-6 my-2 ">
                                     <span className="small">2ª</span>
-
-                                    <Button size="xl" outline fullWidth className="p-5" >
-                                        <SquarePlus className="text-c-secondary" /> <br />
-                                        <span className="text-c-secondary small">Adicionar</span>
-                                    </Button>
+                                    {/* <ImageSelect/> */}
+                                    <ImageUploadWithEffect>
+                                        <Button size="xl" outline fullWidth className="p-5">
+                                            <SquarePlus className="text-c-secondary" /> <br />
+                                            <span className="text-c-secondary small">Adicionar</span>
+                                        </Button>
+                                    </ImageUploadWithEffect>
                                 </div>
                                 <div className="col-6 my-2 ">
                                     <span className="small">3ª</span>
-
-                                    <Button size="xl" outline fullWidth className="p-5" >
-                                        <SquarePlus className="text-c-secondary" /> <br />
-                                        <span className="text-c-secondary small">Adicionar</span>
-                                    </Button>
+                                    {/* <ImageSelect/> */}
+                                    <ImageUploadWithEffect>
+                                        <Button size="xl" outline fullWidth className="p-5">
+                                            <SquarePlus className="text-c-secondary" /> <br />
+                                            <span className="text-c-secondary small">Adicionar</span>
+                                        </Button>
+                                    </ImageUploadWithEffect>
                                 </div>
                                 <div className="col-6 my-2 ">
                                     <span className="small">4ª</span>
-
-                                    <Button size="xl" outline fullWidth className="p-5" >
-                                        <SquarePlus className="text-c-secondary" /> <br />
-                                        <span className="text-c-secondary small">Adicionar</span>
-                                    </Button>
+                                    {/* <ImageSelect/> */}
+                                    <ImageUploadWithEffect>
+                                        <Button size="xl" outline fullWidth className="p-5">
+                                            <SquarePlus className="text-c-secondary" /> <br />
+                                            <span className="text-c-secondary small">Adicionar</span>
+                                        </Button>
+                                    </ImageUploadWithEffect>
                                 </div>
+
                             </div>
                         </div>
 
