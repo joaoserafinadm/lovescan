@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Select from "../components/Select";
@@ -10,6 +10,45 @@ import ImageSelect, { ImageUploadWithEffect } from "./SimpleInstagramEffect";
 
 
 export default function Config_02(props) {
+
+    const { setImagesArray, setDescriptionsArray } = props
+
+    const imagesArray = Array.from({ length: 4 }, (_, index) => null);
+
+
+    const [images, setImages] = useState(imagesArray);
+    const [descriptions, setDescriptions] = useState(Array.from({ length: 4 }, (_, index) => ""));
+
+    const handleSetImages = (image, index) => {
+
+        const newImages = [...images];
+        newImages[index] = image;
+
+        setImages(newImages);
+
+    }
+
+    const handleDescription = (description, index) => {
+        const newDescriptions = [...descriptions];
+        newDescriptions[index] = description;
+        setDescriptions(newDescriptions);
+    }
+
+    useEffect(() => {
+
+        setImagesArray(images)
+
+    }, [images])
+
+    useEffect(() => {
+
+        setDescriptionsArray(images)
+
+    }, [descriptions])
+
+
+
+
 
 
 
@@ -33,17 +72,22 @@ export default function Config_02(props) {
                                 <div className="col-6 my-2 ">
                                     <span className="small">1ª</span>
                                     {/* <ImageSelect/> */}
-                                    <ImageUploadWithEffect>
+                                    <ImageUploadWithEffect
+                                        onChange={(value) => handleSetImages(value, 0)}
+                                        handleDescription={(value) => handleDescription(value, 0)}>
                                         <Button size="xl" outline fullWidth className="p-5">
                                             <SquarePlus className="text-c-secondary" /> <br />
                                             <span className="text-c-secondary small">Adicionar</span>
                                         </Button>
                                     </ImageUploadWithEffect>
+
                                 </div>
                                 <div className="col-6 my-2 ">
                                     <span className="small">2ª</span>
                                     {/* <ImageSelect/> */}
-                                    <ImageUploadWithEffect>
+                                    <ImageUploadWithEffect
+                                        onChange={(value) => handleSetImages(value, 1)}
+                                        handleDescription={(value) => handleDescription(value, 0)}>
                                         <Button size="xl" outline fullWidth className="p-5">
                                             <SquarePlus className="text-c-secondary" /> <br />
                                             <span className="text-c-secondary small">Adicionar</span>
@@ -53,7 +97,9 @@ export default function Config_02(props) {
                                 <div className="col-6 my-2 ">
                                     <span className="small">3ª</span>
                                     {/* <ImageSelect/> */}
-                                    <ImageUploadWithEffect>
+                                    <ImageUploadWithEffect
+                                        onChange={(value) => handleSetImages(value, 2)}
+                                        handleDescription={(value) => handleDescription(value, 0)}>
                                         <Button size="xl" outline fullWidth className="p-5">
                                             <SquarePlus className="text-c-secondary" /> <br />
                                             <span className="text-c-secondary small">Adicionar</span>
@@ -63,7 +109,9 @@ export default function Config_02(props) {
                                 <div className="col-6 my-2 ">
                                     <span className="small">4ª</span>
                                     {/* <ImageSelect/> */}
-                                    <ImageUploadWithEffect>
+                                    <ImageUploadWithEffect
+                                        onChange={(value) => handleSetImages(value, 3)}
+                                        handleDescription={(value) => handleDescription(value, 0)}>
                                         <Button size="xl" outline fullWidth className="p-5">
                                             <SquarePlus className="text-c-secondary" /> <br />
                                             <span className="text-c-secondary small">Adicionar</span>

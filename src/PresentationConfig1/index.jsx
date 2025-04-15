@@ -2,6 +2,7 @@ import { useState } from "react";
 import Config_01 from "./Config_01";
 import Config_02 from "./Config_02";
 import FirstSlide from "./FirstSlide";
+import Config_03 from "./Config_03";
 
 
 
@@ -13,6 +14,11 @@ export default function PresentationConfig1() {
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
+
+    const [imagesArray, setImagesArray] = useState([]);
+    const [descriptionsArray, setDescriptionsArray] = useState([]);
+
+    const [letterContent, setLetterContent] = useState('');
 
 
     return (
@@ -26,16 +32,22 @@ export default function PresentationConfig1() {
                                 <FirstSlide />
                             </div>
                             <div className="carousel-item ">
-                                <Config_01 
-                                userName={userName} setUserName={setUserName}
-                                loveName={loveName} setLoveName={setLoveName}
-                                day={day} setDay={setDay}
-                                month={month} setMonth={setMonth}
-                                year={year} setYear={setYear}
+                                <Config_01
+                                    userName={userName} setUserName={setUserName}
+                                    loveName={loveName} setLoveName={setLoveName}
+                                    day={day} setDay={setDay}
+                                    month={month} setMonth={setMonth}
+                                    year={year} setYear={setYear}
                                 />
                             </div>
                             <div className="carousel-item ">
-                                <Config_02 />
+                                <Config_02 setImagesArray={setImagesArray}
+                                    setDescriptionsArray={setDescriptionsArray} />
+                            </div>
+                            <div className="carousel-item ">
+                                <Config_03  
+                                letterContent={letterContent}
+                                setLetterContent={setLetterContent}/>
                             </div>
                         </div>
                     </div>
