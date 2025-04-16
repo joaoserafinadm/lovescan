@@ -79,12 +79,11 @@ const PresentationExample = () => {
 
   return (
     <div className="container">
-      <h1>Apresentação do Produto</h1>
       <PresentationPreview slides={presentationSlides} />
       
       <style jsx>{`
         .container {
-          padding: 20px;
+          padding: 0px;
           max-width: 800px;
           margin: 0 auto;
         }

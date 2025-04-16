@@ -22,7 +22,7 @@ export default function Config_04() {
                         <p>Gostaria de visualizar sua apresentação?</p>
                     </div>
                     <div className="col-12 d-flex justify-content-center my-3">
-                        <Button size="lg" rounded="full" className="mx-1">
+                        <Button size="lg" rounded="full" className="mx-1" data-bs-toggle="modal" data-bs-target="#presentationPreviewModal" >
                             Abrir apresentação
                         </Button>
                     </div>
@@ -50,9 +50,6 @@ export default function Config_04() {
                             <ChevronLeft /> Voltar
                         </Button>
                        
-                    </div>
-                    <div className="col-12">
-                        <PresentationExample/>
                     </div>
                 </div>
             </div>
