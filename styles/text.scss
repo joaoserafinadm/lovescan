@@ -65,3 +65,17 @@
         font-size: 0.8rem;
     }
 }
+
+.fadeEffect{
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

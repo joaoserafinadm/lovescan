@@ -32,7 +32,7 @@ export default function Config_03(props) {
 
             {/* Visualização da carta em papel */}
             {letterContent && (
-              <div className="col-12 mb-4">
+              <div className="col-12 mb-4 fadeEffect">
                 <div 
                   className="p-4 mx-auto" 
                   style={{

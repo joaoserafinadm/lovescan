@@ -7,7 +7,7 @@ export default function FirstSlide(props) {
 
     return (
 
-        <main className="card border-secondary bg-dark m-2 ">
+        <main className="card border-secondary bg-dark m-2 fadeEffect">
             <div className="card-body">
 
                 <div className="row   d-flex justify-content-center">

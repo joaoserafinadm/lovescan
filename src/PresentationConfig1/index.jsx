@@ -3,6 +3,7 @@ import Config_01 from "./Config_01";
 import Config_02 from "./Config_02";
 import FirstSlide from "./FirstSlide";
 import Config_03 from "./Config_03";
+import Config_04 from "./Config_04";
 
 
 
@@ -26,7 +27,7 @@ export default function PresentationConfig1() {
             <div className="row d-flex justify-content-center">
                 <div className="col-12 col-lg-5">
 
-                    <div className=" carousel slide  " data-bs-touch="false" data-bs-interval='false' id="presentationConfig1Carousel">
+                    <div className=" carousel slide row " data-bs-touch="false" data-bs-interval='false' id="presentationConfig1Carousel">
                         <div className="carousel-inner ">
                             <div className="carousel-item active">
                                 <FirstSlide />
@@ -45,9 +46,21 @@ export default function PresentationConfig1() {
                                     setDescriptionsArray={setDescriptionsArray} />
                             </div>
                             <div className="carousel-item ">
-                                <Config_03  
-                                letterContent={letterContent}
-                                setLetterContent={setLetterContent}/>
+                                <Config_03
+                                    letterContent={letterContent}
+                                    setLetterContent={setLetterContent} />
+                            </div>
+                            <div className="carousel-item ">
+                                <Config_04
+                                    userName={userName}
+                                    loveName={loveName}
+                                    day={day}
+                                    month={month}
+                                    year={year}
+                                    imagesArray={imagesArray}
+                                    descriptionsArray={descriptionsArray}
+                                    letterContent={letterContent}
+                                />
                             </div>
                         </div>
                     </div>
