@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import Layout from "@/src/layout";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, session, pageProps }) {
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.bundle.min.js");
@@ -26,10 +27,13 @@ export default function App({ Component, pageProps }) {
 
   return (
     <div className={`${geistSans.variable} ${geistMono.variable}`} >
+      <SessionProvider session={session}>
+
       <Layout>
 
         <Component {...pageProps} />
       </Layout>
+      </SessionProvider>
     </div>
   );
 }

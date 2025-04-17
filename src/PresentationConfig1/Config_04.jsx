@@ -30,7 +30,7 @@ export default function Config_04() {
                         <p>Para continuar, cadastre-se na nossa plataforma.</p>
                     </div>
                     <div className="col-12 d-flex justify-content-center mt-3">
-                        <Button size="lg" rounded="full" variant="primary" className="mx-1">
+                        <Button size="lg" rounded="full" variant="primary" className="mx-1" data-bs-toggle="modal" data-bs-target="#signUpPresentationModal">
                             Cadastre-se
                         </Button>
 

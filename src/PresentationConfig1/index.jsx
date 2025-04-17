@@ -5,6 +5,7 @@ import FirstSlide from "./FirstSlide";
 import Config_03 from "./Config_03";
 import Config_04 from "./Config_04";
 import PresentationPreviewModal from "./PresentationPreviewModal";
+import SignUpModal from "./SignUpModal";
 
 
 
@@ -26,10 +27,10 @@ export default function PresentationConfig1() {
     return (
         <>
         <PresentationPreviewModal />
+        <SignUpModal />
             <div className=" d-flex align-items-center justify-content-center " >
                 <div className="row d-flex justify-content-center">
                     <div className="col-12 col-lg-5">
-
                         <div className=" carousel slide row " data-bs-touch="false" data-bs-interval='false' id="presentationConfig1Carousel">
                             <div className="carousel-inner ">
                                 <div className="carousel-item active">
