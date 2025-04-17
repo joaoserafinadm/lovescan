@@ -62,8 +62,8 @@ const Header = ({ user = null }) => {
           {user ? (
             <div className={styles.userAvatar}>
               <img
-                src={user.photoURL || "https://via.placeholder.com/40"}
-                alt={user.name || "Usuário"}
+                src={user?.photoURL || "https://via.placeholder.com/40"}
+                alt={user?.name || "Usuário"}
                 className={styles.avatarImage}
               />
             </div>

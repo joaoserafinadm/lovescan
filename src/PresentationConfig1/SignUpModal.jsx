@@ -44,7 +44,6 @@ export default function SignUpModal() {
 
 
     useEffect(() => {
-        console.log('session', session.user)
         if (session?.user) {
 
             closeModal()
