@@ -18,6 +18,8 @@ export default function PresentationConfig1() {
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
 
+    const [couplePhoto, setCouplePhoto] = useState('');
+
     const [imagesArray, setImagesArray] = useState([]);
     const [descriptionsArray, setDescriptionsArray] = useState([]);
 
@@ -26,8 +28,17 @@ export default function PresentationConfig1() {
 
     return (
         <>
-        <PresentationPreviewModal />
-        <SignUpModal />
+            <PresentationPreviewModal 
+            userName={userName}
+            loveName={loveName}
+            day={day}
+            month={month}
+            year={year}
+            couplePhoto={couplePhoto}
+            imagesArray={imagesArray}
+            descriptionsArray={descriptionsArray}
+            letterContent={letterContent}/>
+            <SignUpModal />
             <div className=" d-flex align-items-center justify-content-center " >
                 <div className="row d-flex justify-content-center">
                     <div className="col-12 col-lg-5">
@@ -43,6 +54,8 @@ export default function PresentationConfig1() {
                                         day={day} setDay={setDay}
                                         month={month} setMonth={setMonth}
                                         year={year} setYear={setYear}
+                                        couplePhoto={couplePhoto}
+                                        setCouplePhoto={setCouplePhoto}
                                     />
                                 </div>
                                 <div className="carousel-item ">

@@ -3,7 +3,17 @@ import PresentationExample from "../Presentation";
 
 
 
-export default function PresentationPreviewModal() {
+export default function PresentationPreviewModal(props) {
+
+    const { userName,
+        loveName,
+        day,
+        month,
+        year,
+        couplePhoto,
+        imagesArray,
+        descriptionsArray,
+        letterContent } = props
 
     return (
         <div class="modal fade" id="presentationPreviewModal" tabindex="-1" aria-labelledby="presentationPreviewModalLabel" aria-hidden="true">
@@ -14,10 +24,19 @@ export default function PresentationPreviewModal() {
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <PresentationExample/>
+                        <PresentationExample
+                            userName={userName}
+                            loveName={loveName}
+                            day={day}
+                            month={month}
+                            year={year}
+                            couplePhoto={couplePhoto}
+                            imagesArray={imagesArray}
+                            descriptionsArray={descriptionsArray}
+                            letterContent={letterContent} />
 
                     </div>
-                    
+
                 </div>
             </div>
         </div>

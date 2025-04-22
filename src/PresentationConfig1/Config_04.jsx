@@ -1,12 +1,16 @@
 import { ChevronLeft } from "lucide-react";
 import Button from "../components/Button";
 import PresentationExample from "../Presentation";
+import { useSession } from "next-auth/react";
 
 
 
 
 
 export default function Config_04() {
+
+    const { data: session, status } = useSession();
+
 
 
 
@@ -26,15 +30,27 @@ export default function Config_04() {
                             Abrir apresentação
                         </Button>
                     </div>
-                    <div className="col-12 d-flex justify-content-start mt-3">
-                        <p>Para continuar, cadastre-se na nossa plataforma.</p>
-                    </div>
-                    <div className="col-12 d-flex justify-content-center mt-3">
-                        <Button size="lg" rounded="full" variant="primary" className="mx-1" data-bs-toggle="modal" data-bs-target="#signUpPresentationModal">
-                            Cadastre-se
-                        </Button>
+                    {session ?
+                        <div className="col-12 d-flex justify-content-center my-3">
+                            <Button size="lg" rounded="full" className="mx-1"  >
+                                Botão para finalizar compra
+                            </Button>
+                        </div>
+                        :
+                        <>
+                            <div className="col-12 d-flex justify-content-start mt-3">
+                                <p>Para continuar, cadastre-se na nossa plataforma.</p>
+                            </div>
+                            <div className="col-12 d-flex justify-content-center mt-3">
+                                <Button size="lg" rounded="full" variant="primary" className="mx-1" data-bs-toggle="modal" data-bs-target="#signUpPresentationModal">
+                                    Cadastre-se
+                                </Button>
 
-                    </div>
+                            </div>
+                        </>
+                    }
+
+
                     {/* <div className="col-12 d-flex justify-content-center my-3">
                         <img src="/LOGO_01.png" alt="" height={50} />
 
@@ -49,7 +65,7 @@ export default function Config_04() {
                         >
                             <ChevronLeft /> Voltar
                         </Button>
-                       
+
                     </div>
                 </div>
             </div>

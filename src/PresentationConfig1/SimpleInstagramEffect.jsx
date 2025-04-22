@@ -66,7 +66,7 @@ const SimpleInstagramEffect = ({ imageUrl }) => {
 // Componente de upload que utiliza um botão existente
 const ImageUploadWithEffect = ({ children, ...props }) => {
 
-  const { onChange, handleDescription } = props
+  const { onChange, handleDescription, noDescription } = props
   const [previewUrl, setPreviewUrl] = useState(null);
   const [description, setDescription] = useState('');
   const fileInputRef = useRef(null);
@@ -82,7 +82,7 @@ const ImageUploadWithEffect = ({ children, ...props }) => {
 
   }, [description])
 
-  
+
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -119,11 +119,13 @@ const ImageUploadWithEffect = ({ children, ...props }) => {
         /* Exibe a visualização dentro do mesmo espaço do botão */
         <div className="mb-2">
           <SimpleInstagramEffect imageUrl={previewUrl} />
+          {!noDescription && (
 
-          <Input placeholder="Legenda da foto"
-            fullWidth
-            value={description}
-            onChange={(e) => setDescription(e.target.value)} />
+            <Input placeholder="Legenda da foto"
+              fullWidth
+              value={description}
+              onChange={(e) => setDescription(e.target.value)} />
+          )}
           <button
             className="btn btn-sm btn-outline-secondary mt-2 d-block mx-auto"
             onClick={handleButtonClick}

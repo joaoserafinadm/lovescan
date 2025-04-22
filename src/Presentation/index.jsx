@@ -1,14 +1,15 @@
 import React from 'react';
 import PresentationPreview from './PresentationPreview';
 import styles from './Presentation.module.css';
+import Slide1 from './Slide1';
 
 // Componentes dos slides
-const Slide1 = () => (
-  <div className={styles.slide} style={{ backgroundColor: '#FF6A00' }}>
-    <h2 className={styles.slideTitle}>Bem-vindo à apresentação</h2>
-    <p className={styles.slideText}>Deslize para conhecer nosso produto</p>
-  </div>
-);
+// const Slide1 = () => (
+//   <div className={styles.slide} style={{ backgroundColor: '#FF6A00' }}>
+//     <h2 className={styles.slideTitle}>Bem-vindo à apresentação</h2>
+//     <p className={styles.slideText}>Deslize para conhecer nosso produto</p>
+//   </div>
+// );
 
 const Slide2 = () => (
   <div className={styles.slide} style={{ backgroundColor: '#4C9AFF' }}>
@@ -67,10 +68,14 @@ const FinalSlide = () => (
   </div>
 );
 
-const PresentationExample = () => {
+const PresentationExample = (props) => {
+
+  const { userName, loveName, day, month, year, couplePhoto, imagesArray, descriptionsArray, letterContent } = props
+
+
   // Array com os componentes de cada slide
   const presentationSlides = [
-    <Slide1 key="slide1" />,
+    <Slide1 key="slide1" loveName={loveName}/>,
     <Slide2 key="slide2" />,
     <Slide3 key="slide3" />,
     <ProductSlide key="slide4" />,
@@ -79,18 +84,20 @@ const PresentationExample = () => {
 
   return (
     <div className="container">
+      
+      
       <PresentationPreview slides={presentationSlides} />
       
       <style jsx>{`
         .container {
-          padding: 0px;
+          padding: 20px;
           max-width: 800px;
           margin: 0 auto;
         }
         
         h1 {
           text-align: center;
-          margin-bottom: 30px;
+          margin-bottom: 10px;
         }
       `}</style>
     </div>
