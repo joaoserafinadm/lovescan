@@ -1,0 +1,489 @@
+/* Importando fontes manuscritas românticas */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Parisienne&display=swap');
+
+/* Estilos gerais da apresentação */
+.presentationContainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #fff;
+  overflow: hidden;
+  font-family: 'Dancing Script', cursive;
+}
+
+.slideContainer {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  height: calc(100% - 60px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Estilos para cada slide */
+.slide {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #fde2e4 0%, #f8edeb 50%, #e2ecff 100%);
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+/* Estilos específicos para o primeiro slide */
+.slide.firstSlide {
+  background: linear-gradient(135deg, #ffb6c1 0%, #ffdfd3 50%, #fff0f5 100%);
+  align-items: center;
+}
+
+.slideContent {
+  width: 92%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.slideContent {
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Estilos para títulos e texto */
+.slideTitle {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.slideTitle h1 {
+  font-size: 3rem;
+  color: #343a40;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-family: 'Great Vibes', cursive;
+}
+
+.slideTitle h2 {
+  font-size: 2.2rem;
+  color: #495057;
+  margin-bottom: 1rem;
+  font-family: 'Dancing Script', cursive;
+}
+
+.loveName {
+  color: #d23669;
+  font-size: 3.5rem;
+  font-weight: 700;
+  font-family: 'Parisienne', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.highlightedText {
+  color: #d23669;
+  font-weight: 600;
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.3rem;
+}
+
+/* Estilos para foto */
+.photoContainer {
+  width: 90%;
+  max-width: 350px;
+  height: auto;
+  margin: 1rem auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  padding: 8px;
+  border: 2px solid #f8c8dc;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.photoContainer::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 1px solid #f8c8dc;
+  border-radius: 20px;
+  z-index: -1;
+}
+
+.couplePhoto {
+  width: 100%;
+  height: auto;
+  max-height: 50vh;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.couplePhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photoPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e9ecef;
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
+/* Estilos para o contador de tempo */
+.timeCounterContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+  position: relative;
+}
+
+.timeCounterContainer::before,
+.timeCounterContainer::after {
+  content: '❤';
+  position: absolute;
+  font-size: 1.5rem;
+  color: rgba(210, 54, 105, 0.3);
+  top: -10px;
+}
+
+.timeCounterContainer::before {
+  left: 15%;
+}
+
+.timeCounterContainer::after {
+  right: 15%;
+}
+
+.timeCounter {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.timeBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  min-width: 120px;
+  border: 1px solid rgba(210, 54, 105, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.timeBox::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #d23669, transparent);
+}
+
+.timeValue {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #d23669;
+  font-family: 'Dancing Script', cursive;
+}
+
+.timeLabel {
+  font-size: 1.1rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+  font-family: 'Dancing Script', cursive;
+}
+
+.heartIcon {
+  margin-top: 1rem;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Botão de continuar em cada slide */
+.nextButton {
+  position: relative;
+  padding: 12px 30px;
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #f77fb6 0%, #d23669 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.4rem;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(210, 54, 105, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.nextButton::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.nextButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(210, 54, 105, 0.4);
+}
+
+.nextButton:hover::after {
+  left: 100%;
+  opacity: 0.3;
+}
+
+.nextButton:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 10px rgba(210, 54, 105, 0.3);
+}
+
+/* Controles de navegação */
+.navigationControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  gap: 2rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  height: 70px;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.navButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #495057;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background-color: #f8f9fa;
+  color: #ff6b6b;
+}
+
+.slideIndicators {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #dee2e6;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.activeIndicator {
+  background-color: #ff6b6b;
+  transform: scale(1.2);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .slideTitle h1 {
+    font-size: 2rem;
+  }
+  
+  .slideTitle h2 {
+    font-size: 1.5rem;
+  }
+  
+  .loveName {
+    font-size: 2.2rem;
+  }
+  
+  .timeCounter {
+    gap: 0.8rem;
+  }
+  
+  .timeBox {
+    min-width: 80px;
+    padding: 0.7rem;
+  }
+  
+  .timeValue {
+    font-size: 1.8rem;
+  }
+  
+  .timeLabel {
+    font-size: 0.8rem;
+  }
+  
+  .nextButton {
+    padding: 10px 24px;
+    font-size: 1.2rem;
+  }
+  
+  .statItem {
+    padding: 0.7rem;
+    max-width: 280px;
+  }
+  
+  .statValue {
+    font-size: 1.6rem;
+  }
+  
+  .statLabel {
+    font-size: 0.9rem;
+  }
+  
+  .statsContainer {
+    gap: 0.8rem;
+    max-height: 60vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .slideContent {
+    padding: 10px 5px;
+    width: 92%;
+  }
+  
+  .slideTitle h1 {
+    font-size: 1.8rem;
+  }
+  
+  .slideTitle h2 {
+    font-size: 1.3rem;
+  }
+  
+  .loveName {
+    font-size: 2rem;
+  }
+  
+  .highlightedText {
+    font-size: 1.8rem;
+  }
+  
+  .timeCounter {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  
+  .timeBox {
+    min-width: 70px;
+    margin-bottom: 0.5rem;
+    padding: 0.6rem;
+  }
+  
+  .timeValue {
+    font-size: 1.6rem;
+  }
+  
+  .timeLabel {
+    font-size: 0.7rem;
+    margin-top: 0.3rem;
+  }
+  
+  .navigationControls {
+    padding: 0.5rem;
+    gap: 1rem;
+    height: 50px;
+  }
+  
+  .nextButton {
+    padding: 8px 20px;
+    font-size: 1.1rem;
+    margin-top: 0.8rem;
+  }
+  
+  .statItem {
+    padding: 0.6rem;
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+  
+  .statIcon {
+    width: 35px;
+    height: 35px;
+    margin-right: 0.6rem;
+  }
+  
+  .statValue {
+    font-size: 1.4rem;
+  }
+  
+  .statLabel {
+    font-size: 0.75rem;
+  }
+  
+  .statsContainer {
+    gap: 0.4rem;
+    margin: 0.2rem 0 0.8rem;
+    max-height: 58vh;
+    padding: 0.3rem;
+  }
+  
+  .slide {
+    padding: 5px 0;
+  }
+}
+
+.statContent{
+    font-size: 20px;
+}

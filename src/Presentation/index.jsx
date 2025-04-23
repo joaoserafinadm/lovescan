@@ -75,7 +75,7 @@ const PresentationExample = (props) => {
 
   // Array com os componentes de cada slide
   const presentationSlides = [
-    <Slide1 key="slide1" loveName={loveName}/>,
+    <Slide1 key="slide1" loveName={loveName} couplePhoto={couplePhoto}/>,
     <Slide2 key="slide2" />,
     <Slide3 key="slide3" />,
     <ProductSlide key="slide4" />,

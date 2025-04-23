@@ -410,3 +410,25 @@
 .resetButton:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
+
+
+
+
+
+
+
+
+.slideBackground {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+}
+
+.couplePhoto {
+  max-width: 70%;
+  max-height: 50%;
+  transform: rotate(-10deg);
+}

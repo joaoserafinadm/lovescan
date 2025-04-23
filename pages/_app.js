@@ -17,6 +17,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { Dancing_Script } from 'next/font/google';
+
+// Configure a fonte
+export const dancingScript = Dancing_Script({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'], // Pesos disponíveis para esta fonte
+  variable: '--font-dancing-script', // Nome da variável CSS
+});
+
 
 export default function App({ Component, session, pageProps }) {
 
