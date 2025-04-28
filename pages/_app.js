@@ -39,10 +39,10 @@ export default function App({ Component, session, pageProps }) {
     <div className={`${geistSans.variable} ${geistMono.variable}`} >
       <SessionProvider session={session}>
 
-      <Layout>
+        <Layout>
 
-        <Component {...pageProps} />
-      </Layout>
+          <Component {...pageProps} />
+        </Layout>
       </SessionProvider>
     </div>
   );

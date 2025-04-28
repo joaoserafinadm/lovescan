@@ -1,15 +1,68 @@
+'use client'
+
 import { ChevronLeft } from "lucide-react";
 import Button from "../components/Button";
 import PresentationExample from "../Presentation";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useEffect } from "react";
+import axios from "axios";
+import Cookie from 'js-cookie'
+import jwt from 'jsonwebtoken'
 
 
 
 
-
-export default function Config_04() {
+export default function Config_04(props) {
 
     const { data: session, status } = useSession();
+
+    const token = jwt.decode(Cookie.get('auth'))
+
+
+    const { userName,
+        loveName,
+        day,
+        month,
+        year,
+        imagesArray,
+        descriptionsArray,
+        letterContent } = props
+
+    useEffect(() => {
+
+        console.log("session", session)
+
+        if (session) {
+            handleGoogleSignUp(session)
+        }
+
+    }, [session])
+
+
+    const handleGoogleSignUp = async (session) => {
+
+        console.log("handleGoogleSignUp", session)
+
+        const data = {
+            userName,
+            loveName,
+            day,
+            month,
+            year,
+            imagesArray,
+            descriptionsArray,
+            letterContent
+        }
+
+        await axios.post(`/api/login/socialSignUp`, { user: session.user, presentationData: data })
+            .then(async (res) => {
+
+                console.log("handleGoogleSignUp res", res)
+                await signOut({ redirect: false })
+            })
+
+
+    }
 
 
 
@@ -30,7 +83,7 @@ export default function Config_04() {
                             Abrir apresentação
                         </Button>
                     </div>
-                    {session ?
+                    {token ?
                         <div className="col-12 d-flex justify-content-center my-3">
                             <Button size="lg" rounded="full" className="mx-1"  >
                                 Botão para finalizar compra

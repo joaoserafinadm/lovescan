@@ -4,11 +4,15 @@ import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import Button from "../components/Button";
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { closeModal } from "@/utils/modalControl";
-
+import Cookie from 'js-cookie'
+import jwt from 'jsonwebtoken'
 
 
 
 export default function SignUpModal() {
+
+        const token = jwt.decode(Cookie.get('auth'))
+    
 
     const { data: session, status } = useSession();
 
@@ -44,11 +48,13 @@ export default function SignUpModal() {
 
 
     useEffect(() => {
+        console.log("Status da sessão:", status);
+        console.log("Detalhes da sessão:", session);
         if (session?.user) {
-
-            closeModal()
+            console.log("Usuário autenticado:", session.user);
+            // closeModal();
         }
-    }, [session])
+    }, [session, status]);
 
 
     return (
@@ -60,7 +66,7 @@ export default function SignUpModal() {
 
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {session?.user ?
+                    {session ?
                         <div class="modal-body">
                             <div className="col-12">
                                 <p>Bem vindo {session?.user?.name}</p>
