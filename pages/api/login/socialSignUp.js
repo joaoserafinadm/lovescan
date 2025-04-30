@@ -6,7 +6,7 @@ const cookie = require('cookie')
 export default async (req, res) => {
     if (req.method === 'POST') {
         try {
-            const { user, presentationData } = req.body
+            const { user } = req.body
             if (!user) return res.status(400).json({ error: 'Missing body parameters.' });
 
             const { db } = await connect();
@@ -51,15 +51,6 @@ export default async (req, res) => {
                     maxAge: 31536000
                 }));
 
-                if (presentationData) {
-                    const newPresentationData = {
-                        ...presentationData,
-                        user_id: _id.toString()
-                    }
-
-                    const { insertedId: presentationId } = await db.collection('presentations').insertOne(newPresentationData);
-                    if (!presentationId) return res.status(400).json({ error: 'Error creating presentation.' });
-                }
 
                 return res.status(200).json({ message: 'User created successfully.' });
             } else {
@@ -82,16 +73,6 @@ export default async (req, res) => {
                     maxAge: 31536000
                 }));
 
-                if (presentationData) {
-                    const newPresentationData = {
-                        ...presentationData,
-                        user_id: userExist._id.toString()
-                    }
-
-                    const { insertedId: presentationId } = await db.collection('presentations').insertOne(newPresentationData);
-                    if (!presentationId) return res.status(400).json({ error: 'Error creating presentation.' });
-                    return res.status(200).json({ message: 'User logged in successfully.', presentationId: presentationId });
-                }
                 return res.status(200).json({ message: 'User logged in successfully.' });
 
             }

@@ -50,21 +50,9 @@ export default function Config_04(props) {
 
         console.log("handleGoogleSignUp", session)
 
-        const data = {
-            userName,
-            loveName,
-            day,
-            month,
-            year,
-            imagesArray,
-            descriptionsArray,
-            letterContent
-        }
-
-        await axios.post(`/api/login/socialSignUp`, { user: session.user, presentationData: data })
+        await axios.post(`/api/login/socialSignUp`, { user: session.user })
             .then(async (res) => {
 
-                console.log("handleGoogleSignUp res", res)
                 await signOut({ redirect: false })
             })
 
@@ -75,8 +63,25 @@ export default function Config_04(props) {
     const handlePayment = async () => {
         try {
             setLoadingPayment(true);
-
-            // Criar a preferência no servidor
+    
+            const data = {
+                userName,
+                loveName,
+                day,
+                month,
+                year,
+                imagesArray,
+                descriptionsArray,
+                letterContent
+            };
+    
+            // Primeiro salva os dados da apresentação
+            await axios.post(`/api/presentation`, { 
+                user_id: token?._id, 
+                presentationData: data 
+            });
+            
+            // Depois cria a preferência de pagamento
             const response = await fetch('/api/mercadopago/create-preference', {
                 method: 'POST',
                 headers: {
@@ -84,25 +89,23 @@ export default function Config_04(props) {
                 },
                 body: JSON.stringify({
                     productId: 'credit-1',
-                    userId: token?._id, // ID do usuário logado
+                    userId: token?._id,
                 }),
             });
-
-            const data = await response.json();
-
-            console.log('Response data:', data, response);
-
+    
+            const responseData = await response.json();
+    
             if (!response.ok) {
-                throw new Error(data.error || 'Erro ao processar pagamento');
+                throw new Error(responseData.error || 'Erro ao processar pagamento');
             }
-
-            // Redirecionar para a página de checkout do Mercado Pago
-            const checkoutUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?preference-id=${data.preferenceId}`;
+    
+            // Redireciona para o checkout do Mercado Pago
+            const checkoutUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?preference-id=${responseData.preferenceId}`;
             router.push(checkoutUrl);
-
+    
         } catch (error) {
-            console.error('Erro ao iniciar pagamento:', error);
-            alert('Não foi possível iniciar o pagamento. Por favor, tente novamente.');
+            console.error('Erro ao processar pagamento:', error);
+            alert(error.message || 'Não foi possível completar a operação. Por favor, tente novamente.');
         } finally {
             setLoadingPayment(false);
         }
