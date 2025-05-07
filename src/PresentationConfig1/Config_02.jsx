@@ -124,10 +124,10 @@ export default function Config_02(props) {
 
 
                         <div className="col-12 d-flex justify-content-between mt-5">
-                            <Button outline variant="ghost" data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={1} >
+                            <Button outline variant="ghost" data-bs-target="#newPresentationCarousel" data-bs-slide-to={0} >
                                 <ChevronLeft /> Voltar
                             </Button>
-                            <Button outline data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={3} >
+                            <Button outline data-bs-target="#newPresentationCarousel" data-bs-slide-to={2} >
                                 Próximo <ChevronRight />
                             </Button>
                         </div>

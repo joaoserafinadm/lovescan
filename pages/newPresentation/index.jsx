@@ -1,15 +1,15 @@
+import Config_01 from "@/src/PresentationConfig1/Config_01";
+import Config_02 from "@/src/PresentationConfig1/Config_02";
+import Config_03 from "@/src/PresentationConfig1/Config_03";
+import Config_04 from "@/src/PresentationConfig1/Config_04";
+import PresentationPreviewModal from "@/src/PresentationConfig1/PresentationPreviewModal";
+import SignUpModal from "@/src/PresentationConfig1/SignUpModal";
 import { useState } from "react";
-import Config_01 from "./Config_01";
-import Config_02 from "./Config_02";
-import FirstSlide from "./FirstSlide";
-import Config_03 from "./Config_03";
-import Config_04 from "./Config_04";
-import PresentationPreviewModal from "./PresentationPreviewModal";
-import SignUpModal from "./SignUpModal";
 
 
 
-export default function PresentationConfig1() {
+
+export default function newPresentation() {
 
     const [userName, setUserName] = useState('');
     const [loveName, setLoveName] = useState('');
@@ -42,12 +42,10 @@ export default function PresentationConfig1() {
             <div className=" d-flex align-items-center justify-content-center " >
                 <div className="row d-flex justify-content-center">
                     <div className="col-12 col-lg-5">
-                        <div className=" carousel slide row " data-bs-touch="false" data-bs-interval='false' id="presentationConfig1Carousel">
+                        <div className=" carousel slide row " data-bs-touch="false" data-bs-interval='false' id="newPresentationCarousel">
                             <div className="carousel-inner ">
+
                                 <div className="carousel-item active">
-                                    <FirstSlide />
-                                </div>
-                                <div className="carousel-item ">
                                     <Config_01
                                         userName={userName} setUserName={setUserName}
                                         loveName={loveName} setLoveName={setLoveName}
@@ -59,7 +57,8 @@ export default function PresentationConfig1() {
                                     />
                                 </div>
                                 <div className="carousel-item ">
-                                    <Config_02 setImagesArray={setImagesArray}
+                                    <Config_02
+                                        setImagesArray={setImagesArray}
                                         setDescriptionsArray={setDescriptionsArray} />
                                 </div>
                                 <div className="carousel-item ">

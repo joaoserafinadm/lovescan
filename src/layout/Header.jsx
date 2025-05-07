@@ -3,8 +3,16 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ChevronDown, LogIn } from 'lucide-react';
 import styles from './Header.module.css';
+import Cookie from 'js-cookie';
+import jwt from 'jsonwebtoken';
+import LoginModal from './login/LoginModal';
 
 const Header = ({ user = null }) => {
+
+  const token = jwt.decode(Cookie.get('auth'))
+
+
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -12,33 +20,35 @@ const Header = ({ user = null }) => {
   };
 
   return (
-    <header className={styles.header}>
-      <div className={styles.container}>
-        {/* Mobile Menu Toggle (esquerda em mobile) */}
-        <div className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
-          {mobileMenuOpen ? <X size={24} color="#ffffff" /> : <Menu size={24} color="#ffffff" />}
-        </div>
+    <>
+      <LoginModal />
+      <header className={styles.header}>
+        <div className={styles.container}>
+          {/* Mobile Menu Toggle (esquerda em mobile) */}
+          <div className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
+            {mobileMenuOpen ? <X size={24} color="#ffffff" /> : <Menu size={24} color="#ffffff" />}
+          </div>
 
-        {/* Logo/Nome do App (centralizado em mobile) */}
-        <div className={styles.logo}>
-          <Link href="/">
-            <img src="/LOGO_01.png" alt="" height={40} />
-          </Link>
-        </div>
+          {/* Logo/Nome do App (centralizado em mobile) */}
+          <div className={styles.logo}>
+            <Link href="/">
+              <img src="/LOGO_01.png" alt="" height={40} />
+            </Link>
+          </div>
 
-        {/* Navegação Desktop */}
-        <nav className={styles.desktopNav}>
-          <ul className={styles.navList}>
-            <li className={styles.navItem}>
-              <Link href="/" className={styles.navLink}>Home</Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/templates/buttons" className={styles.navLink}>Botão</Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/templates/inputs" className={styles.navLink}>Input</Link>
-            </li>
-            {/* <li className={`${styles.navItem} ${styles.hasDropdown}`}>
+          {/* Navegação Desktop */}
+          <nav className={styles.desktopNav}>
+            <ul className={styles.navList}>
+              <li className={styles.navItem}>
+                <Link href="/" className={styles.navLink}>Home</Link>
+              </li>
+              <li className={styles.navItem}>
+                <Link href="/templates/buttons" className={styles.navLink}>Botão</Link>
+              </li>
+              <li className={styles.navItem}>
+                <Link href="/templates/inputs" className={styles.navLink}>Input</Link>
+              </li>
+              {/* <li className={`${styles.navItem} ${styles.hasDropdown}`}>
               <span className={styles.navLink}>
                 Serviços <ChevronDown size={16} />
               </span>
@@ -54,54 +64,72 @@ const Header = ({ user = null }) => {
             <li className={styles.navItem}>
               <Link href="/contact" className={styles.navLink}>Contato</Link>
             </li> */}
-          </ul>
-        </nav>
+            </ul>
+          </nav>
 
-        {/* CTA/Avatar (direita) */}
-        <div className={styles.cta}>
-          {user ? (
-            <div className={styles.userAvatar}>
-              <img
-                src={user?.photoURL || "https://via.placeholder.com/40"}
-                alt={user?.name || "Usuário"}
-                className={styles.avatarImage}
-              />
-            </div>
-          ) : (
-            <div className={styles.ctaWrapper}>
-              {/* Botão de Login para Desktop */}
-              <button className={styles.ctaButton}>Começar Agora</button>
+          {/* CTA/Avatar (direita) */}
+          <div className={styles.cta}>
+            {user ? (
+              <div className={styles.userAvatar}>
+                <img
+                  src={user?.photoURL || "https://via.placeholder.com/40"}
+                  alt={user?.name || "Usuário"}
+                  className={styles.avatarImage}
+                />
+              </div>
+            ) : (
+              <div className={styles.ctaWrapper}>
+                {/* Botão de Login para Desktop */}
+                {token ?
+                    <img
+                      src={token?.profileImageUrl || "/USER.png"}
+                      alt={token?.userName || "Usuário"}
+                      className={`${styles.avatarImage} ${styles.hideMobile} cardAnimation `}
+                    />
+                  :
+                  <button className={styles.ctaButton} data-bs-toggle="modal" data-bs-target="#loginModal">Entrar</button>
 
-              {/* Botão de Login para Mobile */}
-              <Link href="/login" className={styles.loginButton}>
-                <LogIn size={20} />
-              </Link>
-            </div>
-          )}
+                }
+
+                {/* Botão de Login para Mobile */}
+                {token ?
+                    <img
+                      src={token?.profileImageUrl || "/USER.png"}
+                      alt={token?.userName || "Usuário"}
+                      className={`${styles.avatarImage} ${styles.desktopShow} cardAnimation`}
+                    />
+                  :
+                  <div data-bs-toggle="modal" data-bs-target="#loginModal" className={styles.loginButton}>
+                    <LogIn size={20} />
+                  </div>
+
+                }
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Menu Mobile - Tela cheia, vindo da esquerda */}
-      <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.open : ''}`}>
-        <div className={styles.mobileMenuHeader}>
-          <img src="/LOGO_01.png" alt="" height={40} />
-          <button className={styles.mobileMenuClose} onClick={toggleMobileMenu}>
-            <X size={24} color="#ffffff" />
-          </button>
-        </div>
+        {/* Menu Mobile - Tela cheia, vindo da esquerda */}
+        <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.open : ''}`}>
+          <div className={styles.mobileMenuHeader}>
+            <img src="/LOGO_01.png" alt="" height={40} />
+            <button className={styles.mobileMenuClose} onClick={toggleMobileMenu}>
+              <X size={24} color="#ffffff" />
+            </button>
+          </div>
 
-        <nav className={styles.mobileNavContainer}>
-          <ul className={styles.mobileNavList}>
-            <li className={styles.mobileNavItem}>
-              <Link href="/" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Home</Link>
-            </li>
-            <li className={styles.mobileNavItem}>
-              <Link href="/templates/buttons" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Botão</Link>
-            </li>
-            <li className={styles.mobileNavItem}>
-              <Link href="/templates/inputs" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Input</Link>
-            </li>
-            {/* <li className={styles.mobileNavItem}>
+          <nav className={styles.mobileNavContainer}>
+            <ul className={styles.mobileNavList}>
+              <li className={styles.mobileNavItem}>
+                <Link href="/" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Home</Link>
+              </li>
+              <li className={styles.mobileNavItem}>
+                <Link href="/templates/buttons" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Botão</Link>
+              </li>
+              <li className={styles.mobileNavItem}>
+                <Link href="/templates/inputs" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Input</Link>
+              </li>
+              {/* <li className={styles.mobileNavItem}>
               <details className={styles.mobileDropdown}>
                 <summary className={styles.mobileNavLink}>Serviços</summary>
                 <ul className={styles.mobileDropdownContent}>
@@ -117,16 +145,18 @@ const Header = ({ user = null }) => {
             <li className={styles.mobileNavItem}>
               <Link href="/contact" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Contato</Link>
             </li> */}
-          </ul>
+            </ul>
 
-          {!user && (
-            <div className={styles.mobileCtaContainer}>
-              <button className={styles.mobileCta}>Começar Agora</button>
-            </div>
-          )}
-        </nav>
-      </div>
-    </header>
+            {!user && (
+              <div className={styles.mobileCtaContainer}>
+                <button className={styles.mobileCta} data-bs-toggle="modal" data-bs-target="#loginModal">Entrar</button>
+              </div>
+            )}
+          </nav>
+        </div>
+      </header>
+    </>
+
   );
 };
 

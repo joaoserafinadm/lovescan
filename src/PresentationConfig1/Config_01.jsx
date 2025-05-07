@@ -120,7 +120,7 @@ export default function Config_01(props) {
                         </div>
                     </div>
                     <div className="col-12 mt-5">
-                        <p className="">Escolha a melhor foto de vocês</p>
+                        <p className="">Escolha a melhor foto do casal</p>
                     </div>
                     <div className="col-6 my-2 ">
                         {/* <ImageSelect/> */}
@@ -134,7 +134,7 @@ export default function Config_01(props) {
                         </ImageUploadWithEffect>
                     </div>
                     <div className="col-12 d-flex justify-content-end mt-5">
-                        <Button outline data-bs-target="#presentationConfig1Carousel" data-bs-slide-to={2} disabled={!userName || !loveName || !day || !month || !year}>
+                        <Button outline data-bs-target="#newPresentationCarousel" data-bs-slide-to={1} disabled={!userName || !loveName || !day || !month || !year || !couplePhoto}>
                             Próximo <ChevronRight />
                         </Button>
                     </div>

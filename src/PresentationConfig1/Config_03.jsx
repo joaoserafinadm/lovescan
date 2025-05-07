@@ -64,15 +64,15 @@ export default function Config_03(props) {
               <Button
                 outline
                 variant="ghost"
-                data-bs-target="#presentationConfig1Carousel"
-                data-bs-slide-to={2}
+                data-bs-target="#newPresentationCarousel"
+                data-bs-slide-to={1}
               >
                 <ChevronLeft /> Voltar
               </Button>
               <Button
                 outline
-                data-bs-target="#presentationConfig1Carousel"
-                data-bs-slide-to={4}
+                data-bs-target="#newPresentationCarousel"
+                data-bs-slide-to={3}
               >
                 Próximo <ChevronRight />
               </Button>

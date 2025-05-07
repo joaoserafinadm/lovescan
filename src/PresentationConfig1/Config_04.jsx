@@ -162,8 +162,8 @@ export default function Config_04(props) {
                         <Button
                             outline
                             variant="ghost"
-                            data-bs-target="#presentationConfig1Carousel"
-                            data-bs-slide-to={3}
+                            data-bs-target="#newPresentationCarousel"
+                            data-bs-slide-to={2}
                         >
                             <ChevronLeft /> Voltar
                         </Button>

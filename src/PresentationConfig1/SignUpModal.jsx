@@ -6,13 +6,14 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { closeModal } from "@/utils/modalControl";
 import Cookie from 'js-cookie'
 import jwt from 'jsonwebtoken'
+import axios from "axios";
 
 
 
 export default function SignUpModal() {
 
-        const token = jwt.decode(Cookie.get('auth'))
-    
+    const token = jwt.decode(Cookie.get('auth'))
+
 
     const { data: session, status } = useSession();
 
@@ -21,6 +22,11 @@ export default function SignUpModal() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [notRobot, setNotRobot] = useState(false);
+
+    const [userNameError, setUserNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
@@ -55,6 +61,59 @@ export default function SignUpModal() {
             // closeModal();
         }
     }, [session, status]);
+
+    const validate = () => {
+
+        setUserNameError('')
+        setEmailError('')
+        setPasswordError('')
+        setConfirmPasswordError('')
+
+        let userNameError = '';
+        let emailError = '';
+        let passwordError = '';
+        let confirmPasswordError = '';
+
+        if (!userName) userNameError = 'Campo obrigatorio';
+        if (!email) emailError = 'Campo obrigatorio';
+        if (!password) passwordError = 'Campo obrigatorio';
+        if (!confirmPassword) confirmPasswordError = 'Campo obrigatorio';
+        if (password !== confirmPassword) confirmPasswordError = 'Senhas diferentes'
+
+        if (userNameError || emailError || passwordError || confirmPasswordError || notRobotError) {
+            setUserNameError(userNameError)
+            setEmailError(emailError)
+            setPasswordError(passwordError)
+            setConfirmPasswordError(confirmPasswordError)
+            return false
+        } else {
+            return true
+        }
+
+    }
+
+
+
+    const handleSignUp = async () => {
+
+        const isValid = validate()
+
+        if (!isValid) return
+
+        const data = {
+            userName,
+            email,
+            password
+        }
+
+        // await axios.post(`/api/signUp`, data)
+
+
+
+
+
+
+    }
 
 
     return (
@@ -102,6 +161,8 @@ export default function SignUpModal() {
                                     value={userName}
                                     prefix={<User size={18} />}
                                     onChange={e => setUserName(e.target.value)}
+                                    error={userNameError}
+                                    helperText={userNameError}
                                 />
                             </div>
                             <div className="col-12 my-3">
@@ -117,6 +178,8 @@ export default function SignUpModal() {
                                     value={email}
                                     prefix={<Mail size={18} />}
                                     onChange={e => setEmail(e.target.value)}
+                                    error={emailError}
+                                    helperText={emailError}
                                 />
                             </div>
                             <div className="col-12 my-3">
@@ -137,6 +200,8 @@ export default function SignUpModal() {
                                             <EyeOff size={18} onClick={() => setPasswordVisible(false)} style={{ cursor: 'pointer' }} /> :
                                             <Eye size={18} onClick={() => setPasswordVisible(true)} style={{ cursor: 'pointer' }} />
                                     }
+                                    error={passwordError}
+                                    helperText={passwordError}
                                 />
                             </div>
                             <div className="col-12 my-3">
@@ -157,6 +222,8 @@ export default function SignUpModal() {
                                     label="Confirmar a senha"
                                     value={confirmPassword}
                                     onChange={e => setConfirmPassword(e.target.value)}
+                                    error={confirmPasswordError}
+                                    helperText={confirmPasswordError}
                                 />
                             </div>
                             <div className="col-12 my-3">
