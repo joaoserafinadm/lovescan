@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import Cookie from 'js-cookie'
 import LandingPage from "@/src/indexPage/LandingPage";
 import Link from "next/link";
-import IndexPage from "@/src/indexPage/indexPage";
+import IndexPage from "@/src/indexPage/IndexPage";
 
 export default function Home() {
 
