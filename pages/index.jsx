@@ -18,18 +18,9 @@ export default function Home() {
     <>
       {token ?
         <IndexPage />
-
-
         :
-
         <LandingPage />
-
       }
-
     </>
-
-
-
-    // <PresentationConfig1/>
   );
 }
