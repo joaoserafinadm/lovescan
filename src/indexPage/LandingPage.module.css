@@ -161,6 +161,12 @@
     background-color: var(--light-pink);
     text-align: center;
   }
+
+  .container .forCompanies {
+    padding: 5rem 2rem;
+    background-color: var(--light-pink);
+    text-align: center;
+  }
   
   .container .featureGrid {
     display: grid;
@@ -286,7 +292,7 @@
   @media (max-width: 992px) {
     .container .hero {
       flex-direction: column;
-      text-align: center;
+      /* text-align: center; */
     }
     
     .container .heroContent {

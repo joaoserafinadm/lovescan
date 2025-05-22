@@ -79,3 +79,7 @@ a {
 .cardAnimation:hover {
 	transform: translate(1px, -3px);
 }
+
+Link {
+  text-decoration: none;
+}
