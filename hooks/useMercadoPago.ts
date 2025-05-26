@@ -21,7 +21,10 @@ const useMercadoPago = () => {
 
       const data = await response.json();
 
-      router.push(data.initPoint);
+      //abrir em uma nova aba
+      // window.open(data.initPoint, "_blank");
+
+      router.push(data.initPoint);  
     } catch (error) {
       console.log(error);
     }
