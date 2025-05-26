@@ -6,10 +6,11 @@ import styles from './Header.module.css';
 import Cookie from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import LoginModal from './login/LoginModal';
+import { useAuth } from './context/AuthContext';
 
 const Header = ({ user = null }) => {
 
-  const token = jwt.decode(Cookie.get('auth'))
+  const { token } = useAuth();
 
 
 

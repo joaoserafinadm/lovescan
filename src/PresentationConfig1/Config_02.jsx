@@ -62,7 +62,7 @@ export default function Config_02(props) {
                     <div className="row d-flex justify-content-center">
 
                         <div className="col-12 d-flex justify-content-start  my-3">
-                            <h2 className="text-c-primary">Adicione momentos inesquecíveis registrados em fotos</h2>
+                            <h2 className="text-c-primary">Adicione momentos inesquecíveis registrados em fotos 🖼️</h2>
                         </div>
                         <div className="col-12 d-flex justify-content-start  my-3">
                             <p className="">Selecione até 4 fotos que representem momentos marcantes na vida de vocês.</p>

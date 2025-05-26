@@ -159,16 +159,16 @@ const LandingPage = () => {
               Ofereça aos seus clientes uma experiência única!
             </p>
             <div className={styles.ctaButton}>
-              <Link href="/newPresentation">
-                <Button
-                  size="lg"
-                  fullWidth
-                  variant="primary"
-                  className="fw-bold"
-                >
-                  Cadastre-se e confira nossas ofertas especiais
-                </Button>
-              </Link>
+              <Button
+                size="lg"
+                fullWidth
+                variant="primary"
+                className="fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+              >
+                Cadastre-se e confira nossas ofertas especiais
+              </Button>
             </div>
           </div>
         </div>
@@ -223,7 +223,9 @@ const LandingPage = () => {
         <div className={styles.ctaContent}>
           <h2>Pronto Para Surpreender Seu Amor?</h2>
           <p>Crie sua apresentação romântica em minutos e eternize seu amor.</p>
-          <Button>Criar Minha Apresentação</Button>
+          <Link href="/newPresentation">
+            <Button>Criar Minha Apresentação</Button>
+          </Link>
         </div>
       </section>
 

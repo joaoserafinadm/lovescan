@@ -1,6 +1,7 @@
 import Config_01 from "@/src/PresentationConfig1/Config_01";
 import Config_02 from "@/src/PresentationConfig1/Config_02";
 import Config_03 from "@/src/PresentationConfig1/Config_03";
+import Config_031 from "@/src/PresentationConfig1/Config_031";
 import Config_04 from "@/src/PresentationConfig1/Config_04";
 import PresentationPreviewModal from "@/src/PresentationConfig1/PresentationPreviewModal";
 import SignUpModal from "@/src/PresentationConfig1/SignUpModal";
@@ -25,6 +26,8 @@ export default function newPresentation() {
 
     const [letterContent, setLetterContent] = useState('');
 
+    const [musicLink, setMusicLink] = useState('');
+
 
     return (
         <>
@@ -38,8 +41,11 @@ export default function newPresentation() {
                 imagesArray={imagesArray}
                 descriptionsArray={descriptionsArray}
                 letterContent={letterContent} />
-            <SignUpModal />
-            <div className=" d-flex align-items-center justify-content-center " >
+
+                
+
+
+            <div className=" d-flex align-items-center justify-content-center fadeItem" >
                 <div className="row d-flex justify-content-center">
                     <div className="col-12 col-lg-5">
                         <div className=" carousel slide row " data-bs-touch="false" data-bs-interval='false' id="newPresentationCarousel">
@@ -67,6 +73,11 @@ export default function newPresentation() {
                                         setLetterContent={setLetterContent} />
                                 </div>
                                 <div className="carousel-item ">
+                                    <Config_031
+                                        musicLink={musicLink}
+                                        setMusicLink={setMusicLink} />
+                                </div>
+                                <div className="carousel-item ">
                                     <Config_04
                                         userName={userName}
                                         loveName={loveName}
@@ -76,6 +87,7 @@ export default function newPresentation() {
                                         imagesArray={imagesArray}
                                         descriptionsArray={descriptionsArray}
                                         letterContent={letterContent}
+                                        musicLink={musicLink}
                                     />
                                 </div>
                             </div>

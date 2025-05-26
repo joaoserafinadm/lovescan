@@ -28,7 +28,7 @@ export default function Config_01(props) {
 
     const days = Array.from({ length: 31 }, (_, index) => index + 1);
 
-    const monthKeys = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    const monthKeys = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
     const monthOptions = monthKeys.map((key, index) => ({
         value: String(index + 1).padStart(2, '0'), // Ex: "01", "02", ..., "12"
@@ -36,7 +36,7 @@ export default function Config_01(props) {
         //   label: t(`months.${key}`),
     }));
 
-    const years = Array.from({ length: 100 }, (_, index) => 2023 - index);
+    const years = Array.from({ length: 100 }, (_, index) => 2025 - index);
 
 
     return (
@@ -47,13 +47,13 @@ export default function Config_01(props) {
                 <div className="row   d-flex justify-content-center">
 
                     <div className="col-12 d-flex justify-content-start  my-3">
-                        <h2 className="text-c-primary">Conte-me mais sobre vocês...</h2>
+                        <h2 className="text-c-primary">Conte-me mais sobre vocês... 💕</h2>
                     </div>
 
                     <div className="col-12 col-md-6 my-2">
                         <Input
                             type="text"
-                            placeholder="Seu primeiro nome"
+                            placeholder="Seu primeiro nome (ou apelido)"
                             name="firstName"
                             id="firstName"
                             variant="default"
@@ -67,7 +67,7 @@ export default function Config_01(props) {
                     <div className="col-12 col-md-6 my-2">
                         <Input
                             type="text"
-                            placeholder="Digite o nome do seu amor"
+                            placeholder="Digite o nome do seu amor (ou apelido)"
                             name="luvFirstName"
                             id="luvFirstName"
                             variant="default"

@@ -17,32 +17,30 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-import { Dancing_Script } from 'next/font/google';
+import { Dancing_Script } from "next/font/google";
+import { AuthProvider } from "@/src/layout/context/AuthContext";
 
 // Configure a fonte
 export const dancingScript = Dancing_Script({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: ['400', '500', '600', '700'], // Pesos disponíveis para esta fonte
-  variable: '--font-dancing-script', // Nome da variável CSS
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"], // Pesos disponíveis para esta fonte
+  variable: "--font-dancing-script", // Nome da variável CSS
 });
 
-
 export default function App({ Component, session, pageProps }) {
-
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
 
-
   return (
-    <div className={`${geistSans.variable} ${geistMono.variable}`} >
+    <div className={`${geistSans.variable} ${geistMono.variable}`}>
       <SessionProvider session={session}>
-
-        <Layout>
-
-          <Component {...pageProps} />
-        </Layout>
+        <AuthProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthProvider>
       </SessionProvider>
     </div>
   );

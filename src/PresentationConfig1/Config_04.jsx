@@ -9,6 +9,7 @@ import axios from "axios";
 import Cookie from 'js-cookie'
 import jwt from 'jsonwebtoken'
 import { useRouter } from "next/router";
+import { closeModal } from "@/utils/modalControl";
 
 
 
@@ -33,31 +34,8 @@ export default function Config_04(props) {
         year,
         imagesArray,
         descriptionsArray,
-        letterContent } = props
-
-    useEffect(() => {
-
-        console.log("session", session)
-
-        if (session) {
-            handleGoogleSignUp(session)
-        }
-
-    }, [session])
-
-
-    const handleGoogleSignUp = async (session) => {
-
-        console.log("handleGoogleSignUp", session)
-
-        await axios.post(`/api/login/socialSignUp`, { user: session.user })
-            .then(async (res) => {
-
-                await signOut({ redirect: false })
-            })
-
-
-    }
+        letterContent,
+        musicLink } = props
 
 
     const handlePayment = async () => {
@@ -72,7 +50,8 @@ export default function Config_04(props) {
                 year,
                 imagesArray,
                 descriptionsArray,
-                letterContent
+                letterContent,
+                musicLink
             };
     
             // Primeiro salva os dados da apresentação
@@ -144,7 +123,7 @@ export default function Config_04(props) {
                                 <p>Para continuar, cadastre-se na nossa plataforma.</p>
                             </div>
                             <div className="col-12 d-flex justify-content-center mt-3">
-                                <Button size="lg" rounded="full" variant="primary" className="mx-1" data-bs-toggle="modal" data-bs-target="#signUpPresentationModal">
+                                <Button size="lg" rounded="full" variant="primary" className="mx-1" data-bs-toggle="modal" data-bs-target="#loginModal">
                                     Cadastre-se
                                 </Button>
 
@@ -163,7 +142,7 @@ export default function Config_04(props) {
                             outline
                             variant="ghost"
                             data-bs-target="#newPresentationCarousel"
-                            data-bs-slide-to={2}
+                            data-bs-slide-to={3}
                         >
                             <ChevronLeft /> Voltar
                         </Button>

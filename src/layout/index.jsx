@@ -1,3 +1,4 @@
+import { useAuth } from "./context/AuthContext";
 import Credits from "./Credits";
 import Header from "./Header";
 import Cookie from 'js-cookie'
@@ -5,7 +6,8 @@ import jwt from 'jsonwebtoken'
 
 export default function Layout({ children }) {
 
-  const token = jwt.decode(Cookie.get('auth'))
+    const { token } = useAuth();
+  
   return (
     <>
       <Header />
