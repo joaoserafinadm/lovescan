@@ -3,14 +3,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ChevronDown, LogIn } from 'lucide-react';
 import styles from './Header.module.css';
-import Cookie from 'js-cookie';
-import jwt from 'jsonwebtoken';
 import LoginModal from './login/LoginModal';
 import { useAuth } from './context/AuthContext';
 
-const Header = ({ user = null }) => {
+const Header = ({  }) => {
 
-  const { token } = useAuth();
+  const { user } = useAuth();
 
 
 
@@ -73,7 +71,7 @@ const Header = ({ user = null }) => {
             {user ? (
               <div className={styles.userAvatar}>
                 <img
-                  src={user?.photoURL || "https://via.placeholder.com/40"}
+                  src={user?.profileImageUrl || "https://via.placeholder.com/40"}
                   alt={user?.name || "Usuário"}
                   className={styles.avatarImage}
                 />
@@ -81,10 +79,10 @@ const Header = ({ user = null }) => {
             ) : (
               <div className={styles.ctaWrapper}>
                 {/* Botão de Login para Desktop */}
-                {token ?
+                {user ?
                     <img
-                      src={token?.profileImageUrl || "/USER.png"}
-                      alt={token?.userName || "Usuário"}
+                      src={user?.profileImageUrl || "/USER.png"}
+                      alt={user?.userName || "Usuário"}
                       className={`${styles.avatarImage} ${styles.hideMobile} cardAnimation `}
                     />
                   :
@@ -93,10 +91,10 @@ const Header = ({ user = null }) => {
                 }
 
                 {/* Botão de Login para Mobile */}
-                {token ?
+                {user ?
                     <img
-                      src={token?.profileImageUrl || "/USER.png"}
-                      alt={token?.userName || "Usuário"}
+                      src={user?.profileImageUrl || "/USER.png"}
+                      alt={user?.userName || "Usuário"}
                       className={`${styles.avatarImage} ${styles.desktopShow} cardAnimation`}
                     />
                   :
