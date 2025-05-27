@@ -84,6 +84,7 @@ export default function newPresentation() {
                                         day={day}
                                         month={month}
                                         year={year}
+                                        couplePhoto={couplePhoto}
                                         imagesArray={imagesArray}
                                         descriptionsArray={descriptionsArray}
                                         letterContent={letterContent}

@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const LandingPage = () => {
   return (
-    <div className={styles.container}>
+    <div className={`pages ${styles.container}`}>
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className="col-12 col-lg-6 d-flex justify-content-start justify-content-lg-center">

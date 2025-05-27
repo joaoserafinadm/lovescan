@@ -83,3 +83,9 @@ a {
 Link {
   text-decoration: none;
 }
+
+.pages {
+  width: 100%;
+  max-width: 1400px !important;
+  margin: 0 auto;
+}

@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { closeModal } from "@/utils/modalControl";
 import useMercadoPago from "@/hooks/useMercadoPago";
 import { useAuth } from "../layout/context/AuthContext";
+import { createImageUrl } from "@/utils/createImageUrl";
 
 export default function Config_04(props) {
   const { createMercadoPagoCheckout } = useMercadoPago();
@@ -20,8 +21,7 @@ export default function Config_04(props) {
 
   const router = useRouter();
 
-    const {token, user } = useAuth();
-  
+  const { token, user } = useAuth();
 
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [product, setProduct] = useState(null);
@@ -33,6 +33,7 @@ export default function Config_04(props) {
     day,
     month,
     year,
+    couplePhoto,
     imagesArray,
     descriptionsArray,
     letterContent,
@@ -40,9 +41,49 @@ export default function Config_04(props) {
   } = props;
 
   const handlePayment = async () => {
-      console.log("user", user);
+    setLoadingPayment(true);
+
     try {
-      setLoadingPayment(true);
+      const validImages = imagesArray.filter(
+        (item) =>
+          item !== null &&
+          item !== undefined &&
+          item.image !== null &&
+          item.image !== undefined
+      );
+
+      // Processar as imagens: converter para blob
+      const processedImages = await Promise.all(
+        validImages.map(async (item) => {
+          const blobFile = await fetch(item.image).then((r) => r.blob());
+          return {
+            blob: blobFile,
+            description: item.description || "", // preservar a descrição
+          };
+        })
+      );
+
+      // Extrair apenas os blobs para enviar ao Cloudinary
+      const blobsOnly = processedImages.map((item) => item.blob);
+
+      // Salvar no Cloudinary
+      const newImagesArray = await createImageUrl(
+        blobsOnly,
+        "PRESENTATION_IMAGES"
+      );
+
+      // Combinar as URLs retornadas com as descrições
+      const finalImagesArray = newImagesArray.map((imageUrl, index) => ({
+        image: imageUrl,
+        description: processedImages[index].description,
+      }));
+
+      const blobCouplePhoto = couplePhoto
+        ? await fetch(couplePhoto).then((r) => r.blob())
+        : "";
+      const newCouplePhoto = couplePhoto
+        ? await createImageUrl([blobCouplePhoto], "PRESENTATION_IMAGES")
+        : "";
 
       const data = {
         userName,
@@ -50,23 +91,22 @@ export default function Config_04(props) {
         day,
         month,
         year,
-        imagesArray,
-        descriptionsArray,
+        couplePhoto: newCouplePhoto[0],
+        imagesArray: finalImagesArray,
         letterContent,
         musicLink,
       };
 
-
       // Primeiro salva os dados da apresentação
       const response = await axios.post(`/api/presentation`, {
         user_id: user?._id,
-        presentationData: data
+        presentationData: data,
       });
 
       createMercadoPagoCheckout({
         presentation_id: response.data.presentationId,
         email: user?.email,
-        product_id: 'credit-1',
+        product_id: "credit-1",
       });
 
       // Depois cria a preferência de pagamento
