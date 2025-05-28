@@ -1,6 +1,18 @@
 import { connect } from '@/utils/db'
 import { sign } from 'jsonwebtoken'
-import { serialize } from 'cookie'
+
+// Função helper para criar cookie string
+function createCookieString(name, value, options = {}) {
+    let cookieString = `${name}=${value}`;
+    
+    if (options.maxAge) cookieString += `; Max-Age=${options.maxAge}`;
+    if (options.path) cookieString += `; Path=${options.path}`;
+    if (options.sameSite) cookieString += `; SameSite=${options.sameSite}`;
+    if (options.secure) cookieString += `; Secure`;
+    if (options.httpOnly) cookieString += `; HttpOnly`;
+    
+    return cookieString;
+}
 
 export default async (req, res) => {
     if (req.method === 'POST') {
@@ -41,14 +53,16 @@ export default async (req, res) => {
                     expiresIn: '365d'
                 })
 
-                // Definindo o cookie
-                res.setHeader('Set-Cookie', serialize('auth', jwt, {
+                // Definindo o cookie sem biblioteca externa
+                const cookieString = createCookieString('auth', jwt, {
                     httpOnly: false,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict',
+                    sameSite: 'Strict',
                     path: '/',
                     maxAge: 31536000
-                }));
+                });
+
+                res.setHeader('Set-Cookie', cookieString);
 
                 return res.status(200).json({ message: 'User created successfully.' });
             } else {
@@ -62,14 +76,16 @@ export default async (req, res) => {
                     expiresIn: '365d'
                 })
 
-                // Definindo o cookie
-                res.setHeader('Set-Cookie', serialize('auth', jwt, {
+                // Definindo o cookie sem biblioteca externa
+                const cookieString = createCookieString('auth', jwt, {
                     httpOnly: false,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict',
+                    sameSite: 'Strict',
                     path: '/',
                     maxAge: 31536000
-                }));
+                });
+
+                res.setHeader('Set-Cookie', cookieString);
 
                 return res.status(200).json({ message: 'User logged in successfully.' });
             }
