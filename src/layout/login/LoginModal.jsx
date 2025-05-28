@@ -5,13 +5,14 @@ import SignIn from "./signIn";
 import jwt from 'jsonwebtoken'
 import Cookie from 'js-cookie'
 import Button from "@/src/components/Button";
+import { useAuth } from "../context/AuthContext";
 
 
 
 
 export default function LoginModal(props) {
 
-    const token = jwt.decode(Cookie.get('auth'))
+    const { user } = useAuth();
 
     const [section, setSection] = useState('Cadastrar')
 
@@ -26,11 +27,11 @@ export default function LoginModal(props) {
 
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {token ?
+                    {user ?
                         <div className="modal-body">
                             <div className="row">
                                 <div className="col-12">
-                                    <p className="">Bem vindo(a) {token.userName}!</p>
+                                    <p className="">Bem vindo(a) {user.userName}!</p>
                                 </div>
                                 <div className="col-12">
                                     <Button variant="primary" fullWidth data-bs-dismiss="modal">Continuar</Button>

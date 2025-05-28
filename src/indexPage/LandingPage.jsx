@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./LandingPage.module.css";
 import Button from "../components/Button";
 import Image from "next/image";
 import { Heart } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "../layout/context/AuthContext";
+import { useRouter } from "next/router";
 
 const LandingPage = () => {
+  const { user } = useAuth();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.reload();
+    }
+  }, [user]);
+
   return (
-    <div className={`pages ${styles.container}`}>
+    <div className={` ${styles.container}`}>
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className="col-12 col-lg-6 d-flex justify-content-start justify-content-lg-center">

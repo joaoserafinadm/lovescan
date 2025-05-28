@@ -10,7 +10,7 @@ const Header = ({  }) => {
 
   const { user } = useAuth();
 
-
+console.log("user?.profileImageUrl", user?.profileImageUrl)
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

@@ -56,64 +56,78 @@ export default function MyPresentations(props) {
         <SpinnerLG />
       ) : (
         <>
-          {presentationsArray.map((elem) => (
-            <div className="col-12 col-lg-3 col-md-4 col-sm-6 mt-3 fadeItem">
-              <div className="card border-secondary bg-dark m-2">
-                <div className="square-image-container">
-                  <img
-                    src={elem.couplePhoto.url}
-                    className="background-image"
-                    alt="background"
-                  />
-                  <img
-                    src={elem.couplePhoto.url}
-                    className="main-image"
-                    alt="..."
-                  />
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title">
-                    {elem.userName} & {elem.loveName}
-                  </h5>
-                  {elem.status === "pending" && (
-                    <span className="badge bg-c-danger text-dark">
-                      Pendente
-                    </span>
-                  )}
-                  {elem.status === "active" && (
-                    <span className="badge bg-c-success text-dark">Ativa</span>
-                  )}
-                  {elem.status === "paused" && (
-                    <span className="badge bg-c-warning text-dark">
-                      Pausada
-                    </span>
-                  )}
-                  <hr />
-                  <p className="card-text small">
-                    desde: {elem.day}/{elem.month}/{elem.year}
-                  </p>
-                  <p className="card-text small">
-                    {elem.imagesArray.length} foto
-                    {elem.imagesArray.length > 1 ? "s" : ""}
-                  </p>
+          {presentationsArray.length > 0 ? (
+            <>
+              {presentationsArray.map((elem) => (
+                <div className="col-12 col-lg-3 col-md-4 col-sm-6 mt-3 fadeItem">
+                  <div className="card border-secondary bg-dark m-2">
+                    <div className="square-image-container">
+                      <img
+                        src={elem.couplePhoto.url}
+                        className="background-image"
+                        alt="background"
+                      />
+                      <img
+                        src={elem.couplePhoto.url}
+                        className="main-image"
+                        alt="..."
+                      />
+                    </div>
+                    <div className="card-body">
+                      <h5 className="card-title">
+                        {elem.userName} & {elem.loveName}
+                      </h5>
+                      {elem.status === "pending" && (
+                        <span className="badge bg-c-danger text-dark">
+                          Pendente
+                        </span>
+                      )}
+                      {elem.status === "active" && (
+                        <span className="badge bg-c-success text-dark">
+                          Ativa
+                        </span>
+                      )}
+                      {elem.status === "paused" && (
+                        <span className="badge bg-c-warning text-dark">
+                          Pausada
+                        </span>
+                      )}
+                      <hr />
+                      <p className="card-text small">
+                        desde: {elem.day}/{elem.month}/{elem.year}
+                      </p>
+                      <p className="card-text small">
+                        {elem.imagesArray.length} foto
+                        {elem.imagesArray.length > 1 ? "s" : ""}
+                      </p>
 
-                  <div className="row">
-                    <div className="col-12 d-flex justify-content-center">
-                      <Button variant="ghost" size="sm">
-                        <Info size={16} className="text-white" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Edit size={16} className="text-white" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <QrCode size={16} className="text-white" />
-                      </Button>
+                      <div className="row">
+                        <div className="col-12 d-flex justify-content-center">
+                          <Button variant="ghost" size="sm">
+                            <Info size={16} className="text-white" />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <Edit size={16} className="text-white" />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <QrCode size={16} className="text-white" />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+              ))}
+            </>
+          ) : (
+            <div className="row">
+              <div className="col-12 d-flex justify-content-center my-5">
+                <span className="text-center text-muted">
+                  Nenhuma apresentação cadastrada
+                </span>
               </div>
             </div>
-          ))}
+          )}
         </>
       )}
     </>
