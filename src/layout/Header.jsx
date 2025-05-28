@@ -1,22 +1,45 @@
 // Header.js
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, ChevronDown, LogIn } from 'lucide-react';
+import { Menu, X, ChevronDown, LogIn, User, Settings, LogOut } from 'lucide-react';
 import styles from './Header.module.css';
 import LoginModal from './login/LoginModal';
 import { useAuth } from './context/AuthContext';
 
 const Header = ({  }) => {
 
-  const { user } = useAuth();
-
-console.log("user?.profileImageUrl", user?.profileImageUrl)
+  const { user, logout } = useAuth(); // Assumindo que existe uma função logout no contexto
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  const toggleUserDropdown = () => {
+    setUserDropdownOpen(!userDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    logout(); // Chama a função de logout do contexto
+    setUserDropdownOpen(false);
+  };
+
+  // Fecha o dropdown quando clica fora dele
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -47,62 +70,70 @@ console.log("user?.profileImageUrl", user?.profileImageUrl)
               <li className={styles.navItem}>
                 <Link href="/templates/inputs" className={styles.navLink}>Input</Link>
               </li>
-              {/*<li className={`${styles.navItem} ${styles.hasDropdown}`}>
-              <span className={styles.navLink}>
-                Serviços <ChevronDown size={16} />
-              </span>
-              <ul className={styles.dropdown}>
-                <li><Link href="/service1" className={styles.dropdownItem}>Serviço 1</Link></li>
-                <li><Link href="/service2" className={styles.dropdownItem}>Serviço 2</Link></li>
-                <li><Link href="/service3" className={styles.dropdownItem}>Serviço 3</Link></li>
-              </ul>
-            </li>
-             <li className={styles.navItem}>
-              <Link href="/portfolio" className={styles.navLink}>Portfólio</Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/contact" className={styles.navLink}>Contato</Link>
-            </li> */}
             </ul>
           </nav>
 
           {/* CTA/Avatar (direita) */}
           <div className={styles.cta}>
             {user ? (
-              <div className={styles.userAvatar}>
-                <img
-                  src={user?.profileImageUrl || "/USER.png"}
-                  alt={user?.name || "Usuário"}
-                  className={styles.avatarImage}
-                />
+              <div className={styles.userAvatarWrapper} ref={dropdownRef}>
+                <div className={styles.userAvatar} onClick={toggleUserDropdown}>
+                  <img
+                    src={user?.profileImageUrl || "/USER.png"}
+                    alt={user?.name || "Usuário"}
+                    className={styles.avatarImage}
+                  />
+                  <ChevronDown 
+                    size={16} 
+                    className={`${styles.dropdownArrow} ${userDropdownOpen ? styles.rotated : ''}`}
+                  />
+                </div>
+                
+                {/* Dropdown do usuário */}
+                {userDropdownOpen && (
+                  <div className={styles.userDropdown}>
+                    <div className={styles.userInfo}>
+                      <img
+                        src={user?.profileImageUrl || "/USER.png"}
+                        alt={user?.userName || "Usuário"}
+                        className={styles.dropdownAvatar}
+                      />
+                      <div className={styles.userDetails}>
+                        <span className={styles.userName}>{user?.userName || "Usuário"}</span>
+                        <span className={`${styles.userEmail}`}>{user?.email}</span>
+                      </div>
+                    </div>
+                    
+                    <div className={styles.dropdownDivider}></div>
+                    
+                    <Link href="/profile" className={styles.dropdownItem} onClick={() => setUserDropdownOpen(false)}>
+                      <User size={16} />
+                      <span>Meu Perfil</span>
+                    </Link>
+                    
+                    <Link href="/settings" className={styles.dropdownItem} onClick={() => setUserDropdownOpen(false)}>
+                      <Settings size={16} />
+                      <span>Configurações</span>
+                    </Link>
+                    
+                    <div className={styles.dropdownDivider}></div>
+                    
+                    <button className={styles.dropdownItem} onClick={handleLogout}>
+                      <LogOut size={16} />
+                      <span>Sair</span>
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className={styles.ctaWrapper}>
                 {/* Botão de Login para Desktop */}
-                {user ?
-                    <img
-                      src={user?.profileImageUrl || "/USER.png"}
-                      alt={user?.userName || "Usuário"}
-                      className={`${styles.avatarImage} ${styles.hideMobile} `}
-                    />
-                  :
-                  <button className={styles.ctaButton} data-bs-toggle="modal" data-bs-target="#loginModal">Entrar</button>
-
-                }
+                <button className={styles.ctaButton} data-bs-toggle="modal" data-bs-target="#loginModal">Entrar</button>
 
                 {/* Botão de Login para Mobile */}
-                {user ?
-                    <img
-                      src={user?.profileImageUrl || "/USER.png"}
-                      alt={user?.userName || "Usuário"}
-                      className={`${styles.avatarImage} ${styles.desktopShow} cardAnimation`}
-                    />
-                  :
-                  <div data-bs-toggle="modal" data-bs-target="#loginModal" className={styles.loginButton}>
-                    <LogIn size={20} />
-                  </div>
-
-                }
+                <div data-bs-toggle="modal" data-bs-target="#loginModal" className={styles.loginButton}>
+                  <LogIn size={20} />
+                </div>
               </div>
             )}
           </div>
@@ -128,22 +159,6 @@ console.log("user?.profileImageUrl", user?.profileImageUrl)
               <li className={styles.mobileNavItem}>
                 <Link href="/templates/inputs" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Input</Link>
               </li>
-              {/* <li className={styles.mobileNavItem}>
-              <details className={styles.mobileDropdown}>
-                <summary className={styles.mobileNavLink}>Serviços</summary>
-                <ul className={styles.mobileDropdownContent}>
-                  <li><Link href="/service1" className={styles.mobileDropdownItem} onClick={toggleMobileMenu}>Serviço 1</Link></li>
-                  <li><Link href="/service2" className={styles.mobileDropdownItem} onClick={toggleMobileMenu}>Serviço 2</Link></li>
-                  <li><Link href="/service3" className={styles.mobileDropdownItem} onClick={toggleMobileMenu}>Serviço 3</Link></li>
-                </ul>
-              </details>
-            </li>
-            <li className={styles.mobileNavItem}>
-              <Link href="/portfolio" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Portfólio</Link>
-            </li>
-            <li className={styles.mobileNavItem}>
-              <Link href="/contact" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Contato</Link>
-            </li> */}
             </ul>
 
             {!user && (
@@ -155,7 +170,6 @@ console.log("user?.profileImageUrl", user?.profileImageUrl)
         </div>
       </header>
     </>
-
   );
 };
 
