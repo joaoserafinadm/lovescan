@@ -248,6 +248,7 @@
     display: none;
     cursor: pointer;
     color: var(--color-text-light);
+    z-index: 1002;
   }
   
   /* Mobile Menu Header */
@@ -286,13 +287,14 @@
     transform: translateX(-100%);
     visibility: hidden;
     transition: transform var(--transition-normal), visibility var(--transition-normal);
-    z-index: 1001; /* Uma acima do header */
     overflow-y: auto;
   }
   
   .mobileMenu.open {
     transform: translateX(0);
     visibility: visible;
+    z-index: 10001 !important; /* Uma acima do header */
+
   }
   
   .mobileNavContainer {
@@ -450,10 +452,10 @@
 
   .creditsIcon{
     position: fixed;
-    top: 50px;
+    top: 60px;
     right: 0;
     margin: 0.5rem;
-    z-index: 1000;
+    z-index: 999;
   }
 
 
@@ -500,7 +502,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   min-width: 280px;
-  z-index: 1000;
+  z-index: 1001;
   margin-top: 8px;
   padding: 16px 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
