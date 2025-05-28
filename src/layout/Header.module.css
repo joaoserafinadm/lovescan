@@ -450,12 +450,22 @@
     }
   }
 
-  .creditsIcon{
+  .creditsIcon {
     position: fixed;
-    top: 60px;
-    right: 0;
-    margin: 0.5rem;
+    top: 70px;
+    right: calc(50% - 700px + 0.5rem);
+    margin: 0.5rem 0;
     z-index: 999;
+  }
+  
+  /* Para telas menores que 1400px + margens */
+  @media (max-width: 1432px) {
+    .creditsIcon {
+      top: 60px;
+      right: 0;
+      transform: none;
+      margin: 0.5rem;
+    }
   }
 
 
