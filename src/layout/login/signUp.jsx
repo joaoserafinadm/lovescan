@@ -144,7 +144,7 @@ export default function SignUp() {
   return (
     <div className="row">
       <div className="col-12">
-        <p>Cadastre-se com: {session?.user?.name}</p>
+        <p>Cadastre-se com:</p>
       </div>
       <div className="col-12">
         <Button

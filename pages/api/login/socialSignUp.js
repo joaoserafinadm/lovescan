@@ -4,6 +4,13 @@ import { serialize } from 'cookie'
 
 export default async (req, res) => {
     if (req.method === 'POST') {
+
+        if (!process.env.JWT_SECRET) {
+            console.error('JWT_SECRET is not defined');
+            return res.status(500).json({ error: 'Server configuration error' });
+        }
+
+        
         try {
             const { user } = req.body
             if (!user) return res.status(400).json({ error: 'Missing body parameters.' });
