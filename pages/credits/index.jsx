@@ -306,7 +306,7 @@ export default function Credits() {
                       }}
                       onClick={() => {
                         handleSelectProduct(product);
-                        scrollTo("payment");
+                        setTimeout(() => scrollTo("payment"), 700);
                       }}
                     >
                       {product.recommended && (
@@ -413,8 +413,9 @@ export default function Credits() {
             </div>
           </div>
 
+          <div id="payment"></div>
           {selectedProduct && (
-            <div className="card border-0 bg-dark shadow mb-4" id="payment">
+            <div className="card border-0 bg-dark shadow mb-4">
               <div className="card-body p-4">
                 <h3 className="card-title mb-4" style={{ color: "#ff2056" }}>
                   Resumo da compra
