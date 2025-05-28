@@ -1,7 +1,6 @@
 import { connect } from '@/utils/db'
 import { sign } from 'jsonwebtoken'
-// Corrigindo a importação do cookie - usando require em vez de import
-const cookie = require('cookie')
+import { serialize } from 'cookie'
 
 export default async (req, res) => {
     if (req.method === 'POST') {
@@ -43,14 +42,13 @@ export default async (req, res) => {
                 })
 
                 // Definindo o cookie
-                res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
+                res.setHeader('Set-Cookie', serialize('auth', jwt, {
                     httpOnly: false,
                     secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict',
                     path: '/',
                     maxAge: 31536000
                 }));
-
 
                 return res.status(200).json({ message: 'User created successfully.' });
             } else {
@@ -65,7 +63,7 @@ export default async (req, res) => {
                 })
 
                 // Definindo o cookie
-                res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
+                res.setHeader('Set-Cookie', serialize('auth', jwt, {
                     httpOnly: false,
                     secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict',
@@ -74,7 +72,6 @@ export default async (req, res) => {
                 }));
 
                 return res.status(200).json({ message: 'User logged in successfully.' });
-
             }
         } catch (error) {
             console.error('Authentication error:', error);
