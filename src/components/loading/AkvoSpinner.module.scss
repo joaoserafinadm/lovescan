@@ -1,0 +1,15 @@
+.loader {
+    // width: 40px;
+    height: 25px;
+    border-radius: 0 10px 0 10px;
+    // background-image: url('/favicon.ico');
+    background:
+      linear-gradient(to bottom right,#0000 calc(50% - 40px),#33c280 50%,#0000 calc(50% + 40px)) 
+      bottom right/calc(200% + 80px) calc(200% + 80px) 
+      #E4E4ED;
+    animation: ct8 1.2s infinite ;
+    z-index: 1000001 !important;
+}
+@keyframes ct8 {
+    100% {background-position: top left}
+}

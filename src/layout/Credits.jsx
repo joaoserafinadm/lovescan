@@ -26,7 +26,7 @@ export default function Credits(props) {
   }, [data]);
 
   return (
-    <div className={`${styles.creditsIcon} `}>
+    <div className={`${styles.creditsIcon} ${credits ? '' : "pulse"}`}>
       <Link href="/credits">
         <Button rounded="full">
           {credits || 0} <Star size={20} className="ms-1" />

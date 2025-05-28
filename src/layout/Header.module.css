@@ -205,13 +205,13 @@
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid var(--color-primary);
+    border: 2px solid #b3b3b3;
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
   
   .userAvatar:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 0 2px rgba(255, 32, 86, 0.3);
+    box-shadow: 0 0 0 2px rgba(141, 141, 141, 0.3);
   }
   
   .avatarImage {

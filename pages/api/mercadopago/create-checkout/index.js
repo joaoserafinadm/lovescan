@@ -48,7 +48,7 @@ export default authenticated(async (req, res) => {
                 "Ideal para criar uma mensagem especial para aquela pessoa que você ama",
               title: "1 Crédito",
               quantity: 1,
-              unit_price: 5 * dolar,
+              unit_price: 4 * dolar,
               currency_id: "BRL",
               category_id: "category", // Recomendado inserir, mesmo que não tenha categoria - Aumenta a pontuação da sua integração com o Mercado Pago
             },

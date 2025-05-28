@@ -52,6 +52,8 @@ export default function Config_04(props) {
           item.image !== undefined
       );
 
+      console.log("validImages", validImages);
+
       // Processar as imagens: converter para blob
       const processedImages = await Promise.all(
         validImages.map(async (item) => {

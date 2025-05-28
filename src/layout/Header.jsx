@@ -39,7 +39,7 @@ const Header = ({  }) => {
           <nav className={styles.desktopNav}>
             <ul className={styles.navList}>
               <li className={styles.navItem}>
-                <Link href="/" className={styles.navLink}>Home</Link>
+                <Link href="/" className={styles.navLink}>Início</Link>
               </li>
               <li className={styles.navItem}>
                 <Link href="/templates/buttons" className={styles.navLink}>Botão</Link>
@@ -47,7 +47,7 @@ const Header = ({  }) => {
               <li className={styles.navItem}>
                 <Link href="/templates/inputs" className={styles.navLink}>Input</Link>
               </li>
-              {/* <li className={`${styles.navItem} ${styles.hasDropdown}`}>
+              {/*<li className={`${styles.navItem} ${styles.hasDropdown}`}>
               <span className={styles.navLink}>
                 Serviços <ChevronDown size={16} />
               </span>
@@ -57,7 +57,7 @@ const Header = ({  }) => {
                 <li><Link href="/service3" className={styles.dropdownItem}>Serviço 3</Link></li>
               </ul>
             </li>
-            <li className={styles.navItem}>
+             <li className={styles.navItem}>
               <Link href="/portfolio" className={styles.navLink}>Portfólio</Link>
             </li>
             <li className={styles.navItem}>
@@ -71,7 +71,7 @@ const Header = ({  }) => {
             {user ? (
               <div className={styles.userAvatar}>
                 <img
-                  src={user?.profileImageUrl || "https://via.placeholder.com/40"}
+                  src={user?.profileImageUrl || "/USER.png"}
                   alt={user?.name || "Usuário"}
                   className={styles.avatarImage}
                 />
@@ -83,7 +83,7 @@ const Header = ({  }) => {
                     <img
                       src={user?.profileImageUrl || "/USER.png"}
                       alt={user?.userName || "Usuário"}
-                      className={`${styles.avatarImage} ${styles.hideMobile} cardAnimation `}
+                      className={`${styles.avatarImage} ${styles.hideMobile} `}
                     />
                   :
                   <button className={styles.ctaButton} data-bs-toggle="modal" data-bs-target="#loginModal">Entrar</button>

@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import "@/styles/text.scss";
+import "@/styles/background.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect } from "react";
 

@@ -28,6 +28,7 @@ export default authenticated(async (req, res) => {
 
         const newPresentationData = {
             ...presentationData,
+            status: 'pending',
             createdAt: new Date(),
             user_id
         }
