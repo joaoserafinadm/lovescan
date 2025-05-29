@@ -81,7 +81,7 @@ export default async function handler(req, res) {
             .updateOne(
               { _id: new ObjectId(user_id) },
               { 
-                $inc: { "companyData.credits": credits },
+                $inc: { "companyData.credits": +credits },
                 $set: { "companyData.lastCreditUpdate": new Date() }
               }
             );
