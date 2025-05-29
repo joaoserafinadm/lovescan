@@ -4,8 +4,8 @@
 
 import { Payment } from "mercadopago";
 import mpClient, { verifyMercadoPagoSignature } from "@/lib/mercado-pago";
-import { connect } from "@/lib/mongodb"; // Adicione este import
 import { ObjectId } from "bson";
+import { connect } from "@/utils/db";
 
 export default async function handler(req, res) {
   // Verificar se é método POST
