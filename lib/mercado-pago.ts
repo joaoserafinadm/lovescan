@@ -1,6 +1,5 @@
+// @/lib/mercado-pago.ts
 import { MercadoPagoConfig } from "mercadopago";
-import { NextResponse } from "next/server";
-import crypto from "crypto";
 
 // Instância do cliente Mercado Pago
 const mpClient = new MercadoPagoConfig({
@@ -9,55 +8,70 @@ const mpClient = new MercadoPagoConfig({
 
 export default mpClient;
 
-// Função auxiliar para verificar a assinatura do Mercado Pago - Protege sua rota de acessos maliciosos
-// Disponível na própria documentação do Mercado Pago
-export function verifyMercadoPagoSignature(request: Request) {
-  const xSignature = request.headers['x-signature'];
-  const xRequestId = request.headers['x-request-id'];
-  if (!xSignature || !xRequestId) {
-    return NextResponse.json(
-      { error: "Missing x-signature or x-request-id header" },
-      { status: 400 }
-    );
-  }
+// Nota: A função verifyMercadoPagoSignature foi movida para o webhook
+// pois precisa ser adaptada para funcionar com NextApiRequest do Pages Router
 
-  const signatureParts = xSignature.split(",");
-  let ts = "";
-  let v1 = "";
-  signatureParts.forEach((part) => {
-    const [key, value] = part.split("=");
-    if (key.trim() === "ts") {
-      ts = value.trim();
-    } else if (key.trim() === "v1") {
-      v1 = value.trim();
-    }
-  });
 
-  if (!ts || !v1) {
-    return NextResponse.json(
-      { error: "Invalid x-signature header format" },
-      { status: 400 }
-    );
-  }
+// import { MercadoPagoConfig } from "mercadopago";
+// import { NextResponse } from "next/server";
+// import crypto from "crypto";
 
-  const url = new URL(request.url);
-  const dataId = url.searchParams.get("data.id");
+// // Instância do cliente Mercado Pago
+// const mpClient = new MercadoPagoConfig({
+//   accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN as string,
+// });
 
-  let manifest = "";
-  if (dataId) {
-    manifest += `id:${dataId};`;
-  }
-  if (xRequestId) {
-    manifest += `request-id:${xRequestId};`;
-  }
-  manifest += `ts:${ts};`;
+// export default mpClient;
 
-  const secret = process.env.MERCADO_PAGO_WEBHOOK_SECRET as string;
-  const hmac = crypto.createHmac("sha256", secret);
-  hmac.update(manifest);
-  const generatedHash = hmac.digest("hex");
+// // Função auxiliar para verificar a assinatura do Mercado Pago - Protege sua rota de acessos maliciosos
+// // Disponível na própria documentação do Mercado Pago
+// export function verifyMercadoPagoSignature(request: Request) {
+//   const xSignature = request.headers['x-signature'];
+//   const xRequestId = request.headers['x-request-id'];
+//   if (!xSignature || !xRequestId) {
+//     return NextResponse.json(
+//       { error: "Missing x-signature or x-request-id header" },
+//       { status: 400 }
+//     );
+//   }
 
-  if (generatedHash !== v1) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-  }
-}
+//   const signatureParts = xSignature.split(",");
+//   let ts = "";
+//   let v1 = "";
+//   signatureParts.forEach((part) => {
+//     const [key, value] = part.split("=");
+//     if (key.trim() === "ts") {
+//       ts = value.trim();
+//     } else if (key.trim() === "v1") {
+//       v1 = value.trim();
+//     }
+//   });
+
+//   if (!ts || !v1) {
+//     return NextResponse.json(
+//       { error: "Invalid x-signature header format" },
+//       { status: 400 }
+//     );
+//   }
+
+//   const url = new URL(request.url);
+//   const dataId = url.searchParams.get("data.id");
+
+//   let manifest = "";
+//   if (dataId) {
+//     manifest += `id:${dataId};`;
+//   }
+//   if (xRequestId) {
+//     manifest += `request-id:${xRequestId};`;
+//   }
+//   manifest += `ts:${ts};`;
+
+//   const secret = process.env.MERCADO_PAGO_WEBHOOK_SECRET as string;
+//   const hmac = crypto.createHmac("sha256", secret);
+//   hmac.update(manifest);
+//   const generatedHash = hmac.digest("hex");
+
+//   if (generatedHash !== v1) {
+//     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+//   }
+// }
