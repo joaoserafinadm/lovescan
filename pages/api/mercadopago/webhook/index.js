@@ -19,7 +19,8 @@ export default async function handler(req, res) {
     const body = req.body;
     const { type, data } = body;
 
-    console.log("Webhook recebido:", { type, data });
+
+    console.log("Webhook recebido2:", { type, data });
 
     switch (type) {
       case "payment":
