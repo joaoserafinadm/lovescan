@@ -76,13 +76,9 @@ export default authenticated(async (req, res) => {
           },
           auto_return: "approved",
           back_urls: {
-            success: `${req.headers.get(
-              "origin"
-            )}/presentationLink/${presentation_id}`,
-            failure: `${req.headers.get(
-              "origin"
-            )}/presentationLink/${presentation_id}`,
-            pending: `${req.headers.get("origin")}/api/mercado-pago/pending`, // Criamos uma rota para lidar com pagamentos pendentes
+            success: `https://lovescan.app/presentationLink/${presentation_id}`,
+            failure: `https://lovescan.app/presentationLink/${presentation_id}`,
+            pending: `https://lovescan.app/api/mercado-pago/pending`, // Criamos uma rota para lidar com pagamentos pendentes
           },
         },
       });
