@@ -107,6 +107,7 @@ export default function Config_04(props) {
 
       createMercadoPagoCheckout({
         presentation_id: response.data.presentationId,
+        user_id: user?._id,
         email: user?.email,
         product_id: "credit-1",
       });

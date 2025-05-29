@@ -109,9 +109,11 @@ export default function MyPresentations(props) {
                           <Button variant="ghost" size="sm">
                             <Edit size={16} className="text-white" />
                           </Button>
-                          <Button variant="ghost" size="sm">
-                            <QrCode size={16} className="text-white" />
-                          </Button>
+                          <Link href={`/presentationLink/${elem._id}`}>
+                            <Button variant="ghost" size="sm">
+                              <QrCode size={16} className="text-white" />
+                            </Button>
+                          </Link>
                         </div>
                       </div>
                     </div>

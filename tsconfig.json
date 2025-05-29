@@ -52,6 +52,7 @@
       "@/*": ["./*"]
     }
   },
+  // "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/mercadopago/webhook/index.js"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
