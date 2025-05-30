@@ -62,7 +62,7 @@ export default function MyClients(props) {
         <>
           <div className="col-12 mt-4 d-flex justify-content-between align-items-center fadeItem">
             <div>
-              <span className="badge bg-light text-dark">Meus clientes</span>
+              <span className="badge bg-light text-dark">Meus clientes </span>
             </div>
             <Button
               className="d-none d-lg-block"
