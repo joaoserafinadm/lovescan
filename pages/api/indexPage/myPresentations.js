@@ -33,7 +33,7 @@ export default authenticated(async (req, res) => {
     const presentations = await db
       .collection("presentations")
       .find({ user_id: user_id })
-      .sort({ created_at: -1 }) // Por exemplo, ordenar pelas mais recentes
+      .sort({ createdAt: -1 }) // Por exemplo, ordenar pelas mais recentes
       .limit(4)
       .toArray();
 
