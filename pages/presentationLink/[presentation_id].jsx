@@ -67,6 +67,7 @@ export default function presentationLink() {
       return;
     }
 
+    
     if (!query.presentation_id && !user) return;
 
     setLoadingSave(true);
