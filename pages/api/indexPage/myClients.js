@@ -34,12 +34,32 @@ export default authenticated(async (req, res) => {
     .collection("presentations")
     .find({ 
       user_id: user_id,
-      clientName: { $exists: false }
+      clientName: { $exists: true }
     })
     .sort({ createdAt: -1 })
     .limit(4)
     .toArray();
 
-    return res.status(200).json(presentations || []);
+    return res.status(200).json({presentations: presentations || [], companyData: userExist.companyData || null});
+  } else if (req.method === "POST") {
+    
+    const {user_id, clientName, clientPhone} = req.body
+
+    if (!user_id || !clientName) return res.status(400).json({ error: 'Missing body parameters.' });
+
+    const { db } = await connect();
+
+    const userExist = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
+    if (!userExist) return res.status(400).json({ error: 'User does not exist.' });
+
+    const response = await db.collection('presentations').insertOne({ user_id: user_id, clientName: clientName, clientPhone: clientPhone || '', createdAt: new Date() });
+
+    if(response && response.insertedId) {
+      return res.status(200).json({ presentation_id: response.insertedId });
+    } else {
+      return res.status(400).json({ error: 'Something went wrong.' });
+    }
+
+
   }
 });

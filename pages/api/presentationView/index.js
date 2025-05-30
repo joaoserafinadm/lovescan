@@ -17,6 +17,8 @@ export default async  function handler(req, res) {
         const presentationExist = await db.collection('presentations').findOne({ _id: new ObjectId(presentation_id) });
         if (!presentationExist) return res.status(400).json({ error: 'Presentation does not exist.' });
 
+        if(presentationExist.status !== "active") return res.status(400).json({ error: 'Presentation is not active.' });
+
         return res.status(200).json({ presentationData: presentationExist });
     }
 

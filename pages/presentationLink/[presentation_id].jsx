@@ -91,7 +91,7 @@ export default function presentationLink() {
 
   return (
     <div className="pages">
-      <Link href="/" className="my-2 d-inline-block text-white">
+      <Link href="/" className="my-3 d-inline-block text-white">
         <span className="d-flex align-items-center">
           <ChevronLeft /> Voltar
         </span>

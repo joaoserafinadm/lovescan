@@ -43,7 +43,7 @@ export default function MyPresentations(props) {
   };
   return (
     <>
-      <div className="col-12 mt-4 d-flex justify-content-between align-items-center">
+      <div className="col-12 mt-4 d-flex justify-content-between align-items-center fadeItem">
         <div>
           <span className="badge bg-light text-dark">Minhas apresentações</span>
         </div>
@@ -66,14 +66,16 @@ export default function MyPresentations(props) {
                   <UserPresentationCard elem={elem} />
                 </div>
               ))}
-              <Link href={`/myPresentations`}>
-                <div className="col-12 d-flex justify-content-end align-items-center text-white">
-                  Visualizar todas <ArrowRight size={16} className="ms-1" />
-                </div>
-              </Link>
+              <div className="col-12 d-flex justify-content-end align-items-center mt-3">
+                <Link href={`/myPresentations`}>
+                  <span className="text-white cardAnimation">
+                    Visualizar todas <ArrowRight size={16} className="ms-1" />
+                  </span>
+                </Link>
+              </div>
             </>
           ) : (
-            <div className="row">
+            <div className="row fadeItem">
               <div className="col-12 d-flex justify-content-center my-5">
                 <span className="text-center text-muted">
                   Nenhuma apresentação cadastrada
