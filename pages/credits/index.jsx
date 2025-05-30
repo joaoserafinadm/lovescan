@@ -1,8 +1,16 @@
 import { useState } from "react";
 import Button from "@/src/components/Button";
 import Image from "next/image";
-import { Heart, ShoppingBag, ShoppingBasket, ShoppingCart } from "lucide-react";
+import {
+  Heart,
+  Lock,
+  ShoppingBag,
+  ShoppingBasket,
+  ShoppingCart,
+} from "lucide-react";
 import scrollTo from "@/utils/scrollTo";
+import useMercadoPago from "@/hooks/useMercadoPago";
+import { useAuth } from "@/src/layout/context/AuthContext";
 
 const dolar = 5.85;
 
@@ -12,7 +20,8 @@ export const PRODUCTS = [
     title: "1 Crédito",
     description:
       "Ideal para criar uma mensagem especial para aquela pessoa que você ama",
-    price: 4 * dolar,
+    // price: 4 * dolar,
+    price: 1,
     credits: 1,
     recommended: false,
     userType: "individual",
@@ -22,7 +31,8 @@ export const PRODUCTS = [
     title: "10 Créditos",
     description:
       "Perfeito para floricultura, presentes personalizados ou pequenas celebrações",
-    price: 8 * 4 * dolar,
+    // price: 8 * 4 * dolar,
+    price: 2,
     credits: 10,
     recommended: true,
     userType: "business",
@@ -31,7 +41,8 @@ export const PRODUCTS = [
     id: "credit-20",
     title: "20 Créditos",
     description: "Ideal para lojas, joalherias ou eventos de médio porte",
-    price: 14 * 4 * dolar,
+    // price: 14 * 4 * dolar,
+    price: 3,
     credits: 20,
     recommended: false,
     userType: "business",
@@ -40,7 +51,8 @@ export const PRODUCTS = [
     id: "credit-50",
     title: "50 Créditos",
     description: "Para empresas com alto volume de vendas ou grandes eventos",
-    price: 30 * 4 * dolar,
+    // price: 30 * 4 * dolar,
+    price: 4,
     credits: 50,
     recommended: false,
     userType: "business",
@@ -48,8 +60,17 @@ export const PRODUCTS = [
 ];
 
 export default function Credits() {
+
+  const {user} = useAuth();
+
+
+
+  const { createMercadoPagoCheckout } = useMercadoPago();
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
+
+  const [loadingSave, setLoadingSave] = useState(false);
 
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
@@ -58,11 +79,16 @@ export default function Credits() {
   const handlePurchase = () => {
     if (!selectedProduct) return;
     // Lógica de pagamento
-    console.log(
-      `Iniciando compra de ${
-        selectedProduct.credits
-      } créditos por R$ ${selectedProduct.price.toFixed(2)}`
-    );
+
+    setLoadingSave(true);
+
+    createMercadoPagoCheckout({
+      presentation_id: '',
+      user_id: user?._id,
+      email: user?.email,
+      product_id: selectedProduct?.id,
+    });
+
   };
 
   const filteredProducts = PRODUCTS.filter(
@@ -464,9 +490,10 @@ export default function Credits() {
                         variant="primary"
                         fullWidth
                         size="lg"
+                        icon={<Lock />}
+                        loading={loadingSave}
                       >
-                        <i className="fas fa-lock me-2"></i> Finalizar Compra
-                        Segura
+                        Finalizar Compra Segura
                       </Button>
                     </div>
                   </div>

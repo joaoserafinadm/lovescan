@@ -139,9 +139,10 @@ export default function Config_04(props) {
         error.message ||
           "Não foi possível completar a operação. Por favor, tente novamente."
       );
-    } finally {
-      setLoadingPayment(false);
-    }
+    } 
+    // finally {
+    //   setLoadingPayment(false);
+    // }
   };
 
   return (

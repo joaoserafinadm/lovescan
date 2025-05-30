@@ -36,6 +36,6 @@ export default authenticated(async (req, res) => {
     if (!presentationExist)
       return res.status(400).json({ error: "Presentation does not exist." });
 
-    return res.status(200).json({ presentation: presentationExist });
+    return res.status(200).json({ presentation: presentationExist, credits: userExist.credits });
   }
 });

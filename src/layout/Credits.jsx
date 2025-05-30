@@ -10,10 +10,10 @@ import Link from "next/link";
 import { useAuth } from "./context/AuthContext";
 
 export default function Credits(props) {
-  const { token } = useAuth();
+  const { user } = useAuth();
 
   const { data, error, isLoading } = useSWR(
-    `/api/credits?user_id=${token?._id}`,
+    `/api/credits?user_id=${user?._id}`,
     api
   );
 
@@ -21,7 +21,7 @@ export default function Credits(props) {
 
   useEffect(() => {
     if (data) {
-      setCredits(data.credits);
+      setCredits(data.data.credits);
     }
   }, [data]);
 

@@ -29,7 +29,7 @@ export default authenticated(async (req, res) => {
 
       const createdPreference = await preference.create({
         body: {
-          external_reference: presentation_id, // IMPORTANTE: Isso aumenta a pontuação da sua integração com o Mercado Pago - É o id da compra no nosso sistema
+          external_reference: new ObjectId().toString(), // IMPORTANTE: Isso aumenta a pontuação da sua integração com o Mercado Pago - É o id da compra no nosso sistema
           metadata: {
             user_id,
             credits: productSelected.credits, // O Mercado Pago converte para snake_case, ou seja, testeId vai virar teste_id
@@ -76,8 +76,8 @@ export default authenticated(async (req, res) => {
           },
           auto_return: "approved",
           back_urls: {
-            success: `https://www.lovescan.app/presentationLink/${presentation_id}`,
-            failure: `https://www.lovescan.app/presentationLink/${presentation_id}`,
+            success: presentation_id ? `https://www.lovescan.app/presentationLink/${presentation_id}` : `https://www.lovescan.app/`,
+            failure: presentation_id ? `https://www.lovescan.app/presentationLink/${presentation_id}` : 'https://www.lovescan.app/',
             pending: `https://www.lovescan.app/api/mercado-pago/pending`, // Criamos uma rota para lidar com pagamentos pendentes
           },
         },
@@ -116,7 +116,7 @@ const PRODUCTS = [
     description:
       "Perfeito para floricultura, presentes personalizados ou pequenas celebrações",
     // price: 8 * 4 * dolar,
-    price: 1,
+    price: 2,
     credits: 10,
     recommended: true,
     userType: "business",
@@ -126,7 +126,7 @@ const PRODUCTS = [
     title: "20 Créditos",
     description: "Ideal para lojas, joalherias ou eventos de médio porte",
     // price: 14 * 4 * dolar,
-    price: 1,
+    price: 3,
     credits: 20,
     recommended: false,
     userType: "business",
@@ -136,7 +136,7 @@ const PRODUCTS = [
     title: "50 Créditos",
     description: "Para empresas com alto volume de vendas ou grandes eventos",
     // price: 30 * 4 * dolar,
-    price: 1,
+    price: 4,
     credits: 50,
     recommended: false,
     userType: "business",
