@@ -82,7 +82,7 @@ const Presentation = ({
   const slides = renderSlides();
 
   return (
-    <div className={styles.presentationContainer}>
+    <div className={`fadeItem ${styles.presentationContainer}`}>
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}

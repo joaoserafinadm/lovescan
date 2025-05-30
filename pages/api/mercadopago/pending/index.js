@@ -39,8 +39,8 @@ export default async function handler(req, res) {
       const presentationId = paymentData.metadata?.presentation_id;
       
       const successUrl = presentationId 
-        ? `https://www.lovescan.app/presentationLink/${presentationId}?status=sucesso`
-        : "/?status=sucesso";
+        ? `https://www.lovescan.app/presentationLink/${presentationId}`
+        : "/";
         
       return res.redirect(302, successUrl);
     }
