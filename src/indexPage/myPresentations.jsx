@@ -4,6 +4,8 @@ import { useAuth } from "../layout/context/AuthContext";
 import Link from "next/link";
 import Button from "../components/Button";
 import {
+  ArrowLeft,
+  ArrowRight,
   CircleFadingPlus,
   Edit,
   Info,
@@ -64,6 +66,11 @@ export default function MyPresentations(props) {
                   <UserPresentationCard elem={elem} />
                 </div>
               ))}
+              <Link href={`/myPresentations`}>
+                <div className="col-12 d-flex justify-content-end align-items-center text-white">
+                  Visualizar todas <ArrowRight size={16} className="ms-1" />
+                </div>
+              </Link>
             </>
           ) : (
             <div className="row">

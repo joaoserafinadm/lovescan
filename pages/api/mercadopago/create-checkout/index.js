@@ -78,7 +78,7 @@ export default authenticated(async (req, res) => {
           back_urls: {
             success: presentation_id ? `https://www.lovescan.app/presentationLink/${presentation_id}` : `https://www.lovescan.app/`,
             failure: presentation_id ? `https://www.lovescan.app/presentationLink/${presentation_id}` : 'https://www.lovescan.app/',
-            pending: `https://www.lovescan.app/api/mercado-pago/pending`, // Criamos uma rota para lidar com pagamentos pendentes
+            pending: `https://www.lovescan.app/api/mercadopago/pending`, // Criamos uma rota para lidar com pagamentos pendentes
           },
         },
       });

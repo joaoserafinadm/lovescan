@@ -1,28 +1,75 @@
-import { NextResponse } from "next/server";
 import { Payment } from "mercadopago";
 import mpClient from "@/lib/mercado-pago";
+import { connect } from "@/utils/db";
 
-export async function GET(request) {
+export default async function handler(req, res) {
+  // Aceita apenas requisições GET
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   // Rota para lidar com pagamentos pendentes do Mercado Pago (i.e Pix)
   // Quando o cliente clica no botão 'Voltar para o site' no Checkout depois de pagar (ou não) o Pix
-  const { searchParams } = new URL(request.url);
-  // Pegamos o ID do pagamento no Mercado Pago
-  const paymentId = searchParams.get("payment_id");
-  // Pegamos o ID do pagamento do nosso sistema
-  const testeId = searchParams.get("external_reference");
+  const { 
+    payment_id: paymentId, 
+    external_reference: externalReference,
+    collection_status,
+    preference_id: preferenceId 
+  } = req.query;
 
-  if (!paymentId || !testeId) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  console.log('Pending payment params:', { paymentId, externalReference, collection_status, preferenceId });
+
+  if (!paymentId) {
+    console.log('Payment ID não fornecido, redirecionando para home');
+    return res.redirect(302, "/?status=erro&message=payment_id_missing");
   }
 
-  const payment = new Payment(mpClient);
-  const paymentData = await payment.get({ id: paymentId });
+  try {
+    const payment = new Payment(mpClient);
+    const paymentData = await payment.get({ id: paymentId });
 
-  if (paymentData.status === "approved" || paymentData.date_approved !== null) {
-    // Pagamentos já foi realizado. redirecionamos para a página de sucesso
-    return NextResponse.redirect(new URL(`/?status=sucesso`, request.url));
+    console.log('Payment status:', paymentData.status);
+    console.log('Payment metadata:', paymentData.metadata);
+
+    // Verifica se o pagamento foi aprovado
+    if (paymentData.status === "approved" && paymentData.date_approved !== null) {
+      console.log('Pagamento aprovado! Webhook já processou ou processará os créditos.');
+      
+      // Verifica se tem presentation_id nos metadados para redirecionar corretamente
+      const presentationId = paymentData.metadata?.presentation_id;
+      
+      const successUrl = presentationId 
+        ? `https://www.lovescan.app/presentationLink/${presentationId}?status=sucesso`
+        : "/?status=sucesso";
+        
+      return res.redirect(302, successUrl);
+    }
+
+    // Verifica se o pagamento foi rejeitado
+    if (paymentData.status === "rejected" || paymentData.status === "cancelled") {
+      console.log('Pagamento rejeitado/cancelado');
+      
+      const presentationId = paymentData.metadata?.presentation_id;
+      const failureUrl = presentationId 
+        ? `https://www.lovescan.app/presentationLink/${presentationId}?status=erro&message=payment_rejected`
+        : "/?status=erro&message=payment_rejected";
+        
+      return res.redirect(302, failureUrl);
+    }
+
+    // Pagamento ainda pendente (aguardando pagamento do Pix)
+    console.log('Pagamento ainda pendente');
+    
+    const presentationId = paymentData.metadata?.presentation_id;
+    const pendingUrl = presentationId 
+      ? `https://www.lovescan.app/presentationLink/${presentationId}` : 'https://www.lovescan.app/'
+      
+    return res.redirect(302, pendingUrl);
+
+  } catch (error) {
+    console.error("Erro ao verificar pagamento:", error);
+    
+    // Em caso de erro, redireciona para página inicial com status de erro
+    return res.redirect(302, "/?status=erro&message=server_error");
   }
-
-  // Pagamentos pendentes. redirecionamos para a página inicial
-  return NextResponse.redirect(new URL("/", request.url));
 }
