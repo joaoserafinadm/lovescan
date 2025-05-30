@@ -12,8 +12,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import QrCodeGenerator from "@/src/presentationLink/QrCodeGenerator";
+import useMercadoPago from "@/hooks/useMercadoPago";
 
 export default function presentationLink() {
+
+  const { createMercadoPagoCheckout } = useMercadoPago();
+
   const { user } = useAuth();
   const router = useRouter();
   const query = router.query;
@@ -50,7 +54,7 @@ export default function presentationLink() {
   };
 
   const handleQrCodeGenerate = async () => {
-    if (!credits) {
+    if (+credits === 0) {
       setLoadingSave(true);
 
       createMercadoPagoCheckout({
