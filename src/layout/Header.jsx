@@ -104,7 +104,7 @@ const Header = ({  }) => {
                       </div>
                     </div>
                     
-                    <div className={styles.dropdownDivider}></div>
+                    {/* <div className={styles.dropdownDivider}></div>
                     
                     <Link href="/profile" className={styles.dropdownItem} onClick={() => setUserDropdownOpen(false)}>
                       <User size={16} />
@@ -114,7 +114,7 @@ const Header = ({  }) => {
                     <Link href="/settings" className={styles.dropdownItem} onClick={() => setUserDropdownOpen(false)}>
                       <Settings size={16} />
                       <span>Configurações</span>
-                    </Link>
+                    </Link> */}
                     
                     <div className={styles.dropdownDivider}></div>
                     

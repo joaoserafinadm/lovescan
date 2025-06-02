@@ -66,13 +66,13 @@ export default function MyPresentations(props) {
                   <UserPresentationCard elem={elem} />
                 </div>
               ))}
-              <div className="col-12 d-flex justify-content-end align-items-center mt-3">
+              {/* <div className="col-12 d-flex justify-content-end align-items-center mt-3">
                 <Link href={`/myPresentations`}>
                   <span className="text-white cardAnimation">
                     Visualizar todas <ArrowRight size={16} className="ms-1" />
                   </span>
                 </Link>
-              </div>
+              </div> */}
             </>
           ) : (
             <div className="row fadeItem">
