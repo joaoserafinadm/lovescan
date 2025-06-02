@@ -32,6 +32,7 @@ export default authenticated(async (req, res) => {
           external_reference: new ObjectId().toString(), // IMPORTANTE: Isso aumenta a pontuação da sua integração com o Mercado Pago - É o id da compra no nosso sistema
           metadata: {
             user_id,
+            presentation_id,
             credits: productSelected.credits, // O Mercado Pago converte para snake_case, ou seja, testeId vai virar teste_id
             // userEmail: userEmail,
             // plan: '123'

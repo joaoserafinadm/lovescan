@@ -96,6 +96,7 @@ export default async function handler(req, res) {
           paymentData.date_approved !== null
         ) {
           const metadata = paymentData.metadata;
+          const presentation_id = metadata?.presentation_id;
           const user_id = metadata?.user_id;
           const credits = metadata?.credits ? parseInt(metadata.credits) : null;
 
@@ -114,7 +115,7 @@ export default async function handler(req, res) {
           if (!userExist) {
             console.error("Usuário não encontrado:", user_id);
             return res.status(400).json({ error: "Usuário não encontrado" });
-          }
+          }          
 
           // Verificar se o pagamento já foi processado (evitar duplicação)
           const existingPayment = await db
@@ -136,6 +137,23 @@ export default async function handler(req, res) {
               processed_at: new Date(),
               payment_status: paymentData.status
             });
+
+
+            if(presentation_id) {
+              
+              // Verificar se a apresentação existe
+              const presentationExist = await db
+                .collection("presentations")
+                .findOne({ _id: new ObjectId(presentation_id) });
+
+                if(presentationExist) {
+
+                  await db.collection("presentations").updateOne({ _id: new ObjectId(presentation_id) }, { $set: { status: "active" } });
+          return res.status(200).json({ received: true });
+
+                }               
+           
+            }
 
           // Incrementar créditos do usuário (não substituir)
           await db
