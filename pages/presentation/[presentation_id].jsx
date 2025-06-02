@@ -73,6 +73,7 @@ export default function Presentation() {
               imagesArray={presentationData?.imagesArray}
               descriptionsArray={presentationData?.descriptionsArray}
               letterContent={presentationData?.letterContent}
+              musicLink={presentationData?.musicLink}
             />
           </div>
         </div>
