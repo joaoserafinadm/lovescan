@@ -150,7 +150,7 @@ const Header = ({  }) => {
 
           <nav className={styles.mobileNavContainer}>
             <ul className={styles.mobileNavList}>
-              <li className={styles.mobileNavItem}>
+              {/* <li className={styles.mobileNavItem}>
                 <Link href="/" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Home</Link>
               </li>
               <li className={styles.mobileNavItem}>
@@ -158,7 +158,7 @@ const Header = ({  }) => {
               </li>
               <li className={styles.mobileNavItem}>
                 <Link href="/templates/inputs" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Input</Link>
-              </li>
+              </li> */}
             </ul>
 
             {!user && (
