@@ -102,7 +102,7 @@ export default authenticated(async (req, res) => {
 const PRODUCTS = [
   {
     id: "credit-1",
-    title: "1 Crédito",
+    title: "1 apresentação Love Scan",
     description:
       "Ideal para criar uma mensagem especial para aquela pessoa que você ama",
     // price: 4 * dolar,

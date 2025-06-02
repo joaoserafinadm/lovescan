@@ -137,9 +137,9 @@ export default function Config_04(props) {
       console.error("Erro ao processar pagamento:", error);
       alert(
         error.message ||
-          "Não foi possível completar a operação. Por favor, tente novamente."
+        "Não foi possível completar a operação. Por favor, tente novamente."
       );
-    } 
+    }
     // finally {
     //   setLoadingPayment(false);
     // }
@@ -161,7 +161,7 @@ export default function Config_04(props) {
           </div>
           <div className="col-12 d-flex justify-content-center my-3">
             <Button
-              size="lg"
+
               rounded="full"
               className="mx-1"
               data-bs-toggle="modal"
@@ -171,17 +171,24 @@ export default function Config_04(props) {
             </Button>
           </div>
           {token ? (
-            <div className="col-12 d-flex justify-content-center my-3">
-              <Button
-                size="lg"
-                rounded="full"
-                className="mx-1"
-                onClick={handlePayment}
-                loading={loadingPayment}
-              >
-                Finalizar compra
-              </Button>
-            </div>
+            <>
+              <div className="col-12 d-flex justify-content-center my-3">
+                <Button
+                  size="lg"
+                  rounded="full"
+                  variant="primary"
+                  className="mx-1 pulse"
+                  onClick={handlePayment}
+                  loading={loadingPayment}
+                >
+                  Gerar QR Code
+                </Button>
+              </div>
+              <div className="col-12 d-flex justify-content-center my-3">
+                <span>Libere sua apresentação por apenas R$ 23,20</span>
+              </div>
+
+            </>
           ) : (
             <>
               <div className="col-12 d-flex justify-content-start mt-3">

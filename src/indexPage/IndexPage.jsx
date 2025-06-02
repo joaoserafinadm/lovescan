@@ -25,7 +25,7 @@ export default function IndexPage(props) {
         <div className="card-body">
           <div className="row">
             <div className="col-12">
-              <h2>Olá {user?.userName.split(" ")[0]}!</h2>
+              <h2>Olá {user?.userName?.split(" ")[0]}!</h2>
             </div>
             
             {/* <MyClients /> */}
