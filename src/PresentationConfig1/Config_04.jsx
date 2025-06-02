@@ -157,7 +157,7 @@ export default function Config_04(props) {
               Sua apresentação está pronta! Sigua os próximos passos para
               liberar o seu QR Code
             </p>
-            <p>Gostaria de visualizar sua apresentação?</p>
+            <p>Gostaria de ver como ficou a sua apresentação?</p>
           </div>
           <div className="col-12 d-flex justify-content-center my-3">
             <Button
