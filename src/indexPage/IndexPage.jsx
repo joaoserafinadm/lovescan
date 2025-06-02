@@ -28,7 +28,7 @@ export default function IndexPage(props) {
               <h2>Olá {user?.userName.split(" ")[0]}!</h2>
             </div>
             
-            <MyClients />
+            {/* <MyClients /> */}
             <MyPresentations />
           </div>
           

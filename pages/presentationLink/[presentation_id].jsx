@@ -57,12 +57,13 @@ export default function presentationLink() {
     if (+credits === 0) {
       setLoadingSave(true);
 
-      createMercadoPagoCheckout({
+      await createMercadoPagoCheckout({
         presentation_id: query.presentationId,
         user_id: user?._id,
         email: user?.email,
         product_id: "credit-1",
       });
+      setLoadingSave(false);
 
       return;
     }
@@ -148,12 +149,12 @@ export default function presentationLink() {
                     >
                       Gerar QR Code
                     </Button>
-                    {+credits === 0 && (
+                    {/* {+credits === 0 && (
                       <span className="text-c-danger d-flex align-items-center">
                         <TriangleAlert className="me-2" /> Atenção! Você está
                         sem créditos
                       </span>
-                    )}
+                    )} */}
                   </div>
                 )}
               </div>
