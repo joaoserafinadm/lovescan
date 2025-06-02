@@ -61,7 +61,7 @@ const Header = ({  }) => {
           {/* Navegação Desktop */}
           <nav className={styles.desktopNav}>
             <ul className={styles.navList}>
-              <li className={styles.navItem}>
+              {/* <li className={styles.navItem}>
                 <Link href="/" className={styles.navLink}>Início</Link>
               </li>
               <li className={styles.navItem}>
@@ -69,7 +69,7 @@ const Header = ({  }) => {
               </li>
               <li className={styles.navItem}>
                 <Link href="/templates/inputs" className={styles.navLink}>Input</Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
 
