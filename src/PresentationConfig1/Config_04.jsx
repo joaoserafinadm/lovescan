@@ -167,7 +167,7 @@ export default function Config_04(props) {
               data-bs-toggle="modal"
               data-bs-target="#presentationPreviewModal"
             >
-              Abrir apresentação
+              Visualizar apresentação
             </Button>
           </div>
           {token ? (

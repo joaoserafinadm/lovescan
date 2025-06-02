@@ -47,9 +47,9 @@ export default function Config_02(props) {
         description: description
       };
     }
-    
+
     setImages(newImages);
-    
+
     // Atualizar também o array de descriptions separado se necessário
     const newDescriptions = [...descriptions];
     newDescriptions[index] = description;
@@ -95,6 +95,7 @@ export default function Config_02(props) {
                       <SquarePlus className="text-c-secondary" /> <br />
                       <span className="text-c-secondary small">Adicionar</span>
                     </Button>
+                    <span className="text-c-secondary" style={{ fontSize: "10px" }}>Limite de tamanho: 10MB</span>
                   </ImageUploadWithEffect>
                 </div>
                 <div className="col-6 my-2 ">
@@ -108,6 +109,8 @@ export default function Config_02(props) {
                       <SquarePlus className="text-c-secondary" /> <br />
                       <span className="text-c-secondary small">Adicionar</span>
                     </Button>
+                    <span className="text-c-secondary" style={{ fontSize: "10px" }}>Limite de tamanho: 10MB</span>
+
                   </ImageUploadWithEffect>
                 </div>
                 <div className="col-6 my-2 ">
@@ -121,6 +124,8 @@ export default function Config_02(props) {
                       <SquarePlus className="text-c-secondary" /> <br />
                       <span className="text-c-secondary small">Adicionar</span>
                     </Button>
+                    <span className="text-c-secondary" style={{ fontSize: "10px" }}>Limite de tamanho: 10MB</span>
+
                   </ImageUploadWithEffect>
                 </div>
                 <div className="col-6 my-2 ">
@@ -134,6 +139,8 @@ export default function Config_02(props) {
                       <SquarePlus className="text-c-secondary" /> <br />
                       <span className="text-c-secondary small">Adicionar</span>
                     </Button>
+                    <span className="text-c-secondary" style={{ fontSize: "10px" }}>Limite de tamanho: 10MB</span>
+
                   </ImageUploadWithEffect>
                 </div>
               </div>
