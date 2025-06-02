@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Presentation.module.css';
 import InstagramEffect from "@/src/PresentationConfig1/InstagramEffect";
 
-
 const Slide05 = ({ onNextSlide, imagesArray }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [useInstagramEffect, setUseInstagramEffect] = useState(true);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % imagesArray.length);
@@ -13,6 +13,11 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
 
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + imagesArray.length) % imagesArray.length);
+  };
+
+  const handleImageError = () => {
+    // Se o InstagramEffect falhar, usa imagem simples
+    setUseInstagramEffect(false);
   };
 
   return (
@@ -33,7 +38,8 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
           transition={{ duration: 0.8, delay: 0.6 }}
           style={{
             position: 'relative',
-            maxWidth: '600px',
+            maxWidth: '400px', // Reduzido para acomodar melhor o formato vertical
+            width: '100%',
             margin: '2rem auto',
             borderRadius: '20px',
             overflow: 'hidden',
@@ -49,24 +55,49 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-            //   style={{
-            //     position: 'relative',
-            //     borderRadius: '15px',
-            //     overflow: 'hidden',
-            //     aspectRatio: '16/10'
-            //   }}
+              style={{
+                position: 'relative',
+                width: '100%',
+                borderRadius: '15px',
+                overflow: 'hidden',
+                backgroundColor: '#f5f5f5'
+              }}
             >
-                      <InstagramEffect imageUrl={imagesArray[currentImageIndex]?.image?.url} />
-
-              {/* <img 
-                src={imagesArray[currentImageIndex]?.image?.url} 
-                alt={imagesArray[currentImageIndex]?.description || "Momento especial"}
-                style={{
+              {useInstagramEffect ? (
+                // Renderiza o InstagramEffect com seu próprio aspect ratio
+                <div style={{ width: '100%' }}>
+                  <InstagramEffect 
+                    imageUrl={imagesArray[currentImageIndex]?.image?.url}
+                    onError={handleImageError}
+                  />
+                </div>
+              ) : (
+                // Fallback: imagem simples com aspect ratio 16:10
+                <div style={{
+                  position: 'relative',
                   width: '100%',
-                  height: '100%',
-                  objectFit: 'cover'
-                }}
-              /> */}
+                  paddingBottom: '62.5%', // 16:10 aspect ratio
+                  backgroundColor: '#f5f5f5'
+                }}>
+                  <img 
+                    src={imagesArray[currentImageIndex]?.image?.url} 
+                    alt={imagesArray[currentImageIndex]?.description || "Momento especial"}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.parentElement.innerHTML = '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#666;">Erro ao carregar imagem</div>';
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                  />
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
 
@@ -77,21 +108,24 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
                 onClick={prevImage}
                 style={{
                   position: 'absolute',
-                  left: '-50px',
+                  left: '10px',
                   top: '50%',
                   transform: 'translateY(-50%)',
                   background: 'linear-gradient(135deg, #ff9db4, #ffb6c1)',
                   border: 'none',
                   color: 'white',
-                  fontSize: '1.5rem',
-                  padding: '0.8rem',
+                  fontSize: '1.2rem',
+                  width: '40px',
+                  height: '40px',
                   borderRadius: '50%',
                   cursor: 'pointer',
-                  boxShadow: '0 8px 16px rgba(255, 182, 193, 0.3)',
-                  transition: 'all 0.3s ease'
+                  boxShadow: '0 4px 12px rgba(255, 182, 193, 0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10,
+                  WebkitTapHighlightColor: 'transparent'
                 }}
-                onMouseEnter={(e) => e.target.style.transform = 'translateY(-50%) scale(1.1)'}
-                onMouseLeave={(e) => e.target.style.transform = 'translateY(-50%) scale(1)'}
               >
                 ❮
               </button>
@@ -99,21 +133,24 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
                 onClick={nextImage}
                 style={{
                   position: 'absolute',
-                  right: '-50px',
+                  right: '10px',
                   top: '50%',
                   transform: 'translateY(-50%)',
                   background: 'linear-gradient(135deg, #ff9db4, #ffb6c1)',
                   border: 'none',
                   color: 'white',
-                  fontSize: '1.5rem',
-                  padding: '0.8rem',
+                  fontSize: '1.2rem',
+                  width: '40px',
+                  height: '40px',
                   borderRadius: '50%',
                   cursor: 'pointer',
-                  boxShadow: '0 8px 16px rgba(255, 182, 193, 0.3)',
-                  transition: 'all 0.3s ease'
+                  boxShadow: '0 4px 12px rgba(255, 182, 193, 0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10,
+                  WebkitTapHighlightColor: 'transparent'
                 }}
-                onMouseEnter={(e) => e.target.style.transform = 'translateY(-50%) scale(1.1)'}
-                onMouseLeave={(e) => e.target.style.transform = 'translateY(-50%) scale(1)'}
               >
                 ❯
               </button>
@@ -130,50 +167,17 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
           style={{
             textAlign: 'center',
             color: '#666',
-            fontSize: '1.5rem',
+            fontSize: '1.2rem',
             fontStyle: 'italic',
             maxWidth: '600px',
             marginLeft: 'auto',
-            marginRight: 'auto'
+            marginRight: 'auto',
+            padding: '0 1rem',
+            marginTop: '1rem'
           }}
         >
           <p>{imagesArray[currentImageIndex]?.description || "Um momento inesquecível"}</p>
         </motion.div>
-
-        {/* Indicadores */}
-        {/* {imagesArray.length > 1 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '1rem',
-              margin: '2rem 0'
-            }}
-          >
-            {imagesArray.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: '0.5rem',
-                  borderRadius: '50%',
-                  transition: 'all 0.3s ease',
-                  opacity: index === currentImageIndex ? 1 : 0.5,
-                  transform: index === currentImageIndex ? 'scale(1.3)' : 'scale(1)',
-                  fontSize: '1.2rem'
-                }}
-              >
-                💕
-              </button>
-            ))}
-          </motion.div>
-        )} */}
 
         {/* Thumbnails */}
         {imagesArray.length > 1 && (
@@ -184,26 +188,31 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              gap: '1rem',
-              margin: '2rem 0',
-              flexWrap: 'wrap'
+              gap: '0.8rem',
+              margin: '1.5rem 0',
+              flexWrap: 'wrap',
+              padding: '0 1rem'
             }}
           >
             {imagesArray.slice(0, 6).map((image, index) => (
-              <motion.div
+              <motion.button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                whileHover={{ scale: 1.1, y: -5 }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: '15px',
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '12px',
                   overflow: 'hidden',
                   cursor: 'pointer',
                   border: index === currentImageIndex ? '3px solid #ff9db4' : '3px solid transparent',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                  WebkitTapHighlightColor: 'transparent',
+                  padding: 0,
+                  background: 'none',
+                  flexShrink: 0
                 }}
               >
                 <img 
@@ -212,10 +221,11 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'cover'
+                    objectFit: 'cover',
+                    display: 'block'
                   }}
                 />
-              </motion.div>
+              </motion.button>
             ))}
           </motion.div>
         )}

@@ -6,6 +6,8 @@ const InstagramImageDisplay = ({ imageUrl, className = "" }) => {
   const [hasError, setHasError] = useState(false);
   const imageRef = useRef(null);
 
+  console.log("imageUrl", imageUrl);
+
   const handleImageLoad = () => {
     setIsLoaded(true);
     setHasError(false);
