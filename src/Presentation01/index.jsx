@@ -30,7 +30,16 @@ const Presentation = ({
     minutes: 0,
     seconds: 0
   });
+  
+  // Estados para monitoramento do player
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playerState, setPlayerState] = useState('unstarted');
+  const [playerReady, setPlayerReady] = useState(false);
+  const [playerError, setPlayerError] = useState(null);
+  
   const playerRef = useRef(null);
+
+  console.log("musicLink", musicLink);
 
   // Função para extrair o ID do vídeo do YouTube da URL
   const extractYouTubeId = (url) => {
@@ -39,6 +48,45 @@ const Presentation = ({
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
+  };
+
+  // Função para verificar status do player programaticamente
+  const checkPlayerStatus = () => {
+    if (playerRef.current && playerRef.current.getPlayerState) {
+      try {
+        const state = playerRef.current.getPlayerState();
+        const volume = playerRef.current.getVolume();
+        const currentTime = playerRef.current.getCurrentTime();
+        
+        const statusInfo = {
+          state,
+          volume,
+          currentTime,
+          isPlaying: state === 1
+        };
+        
+        console.log('Status do player:', statusInfo);
+        return statusInfo;
+      } catch (error) {
+        console.error('Erro ao verificar status do player:', error);
+        return null;
+      }
+    }
+    return null;
+  };
+
+  // Função para lidar com falhas de autoplay
+  const handleAutoplayFail = () => {
+    console.warn('Autoplay pode ter falhado. Tentando reproduzir novamente...');
+    if (playerRef.current && playerRef.current.playVideo) {
+      setTimeout(() => {
+        try {
+          playerRef.current.playVideo();
+        } catch (error) {
+          console.error('Erro ao tentar reproduzir vídeo:', error);
+        }
+      }, 1000);
+    }
   };
 
   // Carregar a API do YouTube
@@ -63,47 +111,117 @@ const Presentation = ({
     return () => {
       // Cleanup
       if (playerRef.current && typeof playerRef.current.destroy === 'function') {
-        playerRef.current.destroy();
+        try {
+          playerRef.current.destroy();
+        } catch (error) {
+          console.error('Erro ao destruir player:', error);
+        }
       }
     };
   }, [musicLink]);
 
   const initializePlayer = () => {
     const videoId = extractYouTubeId(musicLink);
-    if (!videoId) return;
+    if (!videoId) {
+      console.error('ID do vídeo não encontrado na URL:', musicLink);
+      return;
+    }
 
-    playerRef.current = new window.YT.Player('youtube-player', {
-      height: '0',
-      width: '0',
-      videoId: videoId,
-      playerVars: {
-        autoplay: 1,
-        controls: 0,
-        disablekb: 1,
-        fs: 0,
-        iv_load_policy: 3,
-        modestbranding: 1,
-        playsinline: 1,
-        rel: 0,
-        showinfo: 0,
-        loop: 1,
-        playlist: videoId // Necessário para o loop funcionar
-      },
-      events: {
-        onReady: (event) => {
-          // Definir volume e tocar automaticamente
-          event.target.setVolume(50);
-          event.target.playVideo();
+    console.log('Inicializando player com videoId:', videoId);
+
+    try {
+      playerRef.current = new window.YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: videoId,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          iv_load_policy: 3,
+          modestbranding: 1,
+          playsinline: 1,
+          rel: 0,
+          showinfo: 0,
+          loop: 1,
+          playlist: videoId // Necessário para o loop funcionar
         },
-        onStateChange: (event) => {
-          // Reiniciar o vídeo quando terminar (backup para o loop)
-          if (event.data === window.YT.PlayerState.ENDED) {
+        events: {
+          onReady: (event) => {
+            console.log('Player pronto');
+            setPlayerReady(true);
+            setPlayerError(null);
+            
+            // Definir volume e tocar automaticamente
+            event.target.setVolume(50);
             event.target.playVideo();
+            
+            // Verificar se começou a tocar após alguns segundos
+            setTimeout(() => {
+              const currentState = event.target.getPlayerState();
+              console.log('Estado após 3 segundos:', currentState);
+              if (currentState !== 1) { // 1 = playing
+                handleAutoplayFail();
+              }
+            }, 3000);
+          },
+          onStateChange: (event) => {
+            // Mapear os estados do player
+            const states = {
+              [-1]: 'unstarted',
+              [0]: 'ended',
+              [1]: 'playing',
+              [2]: 'paused',
+              [3]: 'buffering',
+              [5]: 'video cued'
+            };
+            
+            const currentState = states[event.data] || 'unknown';
+            setPlayerState(currentState);
+            setIsPlaying(event.data === window.YT.PlayerState.PLAYING);
+            
+            console.log('Mudança de estado do player:', currentState, 'Data:', event.data);
+            
+            // Reiniciar o vídeo quando terminar (backup para o loop)
+            if (event.data === window.YT.PlayerState.ENDED) {
+              console.log('Vídeo terminou, reiniciando...');
+              event.target.playVideo();
+            }
+          },
+          onError: (event) => {
+            const errorMessages = {
+              2: 'ID do vídeo inválido',
+              5: 'Erro de reprodução HTML5',
+              100: 'Vídeo não encontrado ou privado',
+              101: 'Reprodução não permitida em players embarcados',
+              150: 'Reprodução não permitida em players embarcados'
+            };
+            
+            const errorMessage = errorMessages[event.data] || `Erro desconhecido: ${event.data}`;
+            console.error('Erro no player do YouTube:', errorMessage);
+            setPlayerError(errorMessage);
           }
         }
-      }
-    });
+      });
+    } catch (error) {
+      console.error('Erro ao criar player do YouTube:', error);
+      setPlayerError('Erro ao inicializar player');
+    }
   };
+
+  // Verificação periódica do status (opcional para debug)
+  useEffect(() => {
+    if (!playerReady) return;
+    
+    const interval = setInterval(() => {
+      if (process.env.NODE_ENV === 'development') {
+        checkPlayerStatus();
+      }
+    }, 10000); // Verifica a cada 10 segundos apenas em desenvolvimento
+    
+    return () => clearInterval(interval);
+  }, [playerReady]);
 
   // Calcular o tempo desde que se conheceram
   useEffect(() => {
@@ -180,14 +298,79 @@ const Presentation = ({
       userName={userName}
       loveName={loveName}
     />,
-
   ];
 
   // Gera os slides apenas quando necessário
   const slides = renderSlides();
 
+  // Função para controle manual do player (útil para debug)
+  const togglePlayPause = () => {
+    if (playerRef.current) {
+      const currentState = playerRef.current.getPlayerState();
+      if (currentState === 1) { // playing
+        playerRef.current.pauseVideo();
+      } else {
+        playerRef.current.playVideo();
+      }
+    }
+  };
+
   return (
     <div className={`fadeItem ${styles.presentationContainer}`}>
+      {/* Indicador de status do player (apenas em desenvolvimento) */}
+      {process.env.NODE_ENV === 'development' && (
+        <div style={{ 
+          position: 'fixed', 
+          top: '10px', 
+          right: '10px', 
+          background: 'rgba(0,0,0,0.8)', 
+          color: 'white', 
+          padding: '12px', 
+          borderRadius: '8px',
+          fontSize: '12px',
+          zIndex: 1000,
+          fontFamily: 'monospace',
+          minWidth: '200px'
+        }}>
+          <div><strong>🎵 Player Status</strong></div>
+          <div>Estado: <span style={{color: isPlaying ? '#4ade80' : '#fbbf24'}}>{playerState}</span></div>
+          <div>Tocando: <span style={{color: isPlaying ? '#4ade80' : '#ef4444'}}>{isPlaying ? 'Sim' : 'Não'}</span></div>
+          <div>Pronto: <span style={{color: playerReady ? '#4ade80' : '#ef4444'}}>{playerReady ? 'Sim' : 'Não'}</span></div>
+          {playerError && <div style={{color: '#ef4444'}}>Erro: {playerError}</div>}
+          <button 
+            onClick={togglePlayPause}
+            style={{
+              marginTop: '8px',
+              padding: '4px 8px',
+              backgroundColor: '#374151',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '10px'
+            }}
+          >
+            {isPlaying ? 'Pausar' : 'Tocar'}
+          </button>
+          <button 
+            onClick={checkPlayerStatus}
+            style={{
+              marginTop: '4px',
+              marginLeft: '4px',
+              padding: '4px 8px',
+              backgroundColor: '#374151',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '10px'
+            }}
+          >
+            Verificar Status
+          </button>
+        </div>
+      )}
+      
       {/* Player do YouTube invisível */}
       <div id="youtube-player" style={{ display: 'none' }}></div>
       
