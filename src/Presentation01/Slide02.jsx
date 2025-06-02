@@ -79,10 +79,10 @@ const Slide02 = ({ userName, loveName, timeSince, onNextSlide }) => {
             transition={{ duration: 0.8 }}
             variants={timeBoxVariants}
             className={styles.slideTitle}
-            custom={3}
+            custom={4}
           >
             <h2>
-              que sou apaixonado por você...
+              que sou apaixonado(a) por você...
               {/* <span className={styles.highlightedText}>{loveName}</span> há: */}
             </h2>
           </motion.div>
@@ -103,7 +103,7 @@ const Slide02 = ({ userName, loveName, timeSince, onNextSlide }) => {
         </div>
 
         <motion.button
-          className={styles.nextButton}
+          className={`${styles.nextButton} d-flex`}
           onClick={onNextSlide}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

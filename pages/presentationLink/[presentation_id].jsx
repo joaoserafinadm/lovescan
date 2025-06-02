@@ -110,6 +110,7 @@ export default function presentationLink() {
             couplePhoto={presentationData?.couplePhoto}
             imagesArray={presentationData?.imagesArray}
             letterContent={presentationData?.letterContent}
+            musicLink={presentationData?.musicLink}
           />
 
           <div className="card border-secondary bg-dark m-2 fadeItem mb-5">

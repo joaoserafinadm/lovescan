@@ -1,7 +1,15 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import styles from './Presentation.module.css';
-import { Heart, MessageCircle, Clock, Music, Camera, HeartPulse, Smile } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import styles from "./Presentation.module.css";
+import {
+  Heart,
+  MessageCircle,
+  Clock,
+  Music,
+  Camera,
+  HeartPulse,
+  Smile,
+} from "lucide-react";
 
 const Slide03 = ({ userName, loveName, timeSince, onNextSlide }) => {
   const { days } = timeSince;
@@ -14,7 +22,7 @@ const Slide03 = ({ userName, loveName, timeSince, onNextSlide }) => {
   const teAmos = Math.round(days * 3);
   const risadas = Math.round(days * 12);
   const batimentosCardiacos = Math.round(days * 24 * 60 * 70);
-  const batimentosFormatados = batimentosCardiacos.toLocaleString('pt-BR');
+  const batimentosFormatados = batimentosCardiacos.toLocaleString("pt-BR");
   const musicas = Math.round(days * 5);
   const fotos = Math.round(days * 0.8);
 
@@ -24,17 +32,17 @@ const Slide03 = ({ userName, loveName, timeSince, onNextSlide }) => {
       opacity: 1,
       transition: {
         delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      y: 0
-    }
+      y: 0,
+    },
   };
 
   return (
@@ -44,84 +52,223 @@ const Slide03 = ({ userName, loveName, timeSince, onNextSlide }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className={styles.slideTitle}
+          className={`${styles.slideTitle} my-4`}
         >
-          <h2>Nosso Amor em Números</h2>
+          <h1>Nosso Amor em Números</h1>
         </motion.div>
-
         <motion.div
           className={styles.statsContainer}
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.div className={styles.statItem} variants={itemVariants}>
-            <div className={styles.statIcon}><Heart size={28} color="#d23669" /></div>
-            <div className={styles.statContent}>
-              <span className={`${styles.statValue} me-1`} style={{color: "#d23669"}}>{beijos}</span>
-              <span className={styles.statLabel} style={{color: "#d23669"}}>Beijos Trocados</span>
+          <div className="row d-flex">
+            <div className="col-12 col-md-3 my-2">
+              <motion.div variants={itemVariants}>
+                <div className="card">
+                  <div className="card-body d-flex flex-column justify-content-center text-center align-items-center">
+                    <div className={styles.statIcon}>
+                      <Heart size={28} color="#d23669" />
+                    </div>
+                    <div className={styles.statContent}>
+                      <span
+                        className={`${styles.statValue} me-1`}
+                        style={{ color: "#d23669" }}
+                      >
+                        {beijos}
+                      </span>
+                      <span
+                        className={styles.statLabel}
+                        style={{ color: "#d23669" }}
+                      >
+                        Beijos Trocados
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
 
-          <motion.div className={styles.statItem} variants={itemVariants}>
-            <div className={styles.statIcon}><Clock size={28} color="#d23669" /></div>
-            <div className={styles.statContent}>
-              <span className={`${styles.statValue} me-1`} style={{color: "#d23669"}}>{abracoHoras}</span>
-              <span className={styles.statLabel} style={{color: "#d23669"}}>Horas de Abraços</span>
+            <div className="col-12 col-md-3 my-2">
+              <motion.div variants={itemVariants}>
+                <div className="card">
+                  <div className="card-body d-flex flex-column justify-content-center text-center align-items-center">
+                    <div className={styles.statIcon}>
+                      <Clock size={28} color="#d23669" />
+                    </div>
+                    <div className={styles.statContent}>
+                      <span
+                        className={`${styles.statValue} me-1`}
+                        style={{ color: "#d23669" }}
+                      >
+                        {abracoHoras}
+                      </span>
+                      <span
+                        className={styles.statLabel}
+                        style={{ color: "#d23669" }}
+                      >
+                        Horas de Abraços
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
-
-          <motion.div className={styles.statItem} variants={itemVariants}>
-            <div className={styles.statIcon}><MessageCircle size={28} color="#d23669" /></div>
-            <div className={styles.statContent}>
-              <span className={`${styles.statValue} me-1`} style={{color: "#d23669"}}>{mensagens}</span>
-              <span className={styles.statLabel} style={{color: "#d23669"}}>Mensagens Trocadas</span>
+            <div className="col-12 col-md-3 my-2">
+              <motion.div variants={itemVariants}>
+                <div className="card">
+                  <div className="card-body d-flex flex-column justify-content-center text-center align-items-center">
+                    <div className={styles.statIcon}>
+                      <MessageCircle size={28} color="#d23669" />
+                    </div>
+                    <div className={styles.statContent}>
+                      <span
+                        className={`${styles.statValue} me-1`}
+                        style={{ color: "#d23669" }}
+                      >
+                        {mensagens}
+                      </span>
+                      <span
+                        className={styles.statLabel}
+                        style={{ color: "#d23669" }}
+                      >
+                        Mensagens Trocadas
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
-
-          <motion.div className={styles.statItem} variants={itemVariants}>
-            <div className={styles.statIcon}><Heart size={28} color="#d23669" /></div>
-            <div className={styles.statContent}>
-              <span className={`${styles.statValue} me-1`} style={{color: "#d23669"}}>{teAmos}</span>
-              <span className={styles.statLabel} style={{color: "#d23669"}}>"Eu Te Amo" Ditos</span>
+            <div className="col-12 col-md-3 my-2">
+              <motion.div variants={itemVariants}>
+                <div className="card">
+                  <div className="card-body d-flex flex-column justify-content-center text-center align-items-center">
+                    <div className={styles.statIcon}>
+                      <Heart size={28} color="#d23669" />
+                    </div>
+                    <div className={styles.statContent}>
+                      <span
+                        className={`${styles.statValue} me-1`}
+                        style={{ color: "#d23669" }}
+                      >
+                        {teAmos}
+                      </span>
+                      <span
+                        className={styles.statLabel}
+                        style={{ color: "#d23669" }}
+                      >
+                        "Eu Te Amo" Ditos
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
-
-          <motion.div className={styles.statItem} variants={itemVariants}>
-            <div className={styles.statIcon}><Smile size={28} color="#d23669" /></div>
-            <div className={styles.statContent}>
-              <span className={`${styles.statValue} me-1`} style={{color: "#d23669"}}>{risadas}</span>
-              <span className={styles.statLabel} style={{color: "#d23669"}}>Risadas Juntos</span>
+            <div className="col-12 col-md-3 my-2">
+              <motion.div variants={itemVariants}>
+                <div className="card">
+                  <div className="card-body d-flex flex-column justify-content-center text-center align-items-center">
+                    <div className={styles.statIcon}>
+                      <Smile size={28} color="#d23669" />
+                    </div>
+                    <div className={styles.statContent}>
+                      <span
+                        className={`${styles.statValue} me-1`}
+                        style={{ color: "#d23669" }}
+                      >
+                        {risadas}
+                      </span>
+                      <span
+                        className={styles.statLabel}
+                        style={{ color: "#d23669" }}
+                      >
+                        Risadas Juntos
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
-
-          <motion.div className={styles.statItem} variants={itemVariants}>
-            <div className={styles.statIcon}><HeartPulse size={28} color="#d23669" /></div>
-            <div className={styles.statContent}>
-              <span className={`${styles.statValue} me-1`} style={{color: "#d23669"}}>{batimentosFormatados}</span>
-              <span className={styles.statLabel} style={{color: "#d23669"}}>Batimentos Cardíacos</span>
+            <div className="col-12 col-md-3 my-2">
+              <motion.div variants={itemVariants}>
+                <div className="card">
+                  <div className="card-body d-flex flex-column justify-content-center text-center align-items-center">
+                    <div className={styles.statIcon}>
+                      <HeartPulse size={28} color="#d23669" />
+                    </div>
+                    <div className={styles.statContent}>
+                      <span
+                        className={`${styles.statValue} me-1`}
+                        style={{ color: "#d23669" }}
+                      >
+                        {batimentosFormatados}
+                      </span>
+                      <span
+                        className={styles.statLabel}
+                        style={{ color: "#d23669" }}
+                      >
+                        Batimentos Cardíacos
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
-
-          <motion.div className={styles.statItem} variants={itemVariants}>
-            <div className={styles.statIcon}><Music size={28} color="#d23669" /></div>
-            <div className={styles.statContent}>
-              <span className={`${styles.statValue} me-1`} style={{color: "#d23669"}}>{musicas}</span>
-              <span className={styles.statLabel} style={{color: "#d23669"}}>Músicas Compartilhadas</span>
+            <div className="col-12 col-md-3 my-2">
+              <motion.div variants={itemVariants}>
+                <div className="card">
+                  <div className="card-body d-flex flex-column justify-content-center text-center align-items-center">
+                    <div className={styles.statIcon}>
+                      <Music size={28} color="#d23669" />
+                    </div>
+                    <div className={styles.statContent}>
+                      <span
+                        className={`${styles.statValue} me-1`}
+                        style={{ color: "#d23669" }}
+                      >
+                        {musicas}
+                      </span>
+                      <span
+                        className={styles.statLabel}
+                        style={{ color: "#d23669" }}
+                      >
+                        Músicas Compartilhadas
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
-
-          <motion.div className={styles.statItem} variants={itemVariants}>
-            <div className={styles.statIcon}><Camera size={28} color="#d23669" /></div>
-            <div className={styles.statContent}>
-              <span className={`${styles.statValue} me-1`} style={{color: "#d23669"}}>{fotos}</span>
-              <span className={styles.statLabel} style={{color: "#d23669"}}>Fotos Juntos</span>
+            <div className="col-12 col-md-3 my-2">
+              <motion.div variants={itemVariants}>
+                <div className="card">
+                  <div className="card-body d-flex flex-column justify-content-center text-center align-items-center">
+                    <div className={styles.statIcon}>
+                      <Camera size={28} color="#d23669" />
+                    </div>
+                    <div className={styles.statContent}>
+                      <span
+                        className={`${styles.statValue} me-1`}
+                        style={{ color: "#d23669" }}
+                      >
+                        {fotos}
+                      </span>
+                      <span
+                        className={styles.statLabel}
+                        style={{ color: "#d23669" }}
+                      >
+                        Fotos Juntos
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
-        
+
         <motion.button
-          className={styles.nextButton}
+          className={`d-flex position-relative ${styles.nextButton}`}
           onClick={onNextSlide}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

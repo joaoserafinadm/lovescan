@@ -14,7 +14,8 @@ export default function PresentationPreviewModal(props) {
         couplePhoto,
         imagesArray,
         descriptionsArray,
-        letterContent } = props
+        letterContent,
+        musicLink } = props
 
     return (
         <div class="modal fade" id="presentationPreviewModal" tabindex="-1" aria-labelledby="presentationPreviewModalLabel" aria-hidden="true">
@@ -34,7 +35,8 @@ export default function PresentationPreviewModal(props) {
                             couplePhoto={couplePhoto}
                             imagesArray={imagesArray}
                             descriptionsArray={descriptionsArray}
-                            letterContent={letterContent} />
+                            letterContent={letterContent}
+                            musicLink={musicLink} />
 
                     </div>
 
