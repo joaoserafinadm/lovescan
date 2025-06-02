@@ -26,6 +26,7 @@ const Slide07 = ({ onNextSlide, letterContent }) => {
             <div 
               className="p-0 p-md-4 mx-auto" 
               style={{
+                width: "100%",
                 maxWidth: "600px",
                 minHeight: "300px",
                 background: "#f8f5e6",
