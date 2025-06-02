@@ -24,11 +24,11 @@ const Slide02 = ({ userName, loveName, timeSince, onNextSlide }) => {
           transition={{ duration: 0.8 }}
           className={styles.slideTitle}
         >
-          <h2>
+          <h1>
             <span className={styles.highlightedText}>{loveName}</span>, neste
             exato momento fazem:
             {/* <span className={styles.highlightedText}>{loveName}</span> há: */}
-          </h2>
+          </h1>
         </motion.div>
 
         <div className={styles.timeCounterContainer}>
@@ -81,10 +81,10 @@ const Slide02 = ({ userName, loveName, timeSince, onNextSlide }) => {
             className={styles.slideTitle}
             custom={4}
           >
-            <h2>
+            <h1>
               que sou apaixonado(a) por você...
               {/* <span className={styles.highlightedText}>{loveName}</span> há: */}
-            </h2>
+            </h1>
           </motion.div>
 
           <motion.div
