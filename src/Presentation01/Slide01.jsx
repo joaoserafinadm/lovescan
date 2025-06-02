@@ -13,7 +13,7 @@ const Slide01 = ({ loveName, couplePhoto, onNextSlide }) => {
           className={styles.slideTitle}
         >
           <h1>Para o meu amor,</h1>
-          <h2 className={styles.loveName}>{loveName}</h2>
+          <h1 style={{color: "#d23669"}}>{loveName}</h1>
         </motion.div>
 
         <motion.div
@@ -24,7 +24,7 @@ const Slide01 = ({ loveName, couplePhoto, onNextSlide }) => {
         >
           {couplePhoto ? (
             <img 
-              src={couplePhoto.url} 
+              src={couplePhoto?.url} 
               alt={`Foto com o(a) ${loveName}`} 
               className={styles.couplePhoto}
               loading="eager"

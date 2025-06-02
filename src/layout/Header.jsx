@@ -5,10 +5,13 @@ import { Menu, X, ChevronDown, LogIn, User, Settings, LogOut } from 'lucide-reac
 import styles from './Header.module.css';
 import LoginModal from './login/LoginModal';
 import { useAuth } from './context/AuthContext';
+import { useRouter } from 'next/router';
 
 const Header = ({  }) => {
 
   const { user, logout } = useAuth(); // Assumindo que existe uma função logout no contexto
+
+  const router = useRouter();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
@@ -25,6 +28,7 @@ const Header = ({  }) => {
   const handleLogout = () => {
     logout(); // Chama a função de logout do contexto
     setUserDropdownOpen(false);
+    router.reload();
   };
 
   // Fecha o dropdown quando clica fora dele

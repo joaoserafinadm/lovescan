@@ -66,7 +66,7 @@
 
 /* Estilos para títulos e texto */
 .slideTitle {
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
   text-align: center;
 }
 
@@ -86,10 +86,10 @@
 }
 
 .loveName {
-  color: #d23669;
-  font-size: 3.5rem;
+  color: #d23669 imporat !important;
+  /* font-size: 3.5rem; */
   font-weight: 700;
-  font-family: 'Parisienne', cursive;
+  /* font-family: 'Parisienne', cursive; */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -103,14 +103,14 @@
 /* Estilos para foto */
 .photoContainer {
   width: 90%;
-  max-width: 350px;
+  max-width: 400px;
   height: auto;
-  margin: 1rem auto;
+  /* margin: 1rem auto; */
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   background-color: #fff;
-  padding: 8px;
+  /* padding: 8px; */
   border: 2px solid #f8c8dc;
   position: relative;
   display: flex;
@@ -121,10 +121,10 @@
 .photoContainer::before {
   content: '';
   position: absolute;
-  top: -5px;
+  /* top: -5px;
   left: -5px;
   right: -5px;
-  bottom: -5px;
+  bottom: -5px; */
   border: 1px solid #f8c8dc;
   border-radius: 20px;
   z-index: -1;
@@ -265,9 +265,9 @@
 
 .nextButton::after {
   content: '';
-  position: absolute;
+  /* position: absolute;
   top: -50%;
-  left: -50%;
+  left: -50%; */
   width: 200%;
   height: 200%;
   background: rgba(255, 255, 255, 0.1);
@@ -353,7 +353,7 @@
   }
   
   .loveName {
-    font-size: 2.2rem;
+    font-size: 3rem;
   }
   
   .timeCounter {
@@ -412,7 +412,7 @@
   }
   
   .loveName {
-    font-size: 2rem;
+    font-size: 3rem;
   }
   
   .highlightedText {

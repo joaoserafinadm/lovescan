@@ -105,8 +105,8 @@ const PRODUCTS = [
     title: "1 apresentação Love Scan",
     description:
       "Ideal para criar uma mensagem especial para aquela pessoa que você ama",
-    // price: 4 * dolar,
-    price: 1,
+    price: 4 * dolar,
+    // price: 1,
     credits: 1,
     recommended: false,
     userType: "individual",

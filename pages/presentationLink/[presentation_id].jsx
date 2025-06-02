@@ -107,7 +107,7 @@ export default function presentationLink() {
             day={presentationData?.day}
             month={presentationData?.month}
             year={presentationData?.year}
-            couplePhoto={presentationData?.couplePhoto.url}
+            couplePhoto={presentationData?.couplePhoto}
             imagesArray={presentationData?.imagesArray}
             letterContent={presentationData?.letterContent}
           />
