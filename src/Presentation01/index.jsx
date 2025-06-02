@@ -318,7 +318,7 @@ const Presentation = ({
   return (
     <div className={`fadeItem ${styles.presentationContainer}`}>
       {/* Indicador de status do player (apenas em desenvolvimento) */}
-      {process.env.NODE_ENV === 'development' && (
+      {/* {process.env.NODE_ENV === 'development' && ( */}
         <div style={{ 
           position: 'fixed', 
           top: '10px', 
@@ -369,7 +369,7 @@ const Presentation = ({
             Verificar Status
           </button>
         </div>
-      )}
+      {/* )} */}
       
       {/* Player do YouTube invisível */}
       <div id="youtube-player" style={{ display: 'none' }}></div>
