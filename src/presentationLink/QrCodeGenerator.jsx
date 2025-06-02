@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import QRCode from "qrcode";
 import Button from "../components/Button";
-import { Copy, Download, Share } from "lucide-react";
+import { Check, Copy, Download, Share } from "lucide-react";
 
 export default function QRCodeGenerator({ url, title = "QR Code" }) {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     const generateQR = async () => {
@@ -101,12 +102,14 @@ export default function QRCodeGenerator({ url, title = "QR Code" }) {
               </div>
             </div>
 
-            <div className="text-center">
-              <small className="text-muted" style={{ wordBreak: "break-all" }}>
-                {url.length > 40 ? `${url.substring(0, 40)}...` : url}
+            <div className="text-center d-flex justify-content-center flex-column">
+              <small className="" style={{ wordBreak: "break-all" }}>
+                {/* {url.length > 40 ? `${url.substring(0, 40)}...` : url} */}
+                {url}
               </small>
-              <Button onClick={() => navigator.clipboard.writeText(url)} icon={<Copy size={14} />}>
-                Copiar link
+              <Button onClick={() => {navigator.clipboard.writeText(url); setLinkCopied(true);setTimeout(() => {setLinkCopied(false)}, 2000)}} icon={<Copy size={14} />}>
+                {linkCopied ? "Link copiado" : "Copiar link"}
+                 {linkCopied &&<Check  className="text-success ms-2" />}
               </Button>
             </div>
           </>

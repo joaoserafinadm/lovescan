@@ -233,7 +233,7 @@ export default function presentationLink() {
                           <div className="mb-2">
                             <InstagramEffect imageUrl={elem?.image?.url} />
                           </div>
-                          <small className="text-muted d-block px-2">
+                          <small className=" d-block px-2">
                             {elem?.description}
                           </small>
                         </div>
