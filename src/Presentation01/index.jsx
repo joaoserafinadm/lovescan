@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+// Calcular o tempo desde que se conheceramimport React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Slide01 from './Slide01';
 import Slide02 from './Slide02';
@@ -10,6 +10,7 @@ import Slide05 from './Slide05';
 import Slide06 from './Slide06';
 import Slide07 from './Slide07';
 import Slide08 from './Slide08';
+import { useEffect, useRef, useState } from 'react';
 
 const Presentation = ({
   userName,
@@ -36,10 +37,13 @@ const Presentation = ({
   const [playerState, setPlayerState] = useState('unstarted');
   const [playerReady, setPlayerReady] = useState(false);
   const [playerError, setPlayerError] = useState(null);
+  const [userInteracted, setUserInteracted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   
   const playerRef = useRef(null);
+  const isInitializingRef = useRef(false);
 
-  console.log("musicLink", musicLink);
+  // console.log("musicLink", musicLink);
 
   // Função para extrair o ID do vídeo do YouTube da URL
   const extractYouTubeId = (url) => {
@@ -50,48 +54,48 @@ const Presentation = ({
     return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  // Função para verificar status do player programaticamente
-  const checkPlayerStatus = () => {
-    if (playerRef.current && playerRef.current.getPlayerState) {
-      try {
-        const state = playerRef.current.getPlayerState();
-        const volume = playerRef.current.getVolume();
-        const currentTime = playerRef.current.getCurrentTime();
+  // Detectar interação do usuário para fallback se autoplay com som falhar
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      if (!userInteracted && playerRef.current) {
+        console.log('👆 Primeira interação do usuário detectada');
+        setUserInteracted(true);
         
-        const statusInfo = {
-          state,
-          volume,
-          currentTime,
-          isPlaying: state === 1
-        };
-        
-        console.log('Status do player:', statusInfo);
-        return statusInfo;
-      } catch (error) {
-        console.error('Erro ao verificar status do player:', error);
-        return null;
+        // Garantir que está com som após interação
+        setTimeout(() => {
+          if (playerRef.current) {
+            const currentState = playerRef.current.getPlayerState();
+            console.log('🔊 Garantindo reprodução com som após interação, estado:', currentState);
+            playerRef.current.unMute();
+            playerRef.current.setVolume(50);
+            
+            // Se não estiver tocando, tentar reproduzir
+            if (currentState !== 1) {
+              playerRef.current.playVideo();
+            }
+            setIsMuted(false);
+          }
+        }, 200);
       }
-    }
-    return null;
-  };
+    };
 
-  // Função para lidar com falhas de autoplay
-  const handleAutoplayFail = () => {
-    console.warn('Autoplay pode ter falhado. Tentando reproduzir novamente...');
-    if (playerRef.current && playerRef.current.playVideo) {
-      setTimeout(() => {
-        try {
-          playerRef.current.playVideo();
-        } catch (error) {
-          console.error('Erro ao tentar reproduzir vídeo:', error);
-        }
-      }, 1000);
-    }
-  };
+    const events = ['click', 'touchstart', 'keydown'];
+    events.forEach(event => {
+      document.addEventListener(event, handleUserInteraction, { once: true, passive: true });
+    });
+
+    return () => {
+      events.forEach(event => {
+        document.removeEventListener(event, handleUserInteraction);
+      });
+    };
+  }, [userInteracted]);
 
   // Carregar a API do YouTube
   useEffect(() => {
-    if (!musicLink) return;
+    if (!musicLink || isInitializingRef.current) return;
+
+    isInitializingRef.current = true;
 
     // Verificar se a API já foi carregada
     if (window.YT && window.YT.Player) {
@@ -127,7 +131,7 @@ const Presentation = ({
       return;
     }
 
-    console.log('Inicializando player com videoId:', videoId);
+    console.log('🎬 Inicializando player com videoId:', videoId);
 
     try {
       playerRef.current = new window.YT.Player('youtube-player', {
@@ -145,29 +149,25 @@ const Presentation = ({
           rel: 0,
           showinfo: 0,
           loop: 1,
-          playlist: videoId // Necessário para o loop funcionar
+          playlist: videoId,
+          mute: 0,              // ✅ MUDANÇA: Não iniciar mutado
+          enablejsapi: 1
         },
         events: {
           onReady: (event) => {
-            console.log('Player pronto');
+            console.log('✅ Player pronto');
             setPlayerReady(true);
             setPlayerError(null);
+            setIsMuted(false); // ✅ Inicia desmutado
             
-            // Definir volume e tocar automaticamente
+            // ✅ Configurar volume e reproduzir com som
+            console.log('🎵 Iniciando reprodução com som');
+            event.target.unMute();
             event.target.setVolume(50);
             event.target.playVideo();
-            
-            // Verificar se começou a tocar após alguns segundos
-            setTimeout(() => {
-              const currentState = event.target.getPlayerState();
-              console.log('Estado após 3 segundos:', currentState);
-              if (currentState !== 1) { // 1 = playing
-                handleAutoplayFail();
-              }
-            }, 3000);
           },
+          
           onStateChange: (event) => {
-            // Mapear os estados do player
             const states = {
               [-1]: 'unstarted',
               [0]: 'ended',
@@ -179,16 +179,42 @@ const Presentation = ({
             
             const currentState = states[event.data] || 'unknown';
             setPlayerState(currentState);
-            setIsPlaying(event.data === window.YT.PlayerState.PLAYING);
+            setIsPlaying(event.data === 1);
             
-            console.log('Mudança de estado do player:', currentState, 'Data:', event.data);
+            console.log(`🔄 Estado: ${currentState} (${event.data})`);
             
-            // Reiniciar o vídeo quando terminar (backup para o loop)
-            if (event.data === window.YT.PlayerState.ENDED) {
-              console.log('Vídeo terminou, reiniciando...');
-              event.target.playVideo();
+            // ÚNICA INTERVENÇÃO: Reiniciar quando terminar
+            if (event.data === 0) { // ENDED
+              console.log('🔁 Vídeo terminou, reiniciando...');
+              setTimeout(() => {
+                if (playerRef.current) {
+                  playerRef.current.playVideo();
+                }
+              }, 500);
+            }
+            
+            // Log importante: quando começar a tocar
+            if (event.data === 1) {
+              console.log('🎵 TOCANDO! Mutado:', playerRef.current?.isMuted());
+              // Verificar e garantir que não está mutado
+              if (playerRef.current && typeof playerRef.current.isMuted === 'function') {
+                const actualMuteState = playerRef.current.isMuted();
+                if (actualMuteState) {
+                  console.log('🔊 Player estava mutado, desmutando...');
+                  playerRef.current.unMute();
+                  playerRef.current.setVolume(50);
+                }
+                setIsMuted(false); // Sempre manter desmutado
+                console.log('🔊 Estado garantido: COM SOM');
+              }
+            }
+            
+            // Log quando pausar (sem tentar corrigir)
+            if (event.data === 2) {
+              console.log('⏸️ PAUSOU - deixando quieto');
             }
           },
+          
           onError: (event) => {
             const errorMessages = {
               2: 'ID do vídeo inválido',
@@ -199,31 +225,35 @@ const Presentation = ({
             };
             
             const errorMessage = errorMessages[event.data] || `Erro desconhecido: ${event.data}`;
-            console.error('Erro no player do YouTube:', errorMessage);
+            console.error('❌ Erro no player:', errorMessage);
             setPlayerError(errorMessage);
           }
         }
       });
     } catch (error) {
-      console.error('Erro ao criar player do YouTube:', error);
+      console.error('❌ Erro ao criar player:', error);
       setPlayerError('Erro ao inicializar player');
     }
   };
 
-  // Verificação periódica do status (opcional para debug)
+  // Verificação periódica para garantir que nunca fica mutado
   useEffect(() => {
     if (!playerReady) return;
     
     const interval = setInterval(() => {
-      if (process.env.NODE_ENV === 'development') {
-        checkPlayerStatus();
+      if (playerRef.current && typeof playerRef.current.isMuted === 'function') {
+        const actualMuteState = playerRef.current.isMuted();
+        if (actualMuteState) {
+          console.log('🔊 Detectado estado mutado, corrigindo...');
+          playerRef.current.unMute();
+          playerRef.current.setVolume(50);
+        }
+        setIsMuted(false); // Sempre manter como não mutado
       }
-    }, 10000); // Verifica a cada 10 segundos apenas em desenvolvimento
+    }, 2000); // Verifica a cada 2 segundos
     
     return () => clearInterval(interval);
   }, [playerReady]);
-
-  // Calcular o tempo desde que se conheceram
   useEffect(() => {
     const calculateTimeSince = () => {
       const startDate = new Date(`${year}-${month}-${day}`);
@@ -303,73 +333,105 @@ const Presentation = ({
   // Gera os slides apenas quando necessário
   const slides = renderSlides();
 
-  // Função para controle manual do player (útil para debug)
-  const togglePlayPause = () => {
+  // Função manual para controle
+  const manualPlay = () => {
     if (playerRef.current) {
-      const currentState = playerRef.current.getPlayerState();
-      if (currentState === 1) { // playing
-        playerRef.current.pauseVideo();
+      console.log('🎵 Play manual COM SOM');
+      playerRef.current.unMute();
+      playerRef.current.setVolume(50);
+      playerRef.current.playVideo();
+      setUserInteracted(true);
+      setIsMuted(false);
+    }
+  };
+
+  const manualPause = () => {
+    if (playerRef.current) {
+      console.log('⏸️ Pause manual');
+      playerRef.current.pauseVideo();
+    }
+  };
+
+  const toggleMute = () => {
+    if (playerRef.current) {
+      const currentMuteState = playerRef.current.isMuted();
+      if (currentMuteState) {
+        playerRef.current.unMute();
+        playerRef.current.setVolume(50);
+        setIsMuted(false);
+        console.log('🔊 Desmutado manualmente');
       } else {
-        playerRef.current.playVideo();
+        playerRef.current.mute();
+        setIsMuted(true);
+        console.log('🔇 Mutado manualmente');
       }
     }
   };
 
   return (
     <div className={`fadeItem ${styles.presentationContainer}`}>
-      {/* Indicador de status do player (apenas em desenvolvimento) */}
-      {/* {process.env.NODE_ENV === 'development' && ( */}
+      {/* Debug Panel Simplificado */}
+      {process.env.NODE_ENV === 'development' && (
         <div style={{ 
           position: 'fixed', 
           top: '10px', 
           right: '10px', 
-          background: 'rgba(0,0,0,0.8)', 
+          background: 'rgba(0,0,0,0.9)', 
           color: 'white', 
-          padding: '12px', 
-          borderRadius: '8px',
+          padding: '16px', 
+          borderRadius: '12px',
           fontSize: '12px',
           zIndex: 1000,
           fontFamily: 'monospace',
-          minWidth: '200px'
+          minWidth: '280px'
         }}>
-          <div><strong>🎵 Player Status</strong></div>
-          <div>Estado: <span style={{color: isPlaying ? '#4ade80' : '#fbbf24'}}>{playerState}</span></div>
-          <div>Tocando: <span style={{color: isPlaying ? '#4ade80' : '#ef4444'}}>{isPlaying ? 'Sim' : 'Não'}</span></div>
-          <div>Pronto: <span style={{color: playerReady ? '#4ade80' : '#ef4444'}}>{playerReady ? 'Sim' : 'Não'}</span></div>
-          {playerError && <div style={{color: '#ef4444'}}>Erro: {playerError}</div>}
-          <button 
-            onClick={togglePlayPause}
-            style={{
+          <div style={{marginBottom: '8px'}}><strong>🎵 Player Status</strong></div>
+          <div>Estado: <span style={{color: isPlaying ? '#10b981' : '#f59e0b'}}>{playerState}</span></div>
+          <div>Tocando: <span style={{color: isPlaying ? '#10b981' : '#ef4444'}}>{isPlaying ? 'SIM ✅' : 'NÃO ❌'}</span></div>
+          <div>Pronto: <span style={{color: playerReady ? '#10b981' : '#ef4444'}}>{playerReady ? 'SIM ✅' : 'NÃO ❌'}</span></div>
+          <div>Mutado: <span style={{color: isMuted ? '#f59e0b' : '#10b981'}}>{isMuted ? 'SIM 🔇' : 'NÃO 🔊'}</span></div>
+          <div>User Click: <span style={{color: userInteracted ? '#10b981' : '#f59e0b'}}>{userInteracted ? 'SIM ✅' : 'NÃO ⏳'}</span></div>
+          {playerError && <div style={{color: '#ef4444'}}>❌ {playerError}</div>}
+          
+          <div style={{marginTop: '12px', display: 'flex', flexWrap: 'wrap', gap: '4px'}}>
+            <button onClick={manualPlay} style={{padding: '6px 8px', backgroundColor: '#059669', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px'}}>
+              ▶️ PLAY
+            </button>
+            <button onClick={manualPause} style={{padding: '6px 8px', backgroundColor: '#dc2626', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px'}}>
+              ⏸️ PAUSE
+            </button>
+            <button onClick={toggleMute} style={{padding: '6px 8px', backgroundColor: '#7c3aed', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '10px'}}>
+              {isMuted ? '🔊 UNMUTE' : '🔇 MUTE'}
+            </button>
+          </div>
+          
+          {!isPlaying && playerReady && (
+            <div style={{
               marginTop: '8px',
-              padding: '4px 8px',
-              backgroundColor: '#374151',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '10px'
-            }}
-          >
-            {isPlaying ? 'Pausar' : 'Tocar'}
-          </button>
-          <button 
-            onClick={checkPlayerStatus}
-            style={{
-              marginTop: '4px',
-              marginLeft: '4px',
-              padding: '4px 8px',
-              backgroundColor: '#374151',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '10px'
-            }}
-          >
-            Verificar Status
-          </button>
+              padding: '8px',
+              backgroundColor: 'rgba(239, 68, 68, 0.2)',
+              borderRadius: '6px',
+              fontSize: '11px',
+              color: '#ef4444'
+            }}>
+              ⚠️ Player não está tocando - use PLAY manual (COM SOM)
+            </div>
+          )}
+          
+          {isPlaying && !isMuted && (
+            <div style={{
+              marginTop: '8px',
+              padding: '8px',
+              backgroundColor: 'rgba(16, 185, 129, 0.2)',
+              borderRadius: '6px',
+              fontSize: '11px',
+              color: '#10b981'
+            }}>
+              🎵 Música tocando COM SOM! ✅
+            </div>
+          )}
         </div>
-      {/* )} */}
+      )}
       
       {/* Player do YouTube invisível */}
       <div id="youtube-player" style={{ display: 'none' }}></div>
