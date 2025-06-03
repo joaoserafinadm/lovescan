@@ -13,6 +13,7 @@ import { closeModal } from "@/utils/modalControl";
 import useMercadoPago from "@/hooks/useMercadoPago";
 import { useAuth } from "../layout/context/AuthContext";
 import { createImageUrl } from "@/utils/createImageUrl";
+import Link from "next/link";
 
 export default function Config_04_client(props) {
   const router = useRouter();
@@ -176,10 +177,16 @@ export default function Config_04_client(props) {
           {saveOk && (
             <div className="col-12 d-flex justify-content-center flex-column text-center mt-3 fadeItem">
               <span className="badge bg-c-success text-dark">
-                <PartyPopper className="me-2" /> Apresentação salva com
-                sucesso!
+                <PartyPopper className="me-2" /> Apresentação salva com sucesso!
               </span>
-              <p>O QR Code será liberado pela empresa e enviado para o seu e-mail.</p>
+              <p>
+                O QR Code será liberado pela empresa e enviado para o seu
+                e-mail.
+              </p>
+              <p>Obrigado!</p>
+              <Link href="/" target="_blank">
+                <img src="/LOGO_01.png" alt="" style={{ height: "50px" }} />
+              </Link>
             </div>
           )}
 
