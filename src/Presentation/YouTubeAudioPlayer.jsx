@@ -22,9 +22,20 @@ const YouTubeAudioPlayer = ({
   const [videoTitle, setVideoTitle] = useState('');
   const [videoId, setVideoId] = useState('');
   
+  // Detectar iOS
+  const [isIOS, setIsIOS] = useState(false);
+  
   const playerRef = useRef(null);
   const isInitializingRef = useRef(false);
   const minimizeTimerRef = useRef(null);
+
+  // Detectar se é iOS
+  useEffect(() => {
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    setIsIOS(iOS);
+    console.log('🎵 [YouTubeAudioPlayer] iOS detectado:', iOS);
+  }, []);
 
   // Função para extrair o ID do vídeo do YouTube da URL
   const extractYouTubeId = (url) => {
@@ -58,7 +69,7 @@ const YouTubeAudioPlayer = ({
         setUserInteracted(true);
         
         setTimeout(() => {
-          if (playerRef.current) {
+          if (playerRef.current && !isIOS) {
             const currentState = playerRef.current.getPlayerState();
             console.log('🔊 Garantindo reprodução com som após interação');
             playerRef.current.unMute();
@@ -83,7 +94,7 @@ const YouTubeAudioPlayer = ({
         document.removeEventListener(event, handleUserInteraction);
       });
     };
-  }, [userInteracted, volume]);
+  }, [userInteracted, volume, isIOS]);
 
   // Carregar a API do YouTube
   useEffect(() => {
@@ -95,6 +106,14 @@ const YouTubeAudioPlayer = ({
     }
 
     isInitializingRef.current = true;
+
+    // Para iOS, não inicializar o player embarcado
+    if (isIOS) {
+      console.log('🎵 [YouTubeAudioPlayer] iOS detectado - usando fallback');
+      setPlayerReady(true);
+      setVideoTitle('Música (iOS)');
+      return;
+    }
 
     if (window.YT && window.YT.Player) {
       initializePlayer();
@@ -118,7 +137,7 @@ const YouTubeAudioPlayer = ({
         }
       }
     };
-  }, [musicLink]);
+  }, [musicLink, isIOS]);
 
   const initializePlayer = () => {
     const extractedVideoId = extractYouTubeId(musicLink);
@@ -148,7 +167,9 @@ const YouTubeAudioPlayer = ({
           loop: loop ? 1 : 0,
           playlist: loop ? extractedVideoId : undefined,
           mute: 0,
-          enablejsapi: 1
+          enablejsapi: 1,
+          // Parâmetros específicos para iOS
+          origin: window.location.origin
         },
         events: {
           onReady: (event) => {
@@ -224,7 +245,14 @@ const YouTubeAudioPlayer = ({
             
             const errorMessage = errorMessages[event.data] || `Erro desconhecido: ${event.data}`;
             console.error('🎵 [YouTubeAudioPlayer] Erro:', errorMessage);
-            setPlayerError(errorMessage);
+            
+            // Para iOS, redirecionar para o YouTube
+            if ((event.data === 101 || event.data === 150) && isIOS) {
+              console.log('🎵 [YouTubeAudioPlayer] Redirecionando para YouTube no iOS');
+              setPlayerError('Clique para abrir no YouTube');
+            } else {
+              setPlayerError(errorMessage);
+            }
           }
         }
       });
@@ -234,9 +262,9 @@ const YouTubeAudioPlayer = ({
     }
   };
 
-  // Verificação para manter sempre com som
+  // Verificação para manter sempre com som (apenas para não-iOS)
   useEffect(() => {
-    if (!playerReady) return;
+    if (!playerReady || isIOS) return;
     
     const interval = setInterval(() => {
       if (playerRef.current && typeof playerRef.current.isMuted === 'function') {
@@ -251,10 +279,23 @@ const YouTubeAudioPlayer = ({
     }, 2000);
     
     return () => clearInterval(interval);
-  }, [playerReady, volume]);
+  }, [playerReady, volume, isIOS]);
+
+  // Função para abrir no YouTube (iOS)
+  const openInYouTube = () => {
+    if (videoId) {
+      const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      window.open(youtubeUrl, '_blank');
+    }
+  };
 
   // Funções de controle público
   const play = () => {
+    if (isIOS) {
+      openInYouTube();
+      return;
+    }
+    
     if (playerRef.current) {
       console.log('🎵 [YouTubeAudioPlayer] Play manual');
       playerRef.current.unMute();
@@ -265,6 +306,10 @@ const YouTubeAudioPlayer = ({
   };
 
   const pause = () => {
+    if (isIOS) {
+      return; // Não pode pausar no iOS
+    }
+    
     if (playerRef.current) {
       console.log('🎵 [YouTubeAudioPlayer] Pause manual');
       playerRef.current.pauseVideo();
@@ -272,6 +317,11 @@ const YouTubeAudioPlayer = ({
   };
 
   const setPlayerVolume = (newVolume) => {
+    if (isIOS) {
+      setCurrentVolume(newVolume);
+      return;
+    }
+    
     if (playerRef.current && newVolume >= 0 && newVolume <= 100) {
       playerRef.current.setVolume(newVolume);
       setCurrentVolume(newVolume);
@@ -280,6 +330,11 @@ const YouTubeAudioPlayer = ({
   };
 
   const togglePlayPause = () => {
+    if (isIOS) {
+      openInYouTube();
+      return;
+    }
+    
     if (isPlaying) {
       pause();
     } else {
@@ -296,13 +351,14 @@ const YouTubeAudioPlayer = ({
 
   const getPlayerInfo = () => {
     return {
-      isPlaying,
-      playerState,
+      isPlaying: isIOS ? false : isPlaying,
+      playerState: isIOS ? 'ios-fallback' : playerState,
       playerReady,
       playerError,
       userInteracted,
-      isMuted,
-      currentVolume
+      isMuted: isIOS ? false : isMuted,
+      currentVolume,
+      isIOS
     };
   };
 
@@ -319,8 +375,8 @@ const YouTubeAudioPlayer = ({
 
   return (
     <>
-      {/* Player invisível */}
-      <div id="youtube-audio-player" style={{ display: 'none' }}></div>
+      {/* Player invisível (apenas para não-iOS) */}
+      {!isIOS && <div id="youtube-audio-player" style={{ display: 'none' }}></div>}
       
       {/* Player Visual */}
       {playerReady && (
@@ -352,7 +408,7 @@ const YouTubeAudioPlayer = ({
               {/* Header com botão minimizar */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                 <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#60a5fa' }}>
-                  <Music size={20} /> Tocando agora
+                  <Music size={20} /> {isIOS ? 'Música (iOS)' : 'Tocando agora'}
                 </div>
                 <button
                   onClick={toggleExpanded}
@@ -398,18 +454,20 @@ const YouTubeAudioPlayer = ({
                   >
                     {videoTitle}
                   </div>
-                  {/* <div style={{ fontSize: '11px', color: '#9ca3af' }}>
-                    {isPlaying ? '🎵 Playing' : '⏸️ Paused'}
-                  </div> */}
+                  {isIOS && (
+                    <div style={{ fontSize: '11px', color: '#9ca3af' }}>
+                      Toque para abrir no YouTube
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Controles */}
               <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
                 <button
-                  onClick={togglePlayPause}
+                  onClick={isIOS ? openInYouTube : togglePlayPause}
                   style={{
-                    backgroundColor: isPlaying ? '#dc2626' : '#059669',
+                    backgroundColor: isIOS ? '#ff0000' : (isPlaying ? '#dc2626' : '#059669'),
                     color: 'white',
                     border: 'none',
                     borderRadius: '50%',
@@ -423,27 +481,31 @@ const YouTubeAudioPlayer = ({
                     transition: 'all 0.2s'
                   }}
                 >
-                  {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+                  {isIOS ? '▶' : (isPlaying ? <Pause size={16} /> : <Play size={16} />)}
                 </button>
               </div>
 
               {playerError && (
-                <div style={{
-                  marginTop: '8px',
-                  padding: '8px',
-                  backgroundColor: 'rgba(239, 68, 68, 0.2)',
-                  borderRadius: '6px',
-                  fontSize: '11px',
-                  color: '#ef4444'
-                }}>
-                  ❌ {playerError}
+                <div 
+                  style={{
+                    marginTop: '8px',
+                    padding: '8px',
+                    backgroundColor: isIOS ? 'rgba(59, 130, 246, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    color: isIOS ? '#3b82f6' : '#ef4444',
+                    cursor: isIOS ? 'pointer' : 'default'
+                  }}
+                  onClick={isIOS ? openInYouTube : undefined}
+                >
+                  {isIOS ? '📱 ' : '❌ '}{playerError}
                 </div>
               )}
             </div>
           ) : (
             // Ícone minimizado
             <div
-              onClick={toggleExpanded}
+              onClick={isIOS ? openInYouTube : toggleExpanded}
               style={{
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderRadius: '50%',
@@ -460,8 +522,10 @@ const YouTubeAudioPlayer = ({
               }}
             >
               <div style={{ position: 'relative' }}>
-                <span style={{ fontSize: '20px' }} className='d-flex align-items-center justify-content-center'><Music size={20} /></span>
-                {isPlaying && (
+                <span style={{ fontSize: '20px' }} className='d-flex align-items-center justify-content-center'>
+                  <Music size={20} />
+                </span>
+                {!isIOS && isPlaying && (
                   <div
                     style={{
                       position: 'absolute',
