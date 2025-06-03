@@ -64,52 +64,72 @@ const Presentation = ({
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
   
-  const renderSlides = () => [
-    <Slide01 
-      key="slide-01" 
-      loveName={loveName} 
-      couplePhoto={couplePhoto} 
-      onNextSlide={nextSlide} 
-    />,
-    <Slide02 
-      key="slide-02" 
-      userName={userName} 
-      loveName={loveName} 
-      timeSince={timeSince} 
-      onNextSlide={nextSlide}
-    />,
-    <Slide03
-      key="slide-03"
-      userName={userName}
-      loveName={loveName}
-      timeSince={timeSince}
-      onNextSlide={nextSlide}
-    />,
-    <Slide04
-      key="slide-04"
-      onNextSlide={nextSlide}
-    />,
-    <Slide05
-      key="slide-05"
-      imagesArray={imagesArray}
-      onNextSlide={nextSlide}
-    />,
-    <Slide06
-      key="slide-06"
-      onNextSlide={nextSlide}
-    />,
-    <Slide07
-      key="slide-07"
-      onNextSlide={nextSlide}
-      letterContent={letterContent}
-    />,
-    <Slide08
-      key="slide-08"
-      onNextSlide={nextSlide}
-      userName={userName}
-      loveName={loveName}
-    />,
-  ];
+  const renderSlides = () => {
+    const slidesList = [
+      <Slide01 
+        key="slide-01" 
+        loveName={loveName} 
+        couplePhoto={couplePhoto} 
+        onNextSlide={nextSlide} 
+      />,
+      <Slide02 
+        key="slide-02" 
+        userName={userName} 
+        loveName={loveName} 
+        timeSince={timeSince} 
+        onNextSlide={nextSlide}
+      />,
+      <Slide03
+        key="slide-03"
+        userName={userName}
+        loveName={loveName}
+        timeSince={timeSince}
+        onNextSlide={nextSlide}
+      />
+    ];
+
+    // Adicionar slides 4 e 5 apenas se houver imagens
+    if (imagesArray && imagesArray.length > 0) {
+      slidesList.push(
+        <Slide04
+          key="slide-04"
+          onNextSlide={nextSlide}
+        />,
+        <Slide05
+          key="slide-05"
+          imagesArray={imagesArray}
+          onNextSlide={nextSlide}
+        />
+      );
+    }
+
+    // Adicionar slides 6 e 7 apenas se houver conteúdo da carta
+    if (letterContent && letterContent.trim() !== '') {
+      slidesList.push(
+        <Slide06
+          key="slide-06"
+          onNextSlide={nextSlide}
+        />,
+        <Slide07
+          key="slide-07"
+          onNextSlide={nextSlide}
+          letterContent={letterContent}
+        />
+      );
+    }
+
+    // Sempre adicionar o último slide
+    slidesList.push(
+      <Slide08
+        key="slide-08"
+        onNextSlide={nextSlide}
+        userName={userName}
+        loveName={loveName}
+      />
+    );
+
+    return slidesList;
+  };
 
   const slides = renderSlides();
 
