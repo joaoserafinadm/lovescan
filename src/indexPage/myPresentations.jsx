@@ -45,7 +45,7 @@ export default function MyPresentations(props) {
     <>
       <div className="col-12 mt-4 d-flex justify-content-between align-items-center fadeItem">
         <div>
-          <span className="badge bg-light text-dark">Minhas apresentações</span>
+          <span className="badge bg-light text-dark">Minhas apresentações pessoais</span>
         </div>
         <Link href="/newPresentation">
           <Button className="d-none d-lg-block">Nova apresentação</Button>

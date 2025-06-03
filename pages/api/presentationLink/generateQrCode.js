@@ -225,20 +225,27 @@ export default authenticated(async (req, res) => {
       const presentationUrl = `https://www.lovescan.app/presentation/${presentation_id}`;
       const qrCodeDataUrl = await generateQRCode(presentationUrl);
 
-      // Sempre enviar email para a empresa (usuário)
-      await sendCompanyEmail(
-        userExist.email,
-        presentation_id,
-        qrCodeDataUrl,
-        presentationExist.clientName,
-        presentationExist.clientPhone,
-        presentationExist.clientEmail,
-        presentationExist.clientConfigName
-      );
-      console.log(`Email enviado para empresa: ${userExist.email}`);
+      if(!presentationExist.email) {
+        await sendClientEmail(
+          userExist.email,
+          presentation_id,
+          qrCodeDataUrl
+        );
+        console.log(`Email enviado para cliente: ${presentationExist.email}`);
+      }
 
       // Se existir email do cliente, enviar também para ele
       if (presentationExist.email) {
+        await sendCompanyEmail(
+          userExist.email,
+          presentation_id,
+          qrCodeDataUrl,
+          presentationExist.clientName,
+          presentationExist.clientPhone,
+          presentationExist.email,
+          presentationExist.clientConfigName
+        );
+        console.log(`Email enviado para empresa: ${userExist.email}`);
         await sendClientEmail(
           presentationExist.email,
           presentation_id,
