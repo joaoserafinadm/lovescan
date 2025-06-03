@@ -167,16 +167,15 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
           style={{
             textAlign: 'center',
             color: '#666',
-            fontSize: '1.2rem',
+            fontSize: '1.6rem',
             fontStyle: 'italic',
             maxWidth: '600px',
             marginLeft: 'auto',
             marginRight: 'auto',
             padding: '0 1rem',
-            marginTop: '1rem'
           }}
         >
-          <p>{imagesArray[currentImageIndex]?.description || "Um momento inesquecível"}</p>
+          <p>{imagesArray[currentImageIndex]?.description || ""}</p>
         </motion.div>
 
         {/* Thumbnails */}
