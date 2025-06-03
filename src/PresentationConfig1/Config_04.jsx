@@ -188,7 +188,7 @@ export default function Config_04(props) {
                 </Button>
               </div>
               <div className="col-12 d-flex justify-content-center my-3">
-                <span>Libere sua apresentação por apenas R$ 23,20</span>
+                <span>Libere sua apresentação por apenas R$ 23,40</span>
               </div>
             </>
           ) : (
