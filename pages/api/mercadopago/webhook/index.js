@@ -29,12 +29,17 @@ async function generateQRCode(url) {
 }
 
 // Função para enviar email com QR Code
+// Função para enviar email com QR Code como anexo
 async function sendQRCodeEmail(userEmail, presentationId, qrCodeDataUrl) {
   try {
     const presentationUrl = `https://www.lovescan.app/presentation/${presentationId}`;
     
+    // Converter o Data URL do QR Code para buffer
+    const base64Data = qrCodeDataUrl.replace(/^data:image\/png;base64,/, '');
+    const qrCodeBuffer = Buffer.from(base64Data, 'base64');
+    
     const { data, error } = await resend.emails.send({
-      from: 'LoveScan <noreply@lovescan.app>', // Substitua pelo seu domínio verificado
+      from: 'LoveScan <noreply@lovescan.app>',
       to: [userEmail],
       subject: 'Sua apresentação está pronta! 🎉',
       html: `
@@ -42,12 +47,8 @@ async function sendQRCodeEmail(userEmail, presentationId, qrCodeDataUrl) {
           <h2 style="color: #333; text-align: center;">Sua apresentação foi ativada com sucesso!</h2>
           
           <p style="color: #666; font-size: 16px;">
-            Olá! Sua apresentação no LoveScan está pronta e pode ser acessada através do QR Code abaixo:
+            Olá! Sua apresentação no LoveScan está pronta e pode ser acessada através do QR Code em anexo.
           </p>
-          
-          <div style="text-align: center; margin: 30px 0;">
-            <img src="${qrCodeDataUrl}" alt="QR Code da Apresentação" style="max-width: 300px; height: auto;" />
-          </div>
           
           <p style="color: #666; font-size: 14px; text-align: center;">
             Ou acesse diretamente através do link:<br>
@@ -63,7 +64,15 @@ async function sendQRCodeEmail(userEmail, presentationId, qrCodeDataUrl) {
             </p>
           </div>
         </div>
-      `
+      `,
+      attachments: [
+        {
+          filename: `qrcode-apresentacao-${presentationId}.png`,
+          content: qrCodeBuffer,
+          type: 'image/png',
+          disposition: 'attachment'
+        }
+      ]
     });
 
     if (error) {
