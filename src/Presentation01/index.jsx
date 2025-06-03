@@ -121,8 +121,8 @@ const Presentation = ({
           ref={audioPlayerRef}
           musicLink={musicLink}
           autoplay={true}
-          volume={50}
-          loop={true}
+        volume={70}
+        loop={true}
           showDebug={process.env.NODE_ENV === 'development'} // Debug só em dev
         />
       )}

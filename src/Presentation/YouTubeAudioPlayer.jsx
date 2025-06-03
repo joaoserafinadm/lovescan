@@ -1,9 +1,10 @@
+import { Music, Pause, Play } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 
 const YouTubeAudioPlayer = ({ 
   musicLink, 
   autoplay = true, 
-  volume =100, 
+  volume = 100, 
   loop = true,
   showDebug = false 
 }) => {
@@ -16,8 +17,14 @@ const YouTubeAudioPlayer = ({
   const [isMuted, setIsMuted] = useState(false);
   const [currentVolume, setCurrentVolume] = useState(volume);
   
+  // Estados do UI
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [videoTitle, setVideoTitle] = useState('');
+  const [videoId, setVideoId] = useState('');
+  
   const playerRef = useRef(null);
   const isInitializingRef = useRef(false);
+  const minimizeTimerRef = useRef(null);
 
   // Função para extrair o ID do vídeo do YouTube da URL
   const extractYouTubeId = (url) => {
@@ -27,6 +34,21 @@ const YouTubeAudioPlayer = ({
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
   };
+
+  // Timer para minimizar após 3 segundos
+  useEffect(() => {
+    if (isExpanded && playerReady) {
+      minimizeTimerRef.current = setTimeout(() => {
+        setIsExpanded(false);
+      }, 3000);
+    }
+
+    return () => {
+      if (minimizeTimerRef.current) {
+        clearTimeout(minimizeTimerRef.current);
+      }
+    };
+  }, [isExpanded, playerReady]);
 
   // Detectar interação do usuário para fallback
   useEffect(() => {
@@ -67,6 +89,11 @@ const YouTubeAudioPlayer = ({
   useEffect(() => {
     if (!musicLink || isInitializingRef.current) return;
 
+    const extractedVideoId = extractYouTubeId(musicLink);
+    if (extractedVideoId) {
+      setVideoId(extractedVideoId);
+    }
+
     isInitializingRef.current = true;
 
     if (window.YT && window.YT.Player) {
@@ -94,20 +121,20 @@ const YouTubeAudioPlayer = ({
   }, [musicLink]);
 
   const initializePlayer = () => {
-    const videoId = extractYouTubeId(musicLink);
-    if (!videoId) {
+    const extractedVideoId = extractYouTubeId(musicLink);
+    if (!extractedVideoId) {
       console.error('🎵 [YouTubeAudioPlayer] ID do vídeo não encontrado:', musicLink);
       setPlayerError('URL inválida');
       return;
     }
 
-    console.log('🎵 [YouTubeAudioPlayer] Inicializando player:', videoId);
+    console.log('🎵 [YouTubeAudioPlayer] Inicializando player:', extractedVideoId);
 
     try {
       playerRef.current = new window.YT.Player('youtube-audio-player', {
         height: '0',
         width: '0',
-        videoId: videoId,
+        videoId: extractedVideoId,
         playerVars: {
           autoplay: autoplay ? 1 : 0,
           controls: 0,
@@ -119,7 +146,7 @@ const YouTubeAudioPlayer = ({
           rel: 0,
           showinfo: 0,
           loop: loop ? 1 : 0,
-          playlist: loop ? videoId : undefined,
+          playlist: loop ? extractedVideoId : undefined,
           mute: 0,
           enablejsapi: 1
         },
@@ -129,6 +156,14 @@ const YouTubeAudioPlayer = ({
             setPlayerReady(true);
             setPlayerError(null);
             setIsMuted(false);
+            
+            // Obter título do vídeo
+            try {
+              const videoData = event.target.getVideoData();
+              setVideoTitle(videoData.title || 'Música');
+            } catch (error) {
+              setVideoTitle('Música');
+            }
             
             if (autoplay) {
               console.log('🎵 [YouTubeAudioPlayer] Iniciando reprodução automática');
@@ -252,6 +287,13 @@ const YouTubeAudioPlayer = ({
     }
   };
 
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+    if (minimizeTimerRef.current) {
+      clearTimeout(minimizeTimerRef.current);
+    }
+  };
+
   const getPlayerInfo = () => {
     return {
       isPlaying,
@@ -273,107 +315,181 @@ const YouTubeAudioPlayer = ({
     getInfo: getPlayerInfo
   }));
 
+  const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
+
   return (
     <>
       {/* Player invisível */}
       <div id="youtube-audio-player" style={{ display: 'none' }}></div>
       
-      {/* Debug Panel (opcional) */}
-      {/* {showDebug && (
-        <div style={{ 
-          position: 'fixed', 
-          bottom: '10px', 
-          right: '10px', 
-          background: 'rgba(0,0,0,0.9)', 
-          color: 'white', 
-          padding: '12px', 
-          borderRadius: '8px',
-          fontSize: '11px',
-          zIndex: 1000,
-          fontFamily: 'monospace',
-          minWidth: '200px',
-          maxWidth: '300px'
-        }}>
-          <div style={{marginBottom: '6px'}}><strong>🎵 YouTube Audio Player</strong></div>
-          <div>Estado: <span style={{color: isPlaying ? '#10b981' : '#f59e0b'}}>{playerState}</span></div>
-          <div>Tocando: <span style={{color: isPlaying ? '#10b981' : '#ef4444'}}>{isPlaying ? 'SIM ✅' : 'NÃO ❌'}</span></div>
-          <div>Pronto: <span style={{color: playerReady ? '#10b981' : '#ef4444'}}>{playerReady ? 'SIM ✅' : 'NÃO ❌'}</span></div>
-          <div>Volume: <span style={{color: '#60a5fa'}}>{currentVolume}</span></div>
-          <div>Interação: <span style={{color: userInteracted ? '#10b981' : '#f59e0b'}}>{userInteracted ? 'SIM ✅' : 'NÃO ⏳'}</span></div>
-          {playerError && <div style={{color: '#ef4444'}}>❌ {playerError}</div>}
-          
-          <div style={{marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '4px'}}>
-            <button 
-              onClick={play}
+      {/* Player Visual */}
+      {playerReady && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '5px',
+            right: '5px',
+            zIndex: 1000,
+            transition: 'all 0.3s ease-in-out',
+            cursor: 'pointer'
+          }}
+        >
+          {isExpanded ? (
+            // Card expandido
+            <div
               style={{
-                padding: '4px 8px', 
-                backgroundColor: '#059669', 
-                color: 'white', 
-                border: 'none', 
-                borderRadius: '4px', 
-                cursor: 'pointer', 
-                fontSize: '9px'
+                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                borderRadius: '12px',
+                padding: '16px',
+                color: 'white',
+                maxWidth: '300px',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)'
               }}
+              onClick={(e) => e.stopPropagation()}
             >
-              ▶️ PLAY
-            </button>
-            <button 
-              onClick={pause}
-              style={{
-                padding: '4px 8px', 
-                backgroundColor: '#dc2626', 
-                color: 'white', 
-                border: 'none', 
-                borderRadius: '4px', 
-                cursor: 'pointer', 
-                fontSize: '9px'
-              }}
-            >
-              ⏸️ PAUSE
-            </button>
-            <button 
-              onClick={() => setPlayerVolume(currentVolume === 0 ? volume : 0)}
-              style={{
-                padding: '4px 8px', 
-                backgroundColor: '#7c3aed', 
-                color: 'white', 
-                border: 'none', 
-                borderRadius: '4px', 
-                cursor: 'pointer', 
-                fontSize: '9px'
-              }}
-            >
-              {currentVolume === 0 ? '🔊 VOL' : '🔇 MUTE'}
-            </button>
-          </div>
-          
-          {isPlaying && (
-            <div style={{
-              marginTop: '6px',
-              padding: '6px',
-              backgroundColor: 'rgba(16, 185, 129, 0.2)',
-              borderRadius: '4px',
-              fontSize: '10px',
-              color: '#10b981'
-            }}>
-              🎵 Música tocando com som! ✅
+              {/* Header com botão minimizar */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#60a5fa' }}>
+                  <Music size={20} /> Tocando agora
+                </div>
+                <button
+                  onClick={toggleExpanded}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#9ca3af',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    padding: '4px'
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Thumbnail e Info */}
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
+                {thumbnailUrl && (
+                  <img
+                    src={thumbnailUrl}
+                    alt="Video thumbnail"
+                    style={{
+                      width: '80px',
+                      height: '60px',
+                      borderRadius: '8px',
+                      objectFit: 'cover'
+                    }}
+                  />
+                )}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontSize: '13px',
+                      fontWeight: '500',
+                      marginBottom: '4px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical'
+                    }}
+                  >
+                    {videoTitle}
+                  </div>
+                  {/* <div style={{ fontSize: '11px', color: '#9ca3af' }}>
+                    {isPlaying ? '🎵 Playing' : '⏸️ Paused'}
+                  </div> */}
+                </div>
+              </div>
+
+              {/* Controles */}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
+                <button
+                  onClick={togglePlayPause}
+                  style={{
+                    backgroundColor: isPlaying ? '#dc2626' : '#059669',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '30px',
+                    height: '30px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '16px',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+                </button>
+              </div>
+
+              {playerError && (
+                <div style={{
+                  marginTop: '8px',
+                  padding: '8px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                  borderRadius: '6px',
+                  fontSize: '11px',
+                  color: '#ef4444'
+                }}>
+                  ❌ {playerError}
+                </div>
+              )}
             </div>
-          )}
-          
-          {!isPlaying && playerReady && (
-            <div style={{
-              marginTop: '6px',
-              padding: '6px',
-              backgroundColor: 'rgba(239, 68, 68, 0.2)',
-              borderRadius: '4px',
-              fontSize: '10px',
-              color: '#ef4444'
-            }}>
-              ⚠️ Clique PLAY ou interaja com a página
+          ) : (
+            // Ícone minimizado
+            <div
+              onClick={toggleExpanded}
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              <div style={{ position: 'relative' }}>
+                <span style={{ fontSize: '20px' }} className='d-flex align-items-center justify-content-center'><Music size={20} /></span>
+                {isPlaying && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '-2px',
+                      right: '-2px',
+                      width: '8px',
+                      height: '8px',
+                      backgroundColor: '#10b981',
+                      borderRadius: '50%',
+                      animation: 'pulse 1.5s infinite'
+                    }}
+                  />
+                )}
+              </div>
             </div>
           )}
         </div>
-      )} */}
+      )}
+
+      {/* CSS para animação */}
+      <style>
+        {`
+          @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+          }
+        `}
+      </style>
     </>
   );
 };
