@@ -14,6 +14,8 @@ export default function SignIn(props) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
+  const [signInError, setSignInError] = useState("");
+
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
@@ -93,6 +95,7 @@ export default function SignIn(props) {
   };
 
   const handleSignIn = async () => {
+    setSignInError("");
     const isValid = validate();
 
     if (!isValid) return;
@@ -114,6 +117,7 @@ export default function SignIn(props) {
       .catch((err) => {
         console.log(err);
         setLoading(false);
+        setSignInError('Email ou senha incorretos');
       });
   };
 
@@ -189,6 +193,9 @@ export default function SignIn(props) {
           error={passwordError}
           helperText={passwordError}
         />
+        <small className="text-danger">
+          {signInError}
+        </small>
       </div>
       <div className="col-12 my-2">
         <Button
