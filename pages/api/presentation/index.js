@@ -26,7 +26,7 @@ export default authenticated(async (req, res) => {
         const userExist = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
         if (!userExist) return res.status(400).json({ error: 'User does not exist.' });
 
-        const newStatus = userExist.credits > 0 ? 'pending' : 'active';
+        const newStatus = userExist.credits > 0 ? 'active' : 'pending';
 
         const newPresentationData = {
             ...presentationData,

@@ -109,10 +109,10 @@ export default function Config_04(props) {
         user_id: user?._id,
         presentationData: data,
       })
-      
-      if(response.data.creditConsumption) {
-        router.push(`/presentationLink/${response.data.presentationId}`);
 
+      if (response.data.creditConsumption) {
+        router.push(`/presentationLink/${response.data.presentationId}`);
+        return
       }
 
       createMercadoPagoCheckout({
