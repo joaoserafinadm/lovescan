@@ -166,7 +166,7 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
           transition={{ duration: 0.5, delay: 0.3 }}
           style={{
             textAlign: 'center',
-            color: '#666',
+            color: '#222',
             fontSize: '1.6rem',
             fontStyle: 'italic',
             maxWidth: '600px',
