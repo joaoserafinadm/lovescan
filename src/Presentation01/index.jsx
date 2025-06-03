@@ -89,7 +89,7 @@ const Presentation = ({
     ];
 
     // Adicionar slides 4 e 5 apenas se houver imagens
-    if (imagesArray && imagesArray.length > 0) {
+    if (imagesArray && imagesArray.length > 0 && imagesArray[0].image) {
       slidesList.push(
         <Slide04
           key="slide-04"

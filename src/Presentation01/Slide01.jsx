@@ -24,7 +24,7 @@ const Slide01 = ({ loveName, couplePhoto, onNextSlide }) => {
         >
           {couplePhoto ? (
             <img 
-              src={couplePhoto?.url} 
+              src={couplePhoto?.url || couplePhoto} 
               alt={`Foto com o(a) ${loveName}`} 
               className={styles.couplePhoto}
               loading="eager"

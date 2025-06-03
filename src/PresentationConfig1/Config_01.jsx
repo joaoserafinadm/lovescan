@@ -185,7 +185,7 @@ export default function Config_01(props) {
                         <Button 
                             outline 
                             data-bs-target="#newPresentationCarousel" 
-                            data-bs-slide-to={1} 
+                            data-bs-slide="next" 
                             disabled={!userName || !loveName || !day || !month || !year || !couplePhoto}
                         >
                             Próximo <ChevronRight />

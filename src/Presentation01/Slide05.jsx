@@ -67,7 +67,7 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
                 // Renderiza o InstagramEffect com seu próprio aspect ratio
                 <div style={{ width: '100%' }}>
                   <InstagramEffect 
-                    imageUrl={imagesArray[currentImageIndex]?.image?.url}
+                    imageUrl={imagesArray[currentImageIndex]?.image?.url ? imagesArray[currentImageIndex]?.image?.url : imagesArray[currentImageIndex]?.image}
                     onError={handleImageError}
                   />
                 </div>
@@ -80,7 +80,7 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
                   backgroundColor: '#f5f5f5'
                 }}>
                   <img 
-                    src={imagesArray[currentImageIndex]?.image?.url} 
+                    src={imagesArray[currentImageIndex]?.image?.url ?  imagesArray[currentImageIndex]?.image?.url : imagesArray[currentImageIndex]?.image} 
                     alt={imagesArray[currentImageIndex]?.description || "Momento especial"}
                     onError={(e) => {
                       e.target.style.display = 'none';
@@ -200,7 +200,10 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
               padding: '0 1rem'
             }}
           >
-            {imagesArray.slice(0, 6).map((image, index) => (
+            {imagesArray.slice(0, 6).map((image, index) => {
+
+              if(!image?.image?.url && !image?.image) return null
+              return(
               <motion.button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
@@ -222,7 +225,7 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
                 }}
               >
                 <img 
-                  src={image?.image?.url} 
+                  src={image?.image?.url ? image.image.url : image.image} 
                   alt={image.description || `Foto ${index + 1}`}
                   style={{
                     width: '100%',
@@ -232,7 +235,7 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
                   }}
                 />
               </motion.button>
-            ))}
+            )})}
           </motion.div>
         )}
         

@@ -124,8 +124,8 @@ export default function FormSendModal() {
                 </div>
               </div>
               <small>
-                Clique em "Enviar formulário" para enviar pelo WhatsApp, copie o
-                link abaixo e envie manualmente
+                Clique em "Enviar formulário" para enviar pelo WhatsApp, ou copie o
+                link abaixo e envie manualmente.
               </small>
               <div className="row mt-3">
                 <div className="col-12 text-center">

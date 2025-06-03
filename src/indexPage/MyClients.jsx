@@ -90,20 +90,20 @@ export default function MyClients(props) {
                       <ClientCard elem={elem} />
                     </div>
                   ))}
-                  <div className="col-12 d-flex justify-content-end align-items-center mt-3">
+                  {/* <div className="col-12 d-flex justify-content-end align-items-center mt-3">
                     <Link href={`/myPresentations`}>
                       <span className="text-white cardAnimation">
                         Visualizar todos{" "}
                         <ArrowRight size={16} className="ms-1" />
                       </span>
                     </Link>
-                  </div>
+                  </div> */}
                 </>
               ) : (
                 <div className="row fadeItem">
                   <div className="col-12 d-flex justify-content-center my-5">
                     <span className="text-center text-muted">
-                      Nenhuma cliente cadastrado
+                      Nenhum cliente cadastrado
                     </span>
                   </div>
                 </div>

@@ -11,10 +11,10 @@ export default function Layout({ children }) {
   return (
     <>
       <Header />
-      {/* {token && (
+      {token && (
 
         <Credits />
-      )} */}
+      )}
       <main style={{ paddingTop: '70px' }}>
         {children}
       </main>

@@ -37,7 +37,7 @@ export default authenticated(async (req, res) => {
       clientName: { $exists: true }
     })
     .sort({ createdAt: -1 })
-    .limit(4)
+    // .limit(4)
     .toArray();
 
     return res.status(200).json({presentations: presentations || [], companyData: userExist.companyData || null});

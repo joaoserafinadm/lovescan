@@ -17,9 +17,9 @@ const authenticated = (fn) => async (req, res) => {
 
 export default authenticated(async (req, res) => {
   if (req.method === "GET") {
-    const { user_id } = req.query;
+    const { user_id, presentation_id } = req.query;
 
-    if (!user_id)
+    if (!user_id || !presentation_id)
       return res.status(400).json({ error: "Missing query parameters." });
 
     const { db } = await connect();
@@ -30,16 +30,12 @@ export default authenticated(async (req, res) => {
     if (!userExist)
       return res.status(400).json({ error: "User does not exist." });
 
-    const presentations = await db
-    .collection("presentations")
-    .find({ 
-      user_id: user_id,
-      clientName: { $exists: false }
-    })
-    .sort({ createdAt: -1 })
-    // .limit(4)
-    .toArray();
+    const presentationExist = await db
+      .collection("presentations")
+      .findOne({ _id: new ObjectId(presentation_id) });
+    if (!presentationExist)
+      return res.status(400).json({ error: "Presentation does not exist." });
 
-    return res.status(200).json(presentations || []);
+    return res.status(200).json({ presentation: presentationExist, credits: userExist.credits });
   }
 });
