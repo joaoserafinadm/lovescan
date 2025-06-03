@@ -165,14 +165,19 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           style={{
+            position: 'relative',
+            top: '-125px',
             textAlign: 'center',
+            backgroundColor: 'rgb(255, 255, 255)',
             color: '#222',
+            borderRadius: '5px',
             fontSize: '1.6rem',
             fontStyle: 'italic',
             maxWidth: '600px',
             marginLeft: 'auto',
             marginRight: 'auto',
             padding: '0 1rem',
+            zIndex: 10
           }}
         >
           <p>{imagesArray[currentImageIndex]?.description || ""}</p>
