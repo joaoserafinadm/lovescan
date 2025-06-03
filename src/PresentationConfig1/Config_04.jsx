@@ -111,7 +111,7 @@ export default function Config_04(props) {
       })
       
       if(response.data.creditConsumption) {
-        router.push(`/presentationLink/${res.data.presentationId}`);
+        router.push(`/presentationLink/${response.data.presentationId}`);
 
       }
 
