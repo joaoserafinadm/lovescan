@@ -25,9 +25,9 @@ export default async (req, res) => {
             bcrypt.compare(password, userExists.password, async function (err, result) {
                 if (!err && result) {
                     const claims = {
-                        _id: userExist._id,
-                        userName: userExist.userName,
-                        profileImageUrl: userExist.profileImage?.url || ''
+                        _id: userExists._id,
+                        userName: userExists.userName,
+                        profileImageUrl: userExists.profileImage?.url || ''
                     }
 
                     const jwt = sign(claims, process.env.JWT_SECRET, {
@@ -35,7 +35,7 @@ export default async (req, res) => {
                     })
 
                     // Definindo o cookie
-                    res.setHeader('Set-Cookie', serialize('auth', jwt, {
+                    res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
                         httpOnly: false,
                         secure: process.env.NODE_ENV === 'production',
                         sameSite: 'strict',

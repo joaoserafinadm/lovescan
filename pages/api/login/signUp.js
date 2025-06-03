@@ -45,7 +45,7 @@ export default async (req, res) => {
         })
 
         // Definindo o cookie
-        res.setHeader('Set-Cookie', serialize('auth', jwt, {
+        res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
             httpOnly: false,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
