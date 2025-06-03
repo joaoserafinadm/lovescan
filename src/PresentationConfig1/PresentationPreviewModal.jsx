@@ -1,3 +1,4 @@
+import Button from "../components/Button";
 import PresentationExample from "../Presentation";
 import Presentation01 from "../Presentation01";
 
@@ -38,6 +39,9 @@ export default function PresentationPreviewModal(props) {
                             letterContent={letterContent}
                             musicLink={musicLink} />
 
+                    </div>
+                    <div className="modal-footer">
+                        <Button variant="secondary" size="sm" data-bs-dismiss="modal">Fechar</Button>
                     </div>
 
                 </div>

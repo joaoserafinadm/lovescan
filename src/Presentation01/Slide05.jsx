@@ -193,7 +193,9 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
               display: 'flex',
               justifyContent: 'center',
               gap: '0.8rem',
-              margin: '1.5rem 0',
+               position: 'relative',
+            top: '-60px',
+              // margin: '1.5rem 0',
               flexWrap: 'wrap',
               padding: '0 1rem'
             }}
@@ -242,6 +244,10 @@ const Slide05 = ({ onNextSlide, imagesArray }) => {
           transition={{ duration: 0.5, delay: 1.5 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          style={{
+            position: 'relative',
+            top: '-60px',
+          }}
         >
           Continuar nossa história <span>💕</span>
         </motion.button>
