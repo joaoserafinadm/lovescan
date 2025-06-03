@@ -38,6 +38,7 @@ export default function Config_04(props) {
     descriptionsArray,
     letterContent,
     musicLink,
+    credits
   } = props;
 
   const handlePayment = async () => {
@@ -56,33 +57,33 @@ export default function Config_04(props) {
       const processedImages =
         validImages.length > 0
           ? await Promise.all(
-              validImages.map(async (item) => {
-                const blobFile = await fetch(item.image).then((r) => r.blob());
-                return {
-                  blob: blobFile,
-                  description: item.description || "", // preservar a descrição
-                };
-              })
-            )
+            validImages.map(async (item) => {
+              const blobFile = await fetch(item.image).then((r) => r.blob());
+              return {
+                blob: blobFile,
+                description: item.description || "", // preservar a descrição
+              };
+            })
+          )
           : [];
 
       // Extrair apenas os blobs para enviar ao Cloudinary
       const blobsOnly =
-      validImages.length > 0
+        validImages.length > 0
           ? processedImages.map((item) => item.blob)
           : [];
 
       // Salvar no Cloudinary
-      const newImagesArray = validImages.length > 0 ?  await createImageUrl(
+      const newImagesArray = validImages.length > 0 ? await createImageUrl(
         blobsOnly,
         "PRESENTATION_IMAGES"
-      ): []
+      ) : []
 
       // Combinar as URLs retornadas com as descrições
       const finalImagesArray = validImages.length > 0 ? newImagesArray.map((imageUrl, index) => ({
         image: imageUrl,
         description: processedImages[index].description,
-      })): []
+      })) : []
 
       const blobCouplePhoto = couplePhoto
         ? await fetch(couplePhoto).then((r) => r.blob())
@@ -141,7 +142,7 @@ export default function Config_04(props) {
       console.error("Erro ao processar pagamento:", error);
       alert(
         error.message ||
-          "Não foi possível completar a operação. Por favor, tente novamente."
+        "Não foi possível completar a operação. Por favor, tente novamente."
       );
     }
     // finally {
@@ -158,7 +159,7 @@ export default function Config_04(props) {
           </div>
           <div className="col-12 d-flex flex-column justify-content-start mt-3">
             <p>
-              Sua apresentação está pronta! Sigua os próximos passos para
+              Sua apresentação está pronta! Siga os próximos passos para
               liberar o seu QR Code
             </p>
             <p>Gostaria de ver como ficou a sua apresentação?</p>
@@ -187,9 +188,13 @@ export default function Config_04(props) {
                   Gerar QR Code
                 </Button>
               </div>
-              <div className="col-12 d-flex justify-content-center my-3">
-                <span>Libere sua apresentação por apenas R$ 23,40</span>
-              </div>
+
+              {(!credits || credits === 0) && (
+                <div className="col-12 d-flex justify-content-center my-3">
+                  <span>Libere sua apresentação por apenas R$ 23,40</span>
+                </div>
+              )
+              }
             </>
           ) : (
             <>
