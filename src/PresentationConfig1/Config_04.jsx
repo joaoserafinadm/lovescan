@@ -108,7 +108,12 @@ export default function Config_04(props) {
       const response = await axios.post(`/api/presentation`, {
         user_id: user?._id,
         presentationData: data,
-      });
+      }).then(res => {
+        if (res.data.creditConsumption) {
+
+          router.push(`/presentationLink/${res.data.presentationId}`);
+        }
+      })
 
       createMercadoPagoCheckout({
         presentation_id: response.data.presentationId,

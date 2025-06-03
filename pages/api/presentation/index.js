@@ -26,16 +26,28 @@ export default authenticated(async (req, res) => {
         const userExist = await db.collection('users').findOne({ _id: new ObjectId(user_id) });
         if (!userExist) return res.status(400).json({ error: 'User does not exist.' });
 
+        const newStatus = userExist.credits > 0 ? 'pending' : 'active';
+
         const newPresentationData = {
             ...presentationData,
-            status: 'pending',
+            status: newStatus,
             createdAt: new Date(),
             user_id
         }
 
         const { insertedId: presentationId } = await db.collection('presentations').insertOne(newPresentationData);
         if (!presentationId) return res.status(400).json({ error: 'Error creating presentation.' });
-        return res.status(200).json({ message: 'User logged in successfully.', presentationId: presentationId });
+
+        let creditConsumption = false
+        if (userExist.credits > 0) {
+            await db.collection('users').updateOne({ _id: new ObjectId(user_id) }, { $inc: { credits: -1 } });
+            creditConsumption = true
+        }
+
+
+
+
+        return res.status(200).json({ message: 'User logged in successfully.', presentationId: presentationId, creditConsumption: creditConsumption });
     }
 
 
