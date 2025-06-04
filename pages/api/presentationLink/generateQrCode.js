@@ -45,7 +45,7 @@ async function sendCompanyEmail(
     const { data, error } = await resend.emails.send({
       from: "LoveScan <noreply@lovescan.app>",
       to: [userEmail],
-      subject: `Apresentação ${clientName} ativada com sucesso! 🎉`,
+      subject: `Apresentação de ${clientName} ativada com sucesso! 🎉`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h2 style="color: #333; text-align: center;">Sua apresentação foi ativada!</h2>
