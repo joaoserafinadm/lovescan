@@ -59,7 +59,7 @@ export default function client() {
       setLoadingSave(true);
 
       await createMercadoPagoCheckout({
-        presentation_id: query.presentationId,
+        presentation_id: query.presentation_id,
         user_id: user?._id,
         email: user?.email,
         product_id: "credit-1",
@@ -174,7 +174,7 @@ export default function client() {
                           <span className="badge bg-light text-dark">
                             Link do formulário
                           </span>
-                          <p>{`https://www.lovescan.app/clientForm/${presentationData?._id}`}</p>
+                          <p className="text-break ">{`https://www.lovescan.app/clientForm/${presentationData?._id}`}</p>
                         </div>
                         <div className="col-12 d-flex flex-column align-items-center ">
                           <Button
