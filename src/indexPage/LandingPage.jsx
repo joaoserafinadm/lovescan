@@ -213,7 +213,7 @@ const LandingPage = () => {
           </div>
           <div className={styles.testimonialCard}>
             <img
-              src="/COUPLE_01.png"
+              src="/COUPLE_03.png"
               style={{ height: "120px", width: "120px", borderRadius: "50%" }}
               alt=""
             />
@@ -225,7 +225,7 @@ const LandingPage = () => {
           </div>
           <div className={styles.testimonialCard}>
             <img
-              src="/COUPLE_03.png"
+              src="/COUPLE_01.png"
               style={{ height: "120px", width: "120px", borderRadius: "50%" }}
               alt=""
             />
