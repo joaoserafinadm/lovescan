@@ -168,7 +168,7 @@ export default function client() {
                       <h4 className="mb-3">Informações</h4>
                     </div>
                     <hr className="mb-3" />
-                    <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                    <div className="col-12 col-md-6 d-flex align-items-center justify-content-center my-4">
                       <div className="row">
                         <div className="col-12 d-flex align-items-center flex-column">
                           <span className="badge bg-light text-dark">
