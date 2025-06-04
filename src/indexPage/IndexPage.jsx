@@ -34,6 +34,11 @@ export default function IndexPage(props) {
           
         </div>
       </div>
+      <div className="row">
+        <div className="col-12 d-flex justify-content-end">
+          <p className="text-c-secondary " style={{ fontSize: "10px" }}>Contato / Suporte - contato.lovescan@gmail.com</p>
+        </div>
+      </div>
     </div>
   );
 }
