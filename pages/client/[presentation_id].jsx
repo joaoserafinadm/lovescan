@@ -168,38 +168,7 @@ export default function client() {
                       <h4 className="mb-3">Informações</h4>
                     </div>
                     <hr className="mb-3" />
-                    <div className="col-12 col-md-6 d-flex align-items-center justify-content-center my-4">
-                      <div className="row">
-                        <div className="col-12 d-flex align-items-center flex-column">
-                          <span className="badge bg-light text-dark">
-                            Link do formulário
-                          </span>
-                          <p className="text-break ">{`https://www.lovescan.app/clientForm/${presentationData?._id}`}</p>
-                        </div>
-                        <div className="col-12 d-flex flex-column align-items-center ">
-                          <Button
-                            onClick={() => {
-                              navigator.clipboard.writeText(
-                                `https://www.lovescan.app/clientForm/${presentationData?._id}`
-                              );
-                              setLinkCopied(true);
-                              setTimeout(() => {
-                                setLinkCopied(false);
-                              }, 2000);
-                            }}
-                            icon={<Copy size={14} />}
-                          >
-                            {linkCopied ? "Link copiado" : "Copiar link"}
-                            {linkCopied && (
-                              <Check className="text-success ms-2" />
-                            )}
-                          </Button>
-                          <Button className="mt-2" icon={<Share2 size={14} />} onClick={handleSendForm}>
-                            Compartilhar formulário
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
+                    
                     <div className="col-12 col-md-6">
                       <div className="mb-3">
                         <strong>Status:</strong>
@@ -273,6 +242,38 @@ export default function client() {
                             ? presentationData.email
                             : "Não informado"}
                         </p>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6 d-flex align-items-center justify-content-center my-4">
+                      <div className="row">
+                        <div className="col-12 d-flex align-items-center flex-column">
+                          <span className="badge bg-light text-dark">
+                            Link do formulário
+                          </span>
+                          <p className="text-break ">{`https://www.lovescan.app/clientForm/${presentationData?._id}`}</p>
+                        </div>
+                        <div className="col-12 d-flex flex-column align-items-center ">
+                          <Button
+                            onClick={() => {
+                              navigator.clipboard.writeText(
+                                `https://www.lovescan.app/clientForm/${presentationData?._id}`
+                              );
+                              setLinkCopied(true);
+                              setTimeout(() => {
+                                setLinkCopied(false);
+                              }, 2000);
+                            }}
+                            icon={<Copy size={14} />}
+                          >
+                            {linkCopied ? "Link copiado" : "Copiar link"}
+                            {linkCopied && (
+                              <Check className="text-success ms-2" />
+                            )}
+                          </Button>
+                          <Button className="mt-2" icon={<Share2 size={14} />} onClick={handleSendForm}>
+                            Compartilhar formulário
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
