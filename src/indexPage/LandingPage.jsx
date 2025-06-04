@@ -54,6 +54,15 @@ const LandingPage = () => {
                 className={styles.coupleImage}
               />
             </div>
+            <div className="col-12 d-flex justify-content-center mt-1">
+              <div>
+                <Link href="https://www.lovescan.app/presentation/683fa0c4b4946be7d53fac54" target="_blank">
+                  <Button >
+                    Visualizar demonstração
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 
