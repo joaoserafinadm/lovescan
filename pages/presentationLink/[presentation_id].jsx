@@ -58,7 +58,7 @@ export default function presentationLink() {
       setLoadingSave(true);
 
       await createMercadoPagoCheckout({
-        presentation_id: query.presentationId,
+        presentation_id: query.presentation_id,
         user_id: user?._id,
         email: user?.email,
         product_id: "credit-1",
