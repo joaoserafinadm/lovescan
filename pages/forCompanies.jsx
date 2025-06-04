@@ -29,11 +29,11 @@ const forCompanies = () => {
               via QR Code e ofereça muito mais que um simples presente.
             </p>
 
-            <div className="mt-3">
+            {/* <div className="mt-3">
               <Button size="lg" fullWidth variant="primary">
                 Ver Demonstração
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
 

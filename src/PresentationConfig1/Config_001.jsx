@@ -31,15 +31,17 @@ export default function Config_001(props) {
             </p>
           </div>
           <div className="col-12 d-flex flex-column justify-content-center align-items-center my-3">
-            <div>
+            {/* <div>
               <Button rounded="full" className="my-1" variant="primary">
                 Vídeo demonstrativo
               </Button>
-            </div>
+            </div> */}
             <div>
+              <Link href="https://www.lovescan.app/presentation/683fa0c4b4946be7d53fac54" target="_blank">
               <Button rounded="full" className="my-1">
                 Apresentação demonstrativa
               </Button>
+              </Link>
             </div>
           </div>
 
